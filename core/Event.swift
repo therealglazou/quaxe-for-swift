@@ -110,6 +110,7 @@ class Event {
     mCurrentTarget = nil
 
     mEventPhase = Event.NONE
+    mInitializedFlag = true
 
     mIsTrusted = false
     mTimeStamp = UInt64(NSDate().timeIntervalSince1970 * 1000)
