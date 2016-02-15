@@ -1,5 +1,5 @@
-TOPSRCDIR           = ../..
-MODULE_NAME         = QuaxeHtmlOm
+TOPSRCDIR           = ..
+MODULE_NAME         = QuaxeCore
 
 SOURCES = \
 		DOMException.swift \
