@@ -93,15 +93,15 @@ class Event {
   /**
    * https://dom.spec.whatwg.org/#dom-event-initevent
    */
-  func initEvent(type: String, canBubble: Bool, canBeCanceled: Bool) {
+  func initEvent(type: String, _ bubbles: Bool, _ cancelable: Bool) {
     if !mDispatchFlag {
       mType = type
-      mBubbles = canBubble
-      mCancelable = canBeCanceled
+      mBubbles = bubbles
+      mCancelable = cancelable
     }
   }
   
-  init(type: String, canBubble: Bool, canBeCanceled: Bool) {
+  init(_ type: String, _ canBubble: Bool, _ canBeCanceled: Bool) {
     mType = type
     mBubbles = canBubble
     mCancelable = canBeCanceled

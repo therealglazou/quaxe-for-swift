@@ -2,6 +2,7 @@ TOPSRCDIR           = ..
 MODULE_NAME         = QuaxeCore
 
 SOURCES = \
+		CustomEvent.swift \
 		DOMException.swift \
 		DOMTimeStamp.swift \
 		Event.swift \
