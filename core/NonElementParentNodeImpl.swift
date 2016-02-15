@@ -40,8 +40,8 @@ class NonElementParentNodImpl {
         }
         if nil == node.nextSibling {
           break;
-        node = node.nextSibling!;
         }
+        node = node.nextSibling!;
       }
     }
     return nil;
