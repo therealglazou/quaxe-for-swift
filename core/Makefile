@@ -35,8 +35,6 @@ SOURCES = \
 		protocols/Text.swift \
 		protocols/TreeWalker.swift \
 		protocols/webidl_types.swift \
-		foo.swift \
-		bar.swift \
 		$(NULL)
 
 include $(TOPSRCDIR)/config/rules.mk
