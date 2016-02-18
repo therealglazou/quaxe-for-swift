@@ -10,6 +10,6 @@
  * 
  */
 
-protocol ProcessingInstruction {
+protocol ProcessingInstruction: CharacterData {
   var target: DOMString { get }
 }

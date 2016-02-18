@@ -10,7 +10,7 @@
  * 
  */
 
-protocol CustomEvent {
+protocol CustomEvent: Event {
   var detail:             Any    { get }
 
   func initCustomEvent(type: DOMString, _ bubbles: Bool, _ cancelable: Bool) -> Void

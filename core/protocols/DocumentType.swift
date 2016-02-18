@@ -10,7 +10,7 @@
  * 
  */
 
-protocol DocumentType {
+protocol DocumentType: Node {
   var name: DOMString { get }
   var publicId: DOMString { get }
   var systemId: DOMString { get }

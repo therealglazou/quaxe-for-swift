@@ -10,5 +10,5 @@
  * 
  */
 
-protocol DocumentFragment {
+protocol DocumentFragment: Node {
 }

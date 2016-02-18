@@ -10,7 +10,7 @@
  * 
  */
 
-protocol Document {
+protocol Document: Node {
   var implementation: DOMImplementation { get }
   var URL: DOMString { get }
   var documentURI: DOMString { get }

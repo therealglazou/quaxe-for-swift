@@ -10,7 +10,7 @@
  * 
  */
 
-protocol Element {
+protocol Element: Node {
   var namespaceURI: DOMString? { get }
   var prefix: DOMString? { get }
   var localName: DOMString { get }
