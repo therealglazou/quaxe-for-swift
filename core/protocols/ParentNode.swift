@@ -10,7 +10,7 @@
  * 
  */
 
-protocol ParentNode {
+public protocol ParentNode {
   var children:               HTMLCollection { get }
   var firstElementChild:      Element?       { get }
   var lastElementChild:       Element?       { get }

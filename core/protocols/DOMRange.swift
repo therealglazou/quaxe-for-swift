@@ -10,7 +10,7 @@
  * 
  */
 
-protocol DOMRange {
+public protocol DOMRange {
   var startContainer: Node { get }
   var startOffset: ulong { get }
   var endContainer: Node { get }

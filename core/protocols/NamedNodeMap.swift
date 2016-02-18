@@ -10,7 +10,7 @@
  * 
  */
 
-protocol NamedNodeMap {
+public protocol NamedNodeMap {
   var length: ulong { get }
   func item(index: ulong) -> Attr?
   func getNamedItem(qualifiedName: DOMString) -> Attr?

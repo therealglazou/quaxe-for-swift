@@ -10,7 +10,7 @@
  * 
  */
 
-protocol Event {
+public protocol Event {
   var type:             DOMString    { get }
   var target:           Element?     { get }
   var currentTarget:    Element?     { get }

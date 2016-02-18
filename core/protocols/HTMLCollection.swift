@@ -10,7 +10,7 @@
  * 
  */
 
-protocol HTMLCollection {
+public protocol HTMLCollection {
   var length: ulong { get }
   func item(index: ulong) -> Element?
   func namedItem(name: DOMString) -> Element?

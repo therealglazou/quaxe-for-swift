@@ -10,5 +10,5 @@
  * 
  */
 
-protocol Comment: CharacterData {
+public protocol Comment: CharacterData {
 }

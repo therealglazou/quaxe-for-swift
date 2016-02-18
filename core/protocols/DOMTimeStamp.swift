@@ -22,5 +22,5 @@
  * 
  */
 
- typealias DOMTimeStamp = ulonglong
+public typealias DOMTimeStamp = ulonglong
  

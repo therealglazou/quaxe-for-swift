@@ -10,7 +10,7 @@
  * 
  */
 
-protocol DOMTokenList {
+public protocol DOMTokenList {
   var length: ulong { get }
   func item(index: ulong) -> DOMString?
   func contains(token: DOMString) -> Bool

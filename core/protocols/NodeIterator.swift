@@ -10,7 +10,7 @@
  * 
  */
 
-protocol NodeIterator {
+public protocol NodeIterator {
   var root: Node { get }
   var referenceNode: Node { get }
   var pointerBeforeReferenceNode: Bool { get }

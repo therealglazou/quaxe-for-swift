@@ -10,7 +10,7 @@
  * 
  */
 
-protocol Node: EventTarget {
+public protocol Node: EventTarget {
   var nodeType: ushort { get }
   var nodeName: DOMString { get }
 

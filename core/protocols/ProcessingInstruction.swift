@@ -10,6 +10,6 @@
  * 
  */
 
-protocol ProcessingInstruction: CharacterData {
+public protocol ProcessingInstruction: CharacterData {
   var target: DOMString { get }
 }

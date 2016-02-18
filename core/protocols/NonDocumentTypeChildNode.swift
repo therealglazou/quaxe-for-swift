@@ -10,7 +10,7 @@
  * 
  */
 
-protocol NonDocumentTypeChildNode {
+public protocol NonDocumentTypeChildNode {
   var previousElementSibling: Element? { get }
   var nextElementSibling:     Element? { get }
 }

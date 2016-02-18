@@ -10,7 +10,7 @@
  * 
  */
 
-protocol ChildNode {
+public protocol ChildNode {
   func before(nodes: Array<Node>) -> Void
   func before(node: Node) -> Void
   func before(string: DOMString) -> Void

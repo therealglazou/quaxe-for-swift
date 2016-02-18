@@ -10,7 +10,7 @@
  * 
  */
 
-protocol MutationObserver {
+public protocol MutationObserver {
   func observer(target: Node, _ options: Dictionary<String, Bool>) -> Void
   func disconnect() -> Void
   func takeRecords() -> Array<MutationRecord>

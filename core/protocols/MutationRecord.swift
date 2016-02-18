@@ -10,7 +10,7 @@
  * 
  */
 
-protocol MutationRecord {
+public protocol MutationRecord {
   var type:              DOMString   { get }
   var target:             Node       { get }
   var addedNodes:         NodeList   { get }

@@ -10,6 +10,6 @@
  * 
  */
 
-protocol EventListener {
+public protocol EventListener {
   func handleEvent(event: Event) -> Void
 }

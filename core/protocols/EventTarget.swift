@@ -10,7 +10,7 @@
  * 
  */
 
-protocol EventTarget {
+public protocol EventTarget {
   func addEventListener(type: DOMString, _ callback: EventListener?, _ options: Bool) -> Void
   func addEventListener(type: DOMString, _ callback: EventListener?, _ options: [String: Bool]) -> Void
 

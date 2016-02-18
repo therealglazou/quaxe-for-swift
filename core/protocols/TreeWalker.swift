@@ -10,7 +10,7 @@
  * 
  */
 
-protocol TreeWalker {
+public protocol TreeWalker {
   var root: Node { get }
   var whatToShow: ulong { get }
   var filter: NodeFilter? { get }

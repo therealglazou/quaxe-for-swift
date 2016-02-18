@@ -10,7 +10,7 @@
  * 
  */
 
-protocol Elements {
+public protocol Elements {
   func query(relativeSelectors: DOMString) -> Element?
   func queryAll(relativeSelectors: DOMString) -> Elements
 }

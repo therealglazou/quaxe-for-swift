@@ -10,7 +10,7 @@
  * 
  */
 
-protocol Document: Node {
+public protocol Document: Node {
   var implementation: DOMImplementation { get }
   var URL: DOMString { get }
   var documentURI: DOMString { get }
@@ -48,4 +48,4 @@ protocol Document: Node {
   func createTreeWalker(root: Node, _ whatToShow: ulong, _ filter: NodeFilter?) -> TreeWalker
 }
 
-typealias XMLDocument = Document
+public typealias XMLDocument = Document

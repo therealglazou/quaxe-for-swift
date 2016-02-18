@@ -10,4 +10,4 @@
  * 
  */
 
-typealias DOMString = String
+public typealias DOMString = String
