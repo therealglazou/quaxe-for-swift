@@ -10,7 +10,7 @@
  * 
  */
 
-public protocol Text: CharacterData {
-  func splitText(offset: ulong) -> Text
+public protocol pText: pCharacterData {
+  func splitText(offset: ulong) -> pText
   var wholeText: DOMString { get }
 }

@@ -10,8 +10,8 @@
  * 
  */
 
-public protocol MutationObserver {
-  func observer(target: Node, _ options: Dictionary<String, Bool>) -> Void
+public protocol pMutationObserver {
+  func observer(target: pNode, _ options: Dictionary<String, Bool>) -> Void
   func disconnect() -> Void
-  func takeRecords() -> Array<MutationRecord>
+  func takeRecords() -> Array<pMutationRecord>
 }

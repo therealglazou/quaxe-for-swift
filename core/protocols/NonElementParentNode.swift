@@ -10,6 +10,6 @@
  * 
  */
 
-public protocol NonElementParentNode {
-  func getElementById(elementId: DOMString) -> Element?
+public protocol pNonElementParentNode {
+  func getElementById(elementId: DOMString) -> pElement?
 }

@@ -10,8 +10,8 @@
  * 
  */
 
-public protocol Document: Node {
-  var implementation: DOMImplementation { get }
+public protocol pDocument: pNode {
+  var implementation: pDOMImplementation { get }
   var URL: DOMString { get }
   var documentURI: DOMString { get }
   var origin: DOMString { get }
@@ -21,31 +21,31 @@ public protocol Document: Node {
   var inputEncoding: DOMString { get }
   var contentType: DOMString { get }
 
-  var doctype: DocumentType? { get }
-  var documentElement: Element? { get }
-  func getElementsByTagName(qualifiedName: DOMString) -> HTMLCollection
-  func getElementsByTagNameNS(namespace: DOMString, _ localName: DOMString) -> HTMLCollection
-  func getElementsByClassName(classNames: DOMString) -> HTMLCollection
+  var doctype: pDocumentType? { get }
+  var documentElement: pElement? { get }
+  func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection
+  func getElementsByTagNameNS(namespace: DOMString, _ localName: DOMString) -> pHTMLCollection
+  func getElementsByClassName(classNames: DOMString) -> pHTMLCollection
 
-  func createElement(localName: DOMString) -> Element
-  func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Element
-  func createDocumentFragment() -> DocumentFragment
-  func createTextNode(data: DOMString) -> Text
-  func createComment(data: DOMString) -> Text
-  func createProcessingInstruction(target: DOMString, _ data: DOMString)
+  func createElement(localName: DOMString) -> pElement
+  func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pElement
+  func createDocumentFragment() -> pDocumentFragment
+  func createTextNode(data: DOMString) -> pText
+  func createComment(data: DOMString) -> pText
+  func createProcessingInstruction(target: DOMString, _ data: DOMString) -> pProcessingInstruction
 
-  func importNode(node: Node, _ deep: Bool) -> Node
-  func adoptNode(node: Node) -> Node
+  func importNode(node: pNode, _ deep: Bool) -> pNode
+  func adoptNode(node: pNode) -> pNode
 
-  func createAttribute(localName: DOMString) -> Attr
-  func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Attr
+  func createAttribute(localName: DOMString) -> pAttr
+  func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pAttr
 
-  func createEvent(interface: DOMString) -> Event
+  func createEvent(interface: DOMString) -> pEvent
 
-  func createRange() -> DOMRange
+  func createRange() -> pDOMRange
 
-  func createNodeIterator(root: Node, _ whatToShow: ulong, _ filter: NodeFilter?) -> NodeIterator
-  func createTreeWalker(root: Node, _ whatToShow: ulong, _ filter: NodeFilter?) -> TreeWalker
+  func createNodeIterator(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator
+  func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker
 }
 
-public typealias XMLDocument = Document
+public typealias pXMLDocument = pDocument

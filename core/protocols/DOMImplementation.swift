@@ -10,10 +10,10 @@
  * 
  */
 
-public protocol DOMImplementation {
-  func createDocumentType(qualifiedName: DOMString, _ publicId: DOMString, _ systemId: DOMString) -> DocumentType
-  func createDocument(namespace: DOMString?, _ qualifiedName: DOMString?, _ doctype: DocumentType) -> XMLDocument
-  func createHTMLDocument(title: DOMString) -> Document
+public protocol pDOMImplementation {
+  func createDocumentType(qualifiedName: DOMString, _ publicId: DOMString, _ systemId: DOMString) -> pDocumentType
+  func createDocument(namespace: DOMString?, _ qualifiedName: DOMString?, _ doctype: pDocumentType) -> pXMLDocument
+  func createHTMLDocument(title: DOMString) -> pDocument
 
   func hasFeatures() -> Bool
 }

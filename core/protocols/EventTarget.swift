@@ -10,12 +10,12 @@
  * 
  */
 
-public protocol EventTarget {
-  func addEventListener(type: DOMString, _ callback: EventListener?, _ options: Bool) -> Void
-  func addEventListener(type: DOMString, _ callback: EventListener?, _ options: [String: Bool]) -> Void
+public protocol pEventTarget {
+  func addEventListener(type: DOMString, _ callback: pEventListener?, _ options: Bool) -> Void
+  func addEventListener(type: DOMString, _ callback: pEventListener?, _ options: [String: Bool]) -> Void
 
-  func removeEventListener(type: DOMString, _ callback: EventListener?, _ options: Bool) -> Void
-  func removeEventListener(type: DOMString, _ callback: EventListener?, _ options: [String: Bool]) -> Void
+  func removeEventListener(type: DOMString, _ callback: pEventListener?, _ options: Bool) -> Void
+  func removeEventListener(type: DOMString, _ callback: pEventListener?, _ options: [String: Bool]) -> Void
 
-  func dispatchEvent(event: Event) -> Bool
+  func dispatchEvent(event: pEvent) -> Bool
 }

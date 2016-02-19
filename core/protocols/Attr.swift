@@ -10,7 +10,7 @@
  * 
  */
 
-public protocol Attr {
+public protocol pAttr {
   var namespaceURI: DOMString? { get }
   var prefix: DOMString? { get }
   var localName: DOMString { get }
@@ -19,7 +19,7 @@ public protocol Attr {
   var nodeValue: DOMString { get set }
   var textContent: DOMString { get set }
 
-  var ownerElement: Element? { get }
+  var ownerElement: pElement? { get }
 
   var specified: Bool { get }
 }

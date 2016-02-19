@@ -10,21 +10,21 @@
  * 
  */
 
-public protocol ParentNode {
-  var children:               HTMLCollection { get }
-  var firstElementChild:      Element?       { get }
-  var lastElementChild:       Element?       { get }
+public protocol pParentNode {
+  var children:               pHTMLCollection { get }
+  var firstElementChild:      pElement?       { get }
+  var lastElementChild:       pElement?       { get }
   var childElementCount:      ulong          { get }
 
-  func prepend(nodes: Array<Node>) -> Void
-  func prepend(node: Node) -> Void
+  func prepend(nodes: Array<pNode>) -> Void
+  func prepend(node: pNode) -> Void
   func prepend(string: DOMString) -> Void
-  func append(nodes: Array<Node>) -> Void
-  func append(node: Node) -> Void
+  func append(nodes: Array<pNode>) -> Void
+  func append(node: pNode) -> Void
   func append(string: DOMString) -> Void
 
-  func query(relativeSelectors: DOMString) -> Element?
-  func queryAll(relativeSelectors: DOMString) -> Elements
-  func querySelector(selectors: DOMString) -> Element
-  func querySelectorAll(selectors: DOMString) -> NodeList
+  func query(relativeSelectors: DOMString) -> pElement?
+  func queryAll(relativeSelectors: DOMString) -> pElements
+  func querySelector(selectors: DOMString) -> pElement
+  func querySelectorAll(selectors: DOMString) -> pNodeList
 }

@@ -10,7 +10,7 @@
  * 
  */
 
-public protocol Element: Node {
+public protocol pElement: pNode {
   var namespaceURI: DOMString? { get }
   var prefix: DOMString? { get }
   var localName: DOMString { get }
@@ -18,10 +18,10 @@ public protocol Element: Node {
 
   var id: DOMString { get set }
   var className: DOMString { get set }
-  var classList: DOMTokenList { get }
+  var classList: pDOMTokenList { get }
 
   func hasAttributes() -> Bool
-  var attributes: NamedNodeMap { get }
+  var attributes: pNamedNodeMap { get }
   func getAttributeNames() -> Array<DOMString>
   func getAttribute(qualifiedName: DOMString) -> DOMString?
   func getAttributeNS(namespace: DOMString, _localName: DOMString) -> DOMString?
@@ -32,16 +32,16 @@ public protocol Element: Node {
   func hasAttribute(qualifiedName: DOMString) -> Bool
   func hasAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Bool
 
-  func getAttributeNode(qualifiedName: DOMString) -> Attr?
-  func getAttributeNodeNS(namespace: DOMString?, _ localName: DOMString) -> Attr?
-  func setAttributeNode(attr: Attr) -> Attr?
-  func setAttributeNodeNS(attr: Attr) -> Attr?
-  func removeAttributeNode(attr: Attr) -> Attr
+  func getAttributeNode(qualifiedName: DOMString) -> pAttr?
+  func getAttributeNodeNS(namespace: DOMString?, _ localName: DOMString) -> pAttr?
+  func setAttributeNode(attr: pAttr) -> pAttr?
+  func setAttributeNodeNS(attr: pAttr) -> pAttr?
+  func removeAttributeNode(attr: pAttr) -> pAttr
 
-  func closest(selectors: DOMString) -> Element?
+  func closest(selectors: DOMString) -> pElement?
   func matches(selectors: DOMString) -> Bool
 
-  func getElementsByTagName(qualifiedName: DOMString) -> HTMLCollection
-  func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> HTMLCollection
-  func getElementsByClassName(classNames: DOMString) -> HTMLCollection
+  func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection
+  func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection
+  func getElementsByClassName(classNames: DOMString) -> pHTMLCollection
 }

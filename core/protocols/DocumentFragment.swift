@@ -10,5 +10,5 @@
  * 
  */
 
-public protocol DocumentFragment: Node {
+public protocol pDocumentFragment: pNode {
 }

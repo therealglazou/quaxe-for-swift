@@ -10,10 +10,10 @@
  * 
  */
 
-public protocol Event {
+public protocol pEvent {
   var type:             DOMString    { get }
-  var target:           Element?     { get }
-  var currentTarget:    Element?     { get }
+  var target:           pElement?     { get }
+  var currentTarget:    pElement?     { get }
 
   var eventPhase:       ushort        { get }
 

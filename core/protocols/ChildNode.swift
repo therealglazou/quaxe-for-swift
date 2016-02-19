@@ -10,17 +10,17 @@
  * 
  */
 
-public protocol ChildNode {
-  func before(nodes: Array<Node>) -> Void
-  func before(node: Node) -> Void
+public protocol pChildNode {
+  func before(nodes: Array<pNode>) -> Void
+  func before(node: pNode) -> Void
   func before(string: DOMString) -> Void
 
-  func after(nodes: Array<Node>) -> Void
-  func after(node: Node) -> Void
+  func after(nodes: Array<pNode>) -> Void
+  func after(node: pNode) -> Void
   func after(string: DOMString) -> Void
 
-  func replaceWith(nodes: Array<Node>) -> Void
-  func replaceWith(node: Node) -> Void
+  func replaceWith(nodes: Array<pNode>) -> Void
+  func replaceWith(node: pNode) -> Void
   func replaceWith(string: DOMString) -> Void
 
   func remove() -> Void

@@ -10,15 +10,15 @@
  * 
  */
 
-public protocol NodeIterator {
-  var root: Node { get }
-  var referenceNode: Node { get }
+public protocol pNodeIterator {
+  var root: pNode { get }
+  var referenceNode: pNode { get }
   var pointerBeforeReferenceNode: Bool { get }
   var whatToShow: ulong { get }
-  var filter: NodeFilter? { get }
+  var filter: pNodeFilter? { get }
 
-  func nextNode() -> Node?
-  func previousNode() -> Node?
+  func nextNode() -> pNode?
+  func previousNode() -> pNode?
 
   func detach() -> Void
 }

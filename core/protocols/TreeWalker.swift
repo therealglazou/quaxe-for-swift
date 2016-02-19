@@ -10,17 +10,17 @@
  * 
  */
 
-public protocol TreeWalker {
-  var root: Node { get }
+public protocol pTreeWalker {
+  var root: pNode { get }
   var whatToShow: ulong { get }
-  var filter: NodeFilter? { get }
-  var currentNode: Node { get set }
+  var filter: pNodeFilter? { get }
+  var currentNode: pNode { get set }
 
-  func parentNode() -> Node?
-  func firstChild() -> Node?
-  func lastChild() -> Node?
-  func previousSibling() -> Node?
-  func nextSibling() -> Node?
-  func previousNode() -> Node?
-  func nextNode() -> Node?
+  func parentNode() -> pNode?
+  func firstChild() -> pNode?
+  func lastChild() -> pNode?
+  func previousSibling() -> pNode?
+  func nextSibling() -> pNode?
+  func previousNode() -> pNode?
+  func nextNode() -> pNode?
 }

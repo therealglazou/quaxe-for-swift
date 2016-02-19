@@ -10,6 +10,6 @@
  * 
  */
 
-public protocol NodeFilter {
-  func acceptNode(node: Node) -> ushort
+public protocol pNodeFilter {
+  func acceptNode(node: pNode) -> ushort
 }

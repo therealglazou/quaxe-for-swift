@@ -10,13 +10,13 @@
  * 
  */
 
-public protocol MutationRecord {
-  var type:              DOMString   { get }
-  var target:             Node       { get }
-  var addedNodes:         NodeList   { get }
-  var removedNodes:       NodeList   { get }
-  var previousSibling:    Node?      { get }
-  var nextSibling:        Node?      { get }
+public protocol pMutationRecord {
+  var type:               DOMString   { get }
+  var target:             pNode       { get }
+  var addedNodes:         pNodeList   { get }
+  var removedNodes:       pNodeList   { get }
+  var previousSibling:    pNode?      { get }
+  var nextSibling:        pNode?      { get }
   var attributeName:      DOMString? { get }
   var attributeNamespace: DOMString? { get }
   var oldValue:           DOMString? { get }

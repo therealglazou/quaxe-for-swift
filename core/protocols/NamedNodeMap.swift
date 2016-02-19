@@ -10,13 +10,13 @@
  * 
  */
 
-public protocol NamedNodeMap {
+public protocol pNamedNodeMap {
   var length: ulong { get }
-  func item(index: ulong) -> Attr?
-  func getNamedItem(qualifiedName: DOMString) -> Attr?
-  func getNamedItemNS(namespace: DOMString?, _ localName: DOMString) -> Attr?
-  func setNamedItem(attr: Attr) -> Attr?
-  func setNamedItemNS(attr: Attr) -> Attr?
-  func removeNamedItem(qualifiedName: DOMString) -> Attr
-  func removeNamedItem(namespace: DOMString?, _ localName: DOMString) -> Attr
+  func item(index: ulong) -> pAttr?
+  func getNamedItem(qualifiedName: DOMString) -> pAttr?
+  func getNamedItemNS(namespace: DOMString?, _ localName: DOMString) -> pAttr?
+  func setNamedItem(attr: pAttr) -> pAttr?
+  func setNamedItemNS(attr: pAttr) -> pAttr?
+  func removeNamedItem(qualifiedName: DOMString) -> pAttr
+  func removeNamedItem(namespace: DOMString?, _ localName: DOMString) -> pAttr
 }

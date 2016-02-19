@@ -10,7 +10,7 @@
  * 
  */
 
-public protocol NonDocumentTypeChildNode {
-  var previousElementSibling: Element? { get }
-  var nextElementSibling:     Element? { get }
+public protocol pNonDocumentTypeChildNode {
+  var previousElementSibling: pElement? { get }
+  var nextElementSibling:     pElement? { get }
 }

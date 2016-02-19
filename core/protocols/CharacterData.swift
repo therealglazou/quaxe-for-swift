@@ -10,7 +10,7 @@
  * 
  */
 
-public protocol CharacterData: Node {
+public protocol pCharacterData: pNode {
   var data: DOMString { get set }
   var length: ulong { get }
   func substringData(offset: ulong, _ count: ulong) -> DOMString
