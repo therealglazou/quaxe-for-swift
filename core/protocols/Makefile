@@ -4,38 +4,38 @@ MODULE_NAME         = QuaxeCoreProtocols
 include $(TOPSRCDIR)/swiftbuild/config.mk
 
 SOURCES = \
-		Attr.swift \
-		CharacterData.swift \
-		ChildNode.swift \
-		Comment.swift \
-		CustomEvent.swift \
-		Document.swift \
-		DocumentFragment.swift \
-		DocumentType.swift \
-		DOMImplementation.swift \
-		DOMRange.swift \
+		pAttr.swift \
+		pCharacterData.swift \
+		pChildNode.swift \
+		pComment.swift \
+		pCustomEvent.swift \
+		pDocument.swift \
+		pDocumentFragment.swift \
+		pDocumentType.swift \
+		pDOMImplementation.swift \
+		pDOMRange.swift \
 		DOMString.swift \
 		DOMTimeStamp.swift \
-		DOMTokenList.swift \
-		Element.swift \
-		Elements.swift \
-		Event.swift \
-		EventListener.swift \
-		EventTarget.swift \
-		HTMLCollection.swift \
-		MutationObserver.swift \
-		MutationRecord.swift \
-		NamedNodeMap.swift \
-		Node.swift \
-		NodeFilter.swift \
-		NodeIterator.swift \
-		NonDocumentTypeChildNode.swift \
-		NonElementParentNode.swift \
-		NodeList.swift \
-		ParentNode.swift \
-		ProcessingInstruction.swift \
-		Text.swift \
-		TreeWalker.swift \
+		pDOMTokenList.swift \
+		pElement.swift \
+		pElements.swift \
+		pEvent.swift \
+		pEventListener.swift \
+		pEventTarget.swift \
+		pHTMLCollection.swift \
+		pMutationObserver.swift \
+		pMutationRecord.swift \
+		pNamedNodeMap.swift \
+		pNode.swift \
+		pNodeFilter.swift \
+		pNodeIterator.swift \
+		pNonDocumentTypeChildNode.swift \
+		pNonElementParentNode.swift \
+		pNodeList.swift \
+		pParentNode.swift \
+		pProcessingInstruction.swift \
+		pText.swift \
+		pTreeWalker.swift \
 		webidl_types.swift \
 		$(NULL)
 
