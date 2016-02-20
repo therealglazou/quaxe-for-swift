@@ -30,5 +30,5 @@ public protocol pEvent {
 
   func initEvent(type: DOMString, _ bubbles: Bool, _ cancelable: Bool) -> Void
 
-  init(_ type: DOMString, _ eventInitDict: Dictionary<String, Bool>)
+  init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>)
 }
