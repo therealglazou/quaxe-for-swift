@@ -61,8 +61,8 @@ public class EventTarget: pEventTarget {
   }
 
   public func addEventListener(type: DOMString, _ callback: AnyObject?, _ options: [String: Bool]) -> Void {
-    var capture: Bool
-    var passive: Bool
+    var capture: Bool = false
+    var passive: Bool = false
     flatten(options, &capture, &passive)
     let toStore = EventListenerStruct(type, callback, capture, passive)
     mEventListenersArray.append(toStore)
@@ -76,8 +76,8 @@ public class EventTarget: pEventTarget {
   }
 
   public func removeEventListener(type: DOMString, _ callback: AnyObject?, _ options: [String: Bool]) -> Void {
-    var capture: Bool
-    var passive: Bool
+    var capture: Bool = false
+    var passive: Bool = false
     flatten(options, &capture, &passive)
     let toStore = EventListenerStruct(type, callback, capture, passive)
     if let index = mEventListenersArray.indexOf(toStore) {
@@ -90,5 +90,5 @@ public class EventTarget: pEventTarget {
     return false
   }
 
-  init() {}
+  init() { mEventListenersArray = [] }
 }

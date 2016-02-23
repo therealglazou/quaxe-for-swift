@@ -11,6 +11,7 @@
  */
 
 import QuaxeCoreProtocols
+import Foundation
 
 public class Event: pEvent {
   static let NONE: ushort = 0
@@ -33,10 +34,10 @@ public class Event: pEvent {
   internal func hasFlag(flag: ushort) -> Bool {
     return 0 != (flags & flag)
   }
-  internal func setFlag(flag: ushort) -> Bool {
+  internal func setFlag(flag: ushort) -> Void {
     flags = flags | flag
   }
-  internal func unsetFlag(flag: ushort) -> Bool {
+  internal func unsetFlag(flag: ushort) -> Void {
     if hasFlag(flag) {
       flags = flags - flag
     }
@@ -55,8 +56,8 @@ public class Event: pEvent {
   internal var mTimeStamp: DOMTimeStamp
 
   public var type: DOMString { return mType }
-  public var target: Element? { return mTarget }
-  public var currentTarget: Element? { return mCurrentTarget }
+  public var target: pElement? { return mTarget }
+  public var currentTarget: pElement? { return mCurrentTarget }
   public var eventPhase: ushort { return mEventPhase }
 
   public func stopPropagation() -> Void {
@@ -93,22 +94,21 @@ public class Event: pEvent {
 
   public required init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>) {
     mType = aType
-    clearFlags()
-    setFlag(Event.INITIALIZED_FLAG)
+    mFlags = 0
     mTarget = nil
     mCurrentTarget = nil
     mEventPhase = Event.NONE
     mIsTrusted = false
+    mBubbles = false
+    mCancelable = false
+    mTimeStamp = (UInt64(NSDate().timeIntervalSince1970) * 1000)
     
-    if let _bubbles = aEventInitDict["bubbles"] as? Bool {
-      if (nil != _bubbles) {
-        mBubbles = _bubbles as! Bool
-      }
+    if let _bubbles = aEventInitDict["bubbles"] {
+      mBubbles = _bubbles as! Bool
     }
-    if let _cancelable = aEventInitDict["cancelable"] as? Bool{
-      if (nil != _cancelable) {
-        mCancelable = cancelable as! Bool
-      }
+    if let _cancelable = aEventInitDict["cancelable"] {
+      mCancelable = _cancelable as! Bool
     }
+    setFlag(Event.INITIALIZED_FLAG)
   }
 }

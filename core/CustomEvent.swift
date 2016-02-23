@@ -26,9 +26,12 @@ public class CustomEvent: Event, pCustomEvent {
   }
 
   public required init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>) {
-    super.init(aType, aEventInitDict)
     if let detail = aEventInitDict["detail"] {
       mDetail = detail
     }
+    else {
+      mDetail = 0
+    }
+    super.init(aType, aEventInitDict)
   }
 }
