@@ -10,9 +10,7 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
-public class MutationAlgorithms {
+internal class MutationAlgorithms {
 
   /**
    * https://dom.spec.whatwg.org/#concept-node-ensure-pre-insertion-validity
@@ -91,6 +89,7 @@ public class MutationAlgorithms {
              (nil == child && elementChildCountForParent >= 1) {
             throw Exception.HierarchyRequestError
           }
+        default: break;
       }
     } 
   }
@@ -114,36 +113,36 @@ public class MutationAlgorithms {
   */
   static func insert(node: Node, _ parent: Node, _ child: Node?, _ supressObserverFlag: Bool = false) throws -> Void {
     // Step 1
-    var count = node.nodeType == Node.DOCUMENT_FRAGMENT_NODE
+    let count = node.nodeType == Node.DOCUMENT_FRAGMENT_NODE
                 ? node.getChildCount()
                 : 1
 
     // Step 2
     if (nil != child && nil != parent.ownerDocument) {
       let rangeCollection = (parent.ownerDocument as! Document).rangeCollection
-      let index: UInt = child!.index
+      let index = child!.index
       // Step 2.1
-      rangeCollecion.forEach( {
-        if ($0.startContainer === parent && $0.startOffset > index) {
-          $0.setStart($0.startContainer, $0.startOffset + count);
+      rangeCollection.forEach( {
+        if ($0.startContainer as! Node === parent && $0.startOffset > index) {
+          $0.setStart($0.startContainer!, $0.startOffset + ulong(count));
         }
       })
       // Step 2.2
-      rangeCollecion.forEach( {
-        if ($0.endContainer === parent && $0.endOffset > index) {
-          $0.setEnd($0.endContainer, $0.endOffset + count);
+      rangeCollection.forEach( {
+        if ($0.endContainer as! Node === parent && $0.endOffset > index) {
+          $0.setEnd($0.endContainer!, $0.endOffset + ulong(count));
         }
       })
     }
 
     // Step 3
-    var nodes = (node.nodeType == Node.DOCUMENT_FRAGMENT_NODE)
+    let nodes = (node.nodeType == Node.DOCUMENT_FRAGMENT_NODE)
                   ? (node.childNodes as! NodeList).cloneAsArray()
                   : [node];
 
     // Step 4
     if node.nodeType == Node.DOCUMENT_FRAGMENT_NODE {
-      MutationAlgorithms.remove(nodes, parent, true)
+      nodes.forEach( { MutationAlgorithms.remove($0, parent, true) } )
     }
 
     // Step 5
@@ -152,13 +151,8 @@ public class MutationAlgorithms {
     }
 
     // Step 6
-    try nodes.forEach({
-      if nil == child {
-        try MutationAlgorithms.append($0, parent)
-      }
-      else {
-        try MutationAlgorithms.insert($0, parent, child)
-      }
+    nodes.forEach({
+      parent.doInsertBefore($0, child)
     })
 
     // Step 7
@@ -168,6 +162,7 @@ public class MutationAlgorithms {
                                                        : parent.lastChild as? Node,
                                         nil)
     }
+
   }
 
   /**
@@ -213,5 +208,256 @@ public class MutationAlgorithms {
        (node.nodeType == Node.DOCUMENT_TYPE_NODE && parent.nodeType != Node.DOCUMENT_NODE) {
       throw Exception.HierarchyRequestError
     }
+
+    // Step 6
+    if parent.nodeType == Node.DOCUMENT_NODE {
+      switch node.nodeType {
+      case Node.DOCUMENT_FRAGMENT_NODE:
+        // first halfcase
+        let n = node as! DocumentFragment
+        if nil != n.firstElementChild &&
+           nil != n.lastElementChild &&
+           n.firstElementChild as! Element !== n.lastElementChild as! Element {
+          throw Exception.HierarchyRequestError
+        }
+
+        // second half case
+        var c = node.firstChild
+        while nil != c {
+          if c!.nodeType == Node.TEXT_NODE {
+            throw Exception.HierarchyRequestError
+          }
+          c = c!.nextSibling
+        }
+
+        // otherwise...
+        if nil != n.firstElementChild {
+          var parentElementChild = (parent as! Document).firstElementChild
+          while nil != parentElementChild {
+            if parentElementChild!.nodeType == Node.ELEMENT_NODE &&
+               parentElementChild as! Node !== child {
+              throw Exception.HierarchyRequestError
+            }
+            parentElementChild = (parentElementChild as! Element).nextElementSibling
+          }
+
+          if child.hasFollowingDoctype() {
+            throw Exception.HierarchyRequestError
+          }
+        }
+
+      case Node.ELEMENT_NODE:
+        var parentElementChild = (parent as! Element).firstElementChild
+        while nil != parentElementChild {
+          if parentElementChild!.nodeType == Node.ELEMENT_NODE &&
+             parentElementChild as! Node !== child {
+            throw Exception.HierarchyRequestError
+          }
+          parentElementChild = (parentElementChild as! Element).nextElementSibling
+        }
+
+        if child.hasFollowingDoctype() {
+          throw Exception.HierarchyRequestError
+        }
+
+      case Node.DOCUMENT_TYPE_NODE:
+        var parentElementChild = (parent as! Document).firstElementChild
+        while nil != parentElementChild {
+          if parentElementChild!.nodeType == Node.DOCUMENT_TYPE_NODE &&
+             parentElementChild as! Node !== child {
+            throw Exception.HierarchyRequestError
+          }
+          parentElementChild = (parentElementChild as! Element).nextElementSibling
+        }
+
+        if child.hasPrecedingElement() {
+          throw Exception.HierarchyRequestError
+        }
+
+      default: break;
+      }
+    }
+
+    // Step 7
+    var referenceChild = child.nextSibling
+
+    // Step 8
+    if referenceChild != nil && (referenceChild as! Node) === node {
+      referenceChild = node.nextSibling
+    }
+
+    // Step 9
+    let previousSibling = child.previousSibling
+
+    // Step 10
+    MutationAlgorithms.adopt(node, parent.ownerDocument as? Document)
+
+    // Step 11
+    var removedNodes: Array<Node> = []
+
+    // Step 12
+    if child.parentNode != nil {
+      removedNodes = [ child ]
+      MutationAlgorithms.remove(child, parent, true)
+    }
+
+    // Step 13
+    let nodes: Array<Node> = node.nodeType == Node.DOCUMENT_FRAGMENT_NODE
+                               ? (node.childNodes as! NodeList).cloneAsArray()
+                               : [ node ]
+
+    // Step 14
+    try MutationAlgorithms.insert(node, parent, referenceChild as? Node, true)
+
+    // Step 15
+    MutationUtils.queueMutationRecord(parent, "childList", nil, nil, nil,
+                                      nodes, removedNodes,
+                                      previousSibling as? Node,
+                                      referenceChild as? Node)
+
+    // Step 16
+    return child
+  }
+
+  static func replaceAll(node: Node?, _ parent: Node) throws -> Void {
+    // Step 1
+    if nil != node {
+      MutationAlgorithms.adopt(node!, parent.ownerDocument as? Document)
+    }
+
+    // Step 2
+    let removedNodes: Array<Node> = (parent.childNodes as! NodeList).cloneAsArray()
+
+    // Step 3
+    var addedNodes: Array<Node>
+    if nil == node {
+      addedNodes = []
+    }
+    else if node!.nodeType == Node.DOCUMENT_FRAGMENT_NODE {
+      addedNodes = (node!.childNodes as! NodeList).cloneAsArray()
+    }
+    else {
+      addedNodes = [ node! ]
+    }
+
+    // Step 4
+    removedNodes.forEach({
+      MutationAlgorithms.remove($0, parent, true)
+    })
+
+    // Step 5
+    if nil != node {
+      try MutationAlgorithms.insert(node!, parent, nil, true)
+    }
+
+    // Step 6
+    MutationUtils.queueMutationRecord(parent, "childList", nil, nil, nil,
+        addedNodes, removedNodes,
+        nil, nil)
+  }
+
+  /*
+   * https://dom.spec.whatwg.org/#concept-node-pre-remove
+   */
+  static func preRemove(child: Node, _ parent: Node) throws -> Node {
+    // Step 1
+    if child.parentNode != nil &&
+       child.parentNode as! Node !== parent {
+      throw Exception.NotFoundError
+    }
+
+    // Step 2
+    MutationAlgorithms.remove(child, parent)
+
+    // Step 3
+    return child
+  }
+
+  /*
+   * https://dom.spec.whatwg.org/#concept-node-remove
+   */
+  static func remove(node: Node, _ parent: Node, _ suppressObserversFlag: Bool = false) -> Void {
+    // Step 1
+    let index = node.index
+
+    let rangeCollection = (parent.ownerDocument as! Document).rangeCollection
+    // Step 2
+    rangeCollection.forEach( {
+      if ($0.startContainer as! Node).isInclusiveAncestorOf(node) {
+        $0.setStart(parent, index);
+      }
+    })
+    // Step 3
+    rangeCollection.forEach( {
+      if ($0.endContainer as! Node).isInclusiveAncestorOf(node) {
+        $0.setEnd(parent, index);
+      }
+    })
+    // Step 4
+    rangeCollection.forEach( {
+      if ($0.startContainer as! Node) === parent &&
+          $0.startOffset > index {
+        $0.setStart($0.startContainer!, $0.startOffset - 1);
+      }
+    })
+    // Step 5
+    rangeCollection.forEach( {
+      if ($0.endContainer as! Node) === parent &&
+          $0.endOffset > index {
+        $0.setEnd($0.endContainer!, $0.endOffset - 1);
+      }
+    })
+
+    // Step 6
+    let nodeIteratorCollection = (parent.ownerDocument as! Document).nodeIteratorCollection
+    nodeIteratorCollection.forEach({
+      if $0.root.ownerDocument as? Document === node.ownerDocument as? Document {
+        $0.preRemovingSteps(node)
+      }
+    })
+
+    // Step 7 
+    let oldPreviousSibling = node.previousSibling
+
+    // Step 8
+    let oldNextSibling = node.nextSibling
+
+    // Step 9
+    AtomicTreeActions.remove(node, parent)
+
+    // Step 10
+    // no removing steps defined...
+
+    // Step 11 TODO
+  }
+
+  /*
+   * https://dom.spec.whatwg.org/#concept-node-adopt
+   */
+  static func adopt(node: Node, _ document: Document?) -> Void {
+    // Step 1
+    let oldDocument = node.ownerDocument
+
+    //Step 2
+    if nil != node.parentNode {
+      MutationAlgorithms.remove(node, node.parentNode as! Node)
+    }
+
+    //Step 3
+    func setOwnerNode(n: Node?) {
+      if nil == n {
+        return
+      }
+      n!.mOwnerDocument = document
+      var child = n!.firstChild
+      while nil != child {
+        setOwnerNode(child as? Node)
+        child = child!.nextSibling
+      }
+    }
+    setOwnerNode(node)
+
+    // Step 4
+    // no adopting steps here...
   }
 }

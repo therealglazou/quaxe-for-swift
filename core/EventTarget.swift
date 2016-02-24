@@ -10,7 +10,7 @@
  * 
  */
 
-import QuaxeCoreProtocols
+
 
 internal struct EventListenerStruct: Equatable {
   var type: DOMString

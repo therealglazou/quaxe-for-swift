@@ -10,7 +10,7 @@
  * 
  */
 
-import QuaxeCoreProtocols
+
 import Foundation
 
 public class Event: pEvent {
@@ -110,5 +110,10 @@ public class Event: pEvent {
       mCancelable = _cancelable as! Bool
     }
     setFlag(Event.INITIALIZED_FLAG)
+  }
+
+  // XXX
+  convenience init() {
+    self.init("", [:])
   }
 }

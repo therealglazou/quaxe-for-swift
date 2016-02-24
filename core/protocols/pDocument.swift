@@ -11,6 +11,8 @@
  */
 
 public protocol pDocument: pNode {
+  var type: DOMString { get }
+
   var implementation: pDOMImplementation { get }
   var URL: DOMString { get }
   var documentURI: DOMString { get }

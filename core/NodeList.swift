@@ -10,7 +10,7 @@
  * 
  */
 
-import QuaxeCoreProtocols
+
 
 public class NodeList: pNodeList {
   internal var mNodeArray: Array<pNode>

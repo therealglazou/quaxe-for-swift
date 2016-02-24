@@ -10,7 +10,7 @@
  * 
  */
 
-import QuaxeCoreProtocols
+
 
 public class CustomEvent: Event, pCustomEvent {
 

@@ -10,7 +10,7 @@
  * 
  */
 
-import QuaxeCoreProtocols
+
 
 public class Node: EventTarget, pNode {
 
@@ -27,7 +27,7 @@ public class Node: EventTarget, pNode {
   static let DOCUMENT_FRAGMENT_NODE: ushort       = 11;
   static let NOTATION_NODE: ushort                = 12; // historical
 
-  internal var mNodeType: ushort
+  internal var mNodeType: ushort = 1
   internal var mOwnerDocument: pDocument?
   internal var mParentNode: pNode?
   internal var mFirstChild: pNode?
@@ -46,6 +46,7 @@ public class Node: EventTarget, pNode {
              Node.PROCESSING_INSTRUCTION_NODE,
              Node.COMMENT_NODE:
           rv += (self as! pCharacterData).data
+        default: break;
       }
       node = node!.nextSibling
     }
@@ -71,6 +72,7 @@ public class Node: EventTarget, pNode {
       switch child!.nodeType {
         case Node.ELEMENT_NODE: elementCount++
         case Node.TEXT_NODE:    textCount++
+        default: break;
       }
       child = child!.nextSibling
     }
@@ -78,11 +80,12 @@ public class Node: EventTarget, pNode {
 
   internal func getChildCount() -> UInt {
     var child = firstChild
-    var count = 0
+    var count: UInt = 0
     while nil != child {
       count++
       child = child!.nextSibling
     }
+    return count
   }
 
   internal func hasFollowingDoctype() -> Bool {
@@ -90,6 +93,7 @@ public class Node: EventTarget, pNode {
     while nil != child {
       switch child!.nodeType {
         case Node.DOCUMENT_TYPE_NODE: return true
+        default: break;
       }
       child = child!.nextSibling
     }
@@ -101,6 +105,7 @@ public class Node: EventTarget, pNode {
     while nil != child {
       switch child!.nodeType {
         case Node.ELEMENT_NODE: return true
+        default: break;
       }
       child = child!.previousSibling
     }
@@ -112,20 +117,45 @@ public class Node: EventTarget, pNode {
     while nil != child {
       switch child!.nodeType {
         case Node.DOCUMENT_TYPE_NODE: return true
+        default: break;
       }
       child = child!.nextSibling
     }
     return false
   }
 
-  internal var index: UInt {
-    var rv: UInt = 0
-    var child: Node? = self
+  internal var index: ulong {
+    var rv: ulong = 0
+    var child: pNode? = self
     while nil != child {
       rv++
       child = child!.previousSibling
     }
     return rv
+  }
+
+  /*
+   * atomic tree insertion
+   */
+  internal func doInsertBefore(n: Node, _ referenceChild: Node?) -> Void {
+    if nil != referenceChild {
+      n.mPreviousSibling = referenceChild!.mPreviousSibling
+      referenceChild!.mPreviousSibling = n
+    }
+    else {
+      n.mPreviousSibling = self.mLastChild
+      self.mLastChild = n
+    }
+
+    if (nil != n.mPreviousSibling) {
+      (n.mPreviousSibling as! Node).mNextSibling = n
+    }
+    else {
+      self.mFirstChild = n
+    }
+
+    n.mNextSibling = referenceChild
+    n.mParentNode = self
   }
 
   /* public from pNode */
@@ -239,9 +269,30 @@ public class Node: EventTarget, pNode {
              Node.COMMENT_NODE:
           var characterData = (self as! pCharacterData)
           characterData.data = n
+        default: break;
       }
+      // TODO
     }
   }
 
+  public func normalize() -> Void {}
 
+  public func cloneNode(deep: Bool) -> pNode { return Node()}
+  public func isEqualNode(otherNode: pNode?) -> Bool {return false}
+
+  public func compareDocumentPosition(other: pNode) -> ushort {return 0}
+  public func contains(other: pNode?) -> Bool {return false}
+
+  public func lookupPrefix(namespace: DOMString?) -> DOMString? {return nil}
+  public func lookupNamespaceURI(prefix: DOMString?) -> DOMString? {return nil}
+  public func isDefaultNamespace(namespace: DOMString?) -> Bool {return false}
+
+  public func insertBefore(node: pNode, _ child: pNode?) -> pNode { return Node()}
+  public func appendChild(node: pNode) -> pNode { return Node()}
+  public func replaceChild(node: pNode, _ child: pNode) -> pNode { return Node()}
+  public func removeChild(child: pNode) -> pNode { return Node()}
+
+
+  override init() {
+  }
 }

@@ -11,12 +11,12 @@
  */
 
 public protocol pDOMRange {
-  var startContainer: pNode { get }
+  var startContainer: pNode? { get }
   var startOffset: ulong { get }
-  var endContainer: pNode { get }
-  var endOffset: pNode { get }
+  var endContainer: pNode? { get }
+  var endOffset: ulong { get }
   var collapsed: Bool { get }
-  var commonAncestorContainer: pNode { get }
+  var commonAncestorContainer: pNode? { get }
 
   func setStart(node: pNode, _ offset: ulong);
   func setEnd(node: pNode, _ offset: ulong);
