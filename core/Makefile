@@ -68,7 +68,6 @@ SOURCES = \
 		MutationUtils.swift \
 		Node.swift \
 		NodeList.swift \
-#		Element.swift \
 		$(NULL)
 
 include $(TOPSRCDIR)/swiftbuild/rules.mk
