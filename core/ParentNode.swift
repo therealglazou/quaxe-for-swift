@@ -17,27 +17,22 @@
  */
 public class ParentNode {
 
-  internal weak var mOwnerNode: Node?
-  func setOwnerNode(node: Node) -> Void {
-    mOwnerNode = node
-  }
+  func children(n: Node) -> pHTMLCollection { return HTMLCollection()}
+  func firstElementChild(n: Node) -> pElement? { return nil }
+  func lastElementChild(n: Node) -> pElement? { return nil}
+  func childElementCount(n: Node) -> ulong { return 0}
 
-  var children:               pHTMLCollection = HTMLCollection()
-  var firstElementChild:      pElement?
-  var lastElementChild:       pElement?
-  var childElementCount:      ulong = 0
+  func prepend(n: Node, _ nodes: Array<pNode>) -> Void {}
+  func prepend(n: Node, _ node: pNode) -> Void {}
+  func prepend(n: Node, _ string: DOMString) -> Void {}
+  func append(n: Node, _ nodes: Array<pNode>) -> Void {}
+  func append(n: Node, _ node: pNode) -> Void {}
+  func append(n: Node, _ string: DOMString) -> Void {}
 
-  func prepend(nodes: Array<pNode>) -> Void {}
-  func prepend(node: pNode) -> Void {}
-  func prepend(string: DOMString) -> Void {}
-  func append(nodes: Array<pNode>) -> Void {}
-  func append(node: pNode) -> Void {}
-  func append(string: DOMString) -> Void {}
-
-  func query(relativeSelectors: DOMString) -> pElement? {return nil}
-  func queryAll(relativeSelectors: DOMString) -> pElements {return Elements()}
-  func querySelector(selectors: DOMString) -> pElement {return Element()}
-  func querySelectorAll(selectors: DOMString) -> pNodeList {return NodeList()}
+  func query(n: Node, _ relativeSelectors: DOMString) -> pElement? {return nil}
+  func queryAll(n: Node, _ relativeSelectors: DOMString) -> pElements {return Elements()}
+  func querySelector(n: Node, _ selectors: DOMString) -> pElement {return Element()}
+  func querySelectorAll(n: Node, _ selectors: DOMString) -> pNodeList {return NodeList()}
 
   init() {}
 }
@@ -47,142 +42,184 @@ public class ParentNode {
  */
 extension Document: pParentNode {
   public var children: pHTMLCollection {
-    return mParentNodeTearoff.children
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).children(self)
   }
   public var firstElementChild: pElement? {
-    return mParentNodeTearoff.firstElementChild
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).firstElementChild(self)
   }
   public var lastElementChild: pElement? {
-    return mParentNodeTearoff.lastElementChild
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).lastElementChild(self)
   }
   public var childElementCount: ulong {
-    return mParentNodeTearoff.childElementCount
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).childElementCount(self)
   }
 
   public func prepend(nodes: Array<pNode>) -> Void {
-    mParentNodeTearoff.prepend(nodes)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, nodes)
   }
   public func prepend(node: pNode) -> Void {
-    mParentNodeTearoff.prepend(node)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, node)
   }
   public func prepend(string: DOMString) -> Void {
-    mParentNodeTearoff.prepend(string)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, string)
   }
   public func append(nodes: Array<pNode>) -> Void {
-    mParentNodeTearoff.append(nodes)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, nodes)
   }
   public func append(node: pNode) -> Void {
-    mParentNodeTearoff.append(node)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, node)
   }
   public func append(string: DOMString) -> Void {
-    mParentNodeTearoff.append(string)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, string)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
-    return mParentNodeTearoff.query(relativeSelectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).query(self, relativeSelectors)
   }
   public func queryAll(relativeSelectors: DOMString) -> pElements {
-    return mParentNodeTearoff.queryAll(relativeSelectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).queryAll(self, relativeSelectors)
   }
   public func querySelector(selectors: DOMString) -> pElement {
-    return mParentNodeTearoff.querySelector(selectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).querySelector(self, selectors)
   }
   public func querySelectorAll(selectors: DOMString) -> pNodeList {
-    return mParentNodeTearoff.querySelectorAll(selectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).querySelectorAll(self, selectors)
   }
 }
 
 extension DocumentFragment: pParentNode {
   public var children: pHTMLCollection {
-    return mParentNodeTearoff.children
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).children(self)
   }
   public var firstElementChild: pElement? {
-    return mParentNodeTearoff.firstElementChild
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).firstElementChild(self)
   }
   public var lastElementChild: pElement? {
-    return mParentNodeTearoff.lastElementChild
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).lastElementChild(self)
   }
   public var childElementCount: ulong {
-    return mParentNodeTearoff.childElementCount
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).childElementCount(self)
   }
 
   public func prepend(nodes: Array<pNode>) -> Void {
-    mParentNodeTearoff.prepend(nodes)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, nodes)
   }
   public func prepend(node: pNode) -> Void {
-    mParentNodeTearoff.prepend(node)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, node)
   }
   public func prepend(string: DOMString) -> Void {
-    mParentNodeTearoff.prepend(string)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, string)
   }
   public func append(nodes: Array<pNode>) -> Void {
-    mParentNodeTearoff.append(nodes)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, nodes)
   }
   public func append(node: pNode) -> Void {
-    mParentNodeTearoff.append(node)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, node)
   }
   public func append(string: DOMString) -> Void {
-    mParentNodeTearoff.append(string)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, string)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
-    return mParentNodeTearoff.query(relativeSelectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).query(self, relativeSelectors)
   }
   public func queryAll(relativeSelectors: DOMString) -> pElements {
-    return mParentNodeTearoff.queryAll(relativeSelectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).queryAll(self, relativeSelectors)
   }
   public func querySelector(selectors: DOMString) -> pElement {
-    return mParentNodeTearoff.querySelector(selectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).querySelector(self, selectors)
   }
   public func querySelectorAll(selectors: DOMString) -> pNodeList {
-    return mParentNodeTearoff.querySelectorAll(selectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).querySelectorAll(self, selectors)
   }
 }
 
 extension Element: pParentNode {
   public var children: pHTMLCollection {
-    return mParentNodeTearoff.children
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).children(self)
   }
   public var firstElementChild: pElement? {
-    return mParentNodeTearoff.firstElementChild
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).firstElementChild(self)
   }
   public var lastElementChild: pElement? {
-    return mParentNodeTearoff.lastElementChild
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).lastElementChild(self)
   }
   public var childElementCount: ulong {
-    return mParentNodeTearoff.childElementCount
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).childElementCount(self)
   }
 
   public func prepend(nodes: Array<pNode>) -> Void {
-    mParentNodeTearoff.prepend(nodes)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, nodes)
   }
   public func prepend(node: pNode) -> Void {
-    mParentNodeTearoff.prepend(node)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, node)
   }
   public func prepend(string: DOMString) -> Void {
-    mParentNodeTearoff.prepend(string)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).prepend(self, string)
   }
   public func append(nodes: Array<pNode>) -> Void {
-    mParentNodeTearoff.append(nodes)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, nodes)
   }
   public func append(node: pNode) -> Void {
-    mParentNodeTearoff.append(node)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, node)
   }
   public func append(string: DOMString) -> Void {
-    mParentNodeTearoff.append(string)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    (mTearoffs["ParentNode"] as! ParentNode).append(self, string)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
-    return mParentNodeTearoff.query(relativeSelectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).query(self, relativeSelectors)
   }
   public func queryAll(relativeSelectors: DOMString) -> pElements {
-    return mParentNodeTearoff.queryAll(relativeSelectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).queryAll(self, relativeSelectors)
   }
   public func querySelector(selectors: DOMString) -> pElement {
-    return mParentNodeTearoff.querySelector(selectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).querySelector(self, selectors)
   }
   public func querySelectorAll(selectors: DOMString) -> pNodeList {
-    return mParentNodeTearoff.querySelectorAll(selectors)
+    if nil == mTearoffs.indexForKey("ParentNode") { mTearoffs["ParentNode"] = ChildNode() }
+    return (mTearoffs["ParentNode"] as! ParentNode).querySelectorAll(self, selectors)
   }
 }
 

@@ -14,14 +14,9 @@
 
 public class DocumentFragment: Node, pDocumentFragment {
 
-  internal var mNonElementParentNodeTearoff: NonElementParentNode
-  internal var mParentNodeTearoff: ParentNode
+  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   override init() {
-    self.mNonElementParentNodeTearoff = NonElementParentNode()
-    self.mParentNodeTearoff = ParentNode()
     super.init()
-    self.mNonElementParentNodeTearoff.setOwnerNode(self)
-    self.mParentNodeTearoff.setOwnerNode(self)
   }
 }

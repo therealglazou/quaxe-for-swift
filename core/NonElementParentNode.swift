@@ -17,12 +17,7 @@
  */
 public class NonElementParentNode {
 
-  internal weak var mOwnerNode: Node?
-  func setOwnerNode(node: Node) -> Void {
-    mOwnerNode = node
-  }
-
-  func getElementById(elementId: DOMString) -> pElement? { return nil }
+  func getElementById(n: Node, _ elementId: DOMString) -> pElement? { return nil }
 
   init() {}
 }
@@ -32,12 +27,14 @@ public class NonElementParentNode {
  */
 extension Document: pNonElementParentNode {
   public func getElementById(elementId: DOMString) -> pElement? {
-    return mNonElementParentNodeTearoff.getElementById(elementId)
+    if nil == mTearoffs.indexForKey("NonElementParentNode") { mTearoffs["NonElementParentNode"] = ChildNode() }
+    return (mTearoffs["NonElementParentNode"] as! NonElementParentNode).getElementById(self, elementId)
   }
 }
 
 extension DocumentFragment: pNonElementParentNode {
   public func getElementById(elementId: DOMString) -> pElement? {
-    return mNonElementParentNodeTearoff.getElementById(elementId)
+    if nil == mTearoffs.indexForKey("NonElementParentNode") { mTearoffs["NonElementParentNode"] = ChildNode() }
+    return (mTearoffs["NonElementParentNode"] as! NonElementParentNode).getElementById(self, elementId)
   }
 }

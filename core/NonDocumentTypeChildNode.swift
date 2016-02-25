@@ -13,17 +13,12 @@
 
 
 /*
- * https://dom.spec.whatwg.org/#nondocumenttypechildnode
+ * https://dom.spec.whatwg.org/#NonDocumentTypeChildNode
  */
 public class NonDocumentTypeChildNode {
 
-  internal weak var mOwnerNode: Node?
-  func setOwnerNode(node: Node) -> Void {
-    mOwnerNode = node
-  }
-
-  var previousElementSibling: pElement?
-  var nextElementSibling:     pElement?
+  func previousElementSibling(n: Node) -> pElement? {return nil}
+  func nextElementSibling(n: Node) -> pElement? {return nil}
 
   init() {}
 }
@@ -34,18 +29,22 @@ public class NonDocumentTypeChildNode {
 
 extension CharacterData: pNonDocumentTypeChildNode {
   public var previousElementSibling: pElement? {
-    return mNonDocumentTypeChildNodeTearoff.previousElementSibling
+    if nil == mTearoffs.indexForKey("NonDocumentTypeChildNode") { mTearoffs["NonDocumentTypeChildNode"] = NonDocumentTypeChildNode() }
+    return (mTearoffs["NonDocumentTypeChildNode"] as! NonDocumentTypeChildNode).previousElementSibling(self)
   }
   public var nextElementSibling:     pElement? {
-    return mNonDocumentTypeChildNodeTearoff.nextElementSibling
+    if nil == mTearoffs.indexForKey("NonDocumentTypeChildNode") { mTearoffs["NonDocumentTypeChildNode"] = NonDocumentTypeChildNode() }
+    return (mTearoffs["NonDocumentTypeChildNode"] as! NonDocumentTypeChildNode).nextElementSibling(self)
   }
 }
 
 extension Element: pNonDocumentTypeChildNode {
   public var previousElementSibling: pElement? {
-    return mNonDocumentTypeChildNodeTearoff.previousElementSibling
+    if nil == mTearoffs.indexForKey("NonDocumentTypeChildNode") { mTearoffs["NonDocumentTypeChildNode"] = NonDocumentTypeChildNode() }
+    return (mTearoffs["NonDocumentTypeChildNode"] as! NonDocumentTypeChildNode).previousElementSibling(self)
   }
   public var nextElementSibling:     pElement? {
-    return mNonDocumentTypeChildNodeTearoff.nextElementSibling
+    if nil == mTearoffs.indexForKey("NonDocumentTypeChildNode") { mTearoffs["NonDocumentTypeChildNode"] = NonDocumentTypeChildNode() }
+    return (mTearoffs["NonDocumentTypeChildNode"] as! NonDocumentTypeChildNode).nextElementSibling(self)
   }
 }

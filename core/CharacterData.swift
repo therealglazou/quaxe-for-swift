@@ -14,8 +14,7 @@
 
 public class CharacterData: Node, pCharacterData {
 
-  internal var mChildNodeTearoff: ChildNode
-  internal var mNonDocumentTypeChildNodeTearoff: NonDocumentTypeChildNode
+  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   public var data: DOMString = ""
   public var length: ulong = 0
@@ -26,10 +25,6 @@ public class CharacterData: Node, pCharacterData {
   public func replaceData(offset: ulong, _ count: ulong, _ data: DOMString) -> Void {}
 
   override init() {
-    self.mChildNodeTearoff = ChildNode()
-    self.mNonDocumentTypeChildNodeTearoff = NonDocumentTypeChildNode()
     super.init()
-    self.mChildNodeTearoff.setOwnerNode(self)
-    self.mNonDocumentTypeChildNodeTearoff.setOwnerNode(self)
   }
 }

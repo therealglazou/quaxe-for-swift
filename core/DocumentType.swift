@@ -10,19 +10,17 @@
  * 
  */
 
-
+import Foundation
 
 public class DocumentType: Node, pDocumentType {
 
-  internal var mChildNodeTearoff: ChildNode
+  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   public var name: DOMString = ""
   public var publicId: DOMString = ""
   public var systemId: DOMString = ""
 
   override init() {
-    self.mChildNodeTearoff = ChildNode()
     super.init()
-    self.mChildNodeTearoff.setOwnerNode(self)
   }
 }

@@ -15,9 +15,7 @@ import Foundation
 
 public class Element: Node, pElement {
 
-  internal var mChildNodeTearoff: ChildNode
-  internal var mNonDocumentTypeChildNodeTearoff: NonDocumentTypeChildNode
-  internal var mParentNodeTearoff: ParentNode
+  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   static let HTML_NAMESPACE: DOMString = "http://www.w3.org/1999/xhtml"
 
@@ -82,12 +80,6 @@ public class Element: Node, pElement {
   public func getElementsByClassName(classNames: DOMString) -> pHTMLCollection { return HTMLCollection() }
 
   override init() {
-    self.mChildNodeTearoff = ChildNode()
-    self.mNonDocumentTypeChildNodeTearoff = NonDocumentTypeChildNode()
-    self.mParentNodeTearoff = ParentNode()
     super.init()
-    self.mChildNodeTearoff.setOwnerNode(self)
-    self.mNonDocumentTypeChildNodeTearoff.setOwnerNode(self)
-    self.mParentNodeTearoff.setOwnerNode(self)
   }
 }

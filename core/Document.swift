@@ -14,8 +14,7 @@
 
 public class Document: Node, pDocument {
 
-  internal var mNonElementParentNodeTearoff: NonElementParentNode
-  internal var mParentNodeTearoff: ParentNode
+  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   internal var rangeCollection: Array<DOMRange> = []
   internal var nodeIteratorCollection: Array<NodeIterator> = []
@@ -60,10 +59,6 @@ public class Document: Node, pDocument {
   public func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {return TreeWalker()}
 
   override init() {
-    self.mNonElementParentNodeTearoff = NonElementParentNode()
-    self.mParentNodeTearoff = ParentNode()
     super.init()
-    self.mNonElementParentNodeTearoff.setOwnerNode(self)
-    self.mParentNodeTearoff.setOwnerNode(self)
   }
 }
