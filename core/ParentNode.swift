@@ -40,7 +40,17 @@ public class ParentNode {
     return nil
   }
 
-  func lastElementChild(n: Node) -> pElement? { return nil}
+  func lastElementChild(n: Node) -> pElement? {
+    var child = n.lastChild
+    while nil != child {
+      if Node.ELEMENT_NODE == child!.nodeType {
+        return child as! Element
+      }
+      child = child!.previousSibling
+    }
+    return nil
+  }
+
   func childElementCount(n: Node) -> ulong { return 0}
 
   func prepend(n: Node, _ nodes: Array<pNode>) -> Void {}
