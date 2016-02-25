@@ -17,7 +17,29 @@
  */
 public class NonElementParentNode {
 
-  func getElementById(n: Node, _ elementId: DOMString) -> pElement? { return nil }
+  func _getElementById(child: Node?, _ elementId: DOMString) -> pElement? {
+    var n = child
+    while nil != n {
+      if Node.ELEMENT_NODE == n!.nodeType &&
+         elementId == (n as! Element).getAttribute("id") {
+        return n as! Element
+      }
+      let rv = _getElementById(n!.firstChild as? Node, elementId)
+      if nil != rv {
+        return rv
+      }
+      n = n!.nextSibling as? Node
+    }
+    return nil
+  }
+
+  func getElementById(n: Node, _ elementId: DOMString) -> pElement? {
+    if Node.ELEMENT_NODE == n.nodeType &&
+       elementId == (n as! Element).getAttribute("id") {
+      return n as! Element
+    }
+    return _getElementById(n.firstChild as? Node, elementId)
+  }
 
   init() {}
 }
