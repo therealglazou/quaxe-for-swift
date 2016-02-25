@@ -443,7 +443,7 @@ internal class MutationAlgorithms {
       MutationAlgorithms.remove(node, node.parentNode as! Node)
     }
 
-    //Step 3
+    //Step 3.1
     func setOwnerNode(n: Node?) {
       if nil == n {
         return
@@ -457,7 +457,7 @@ internal class MutationAlgorithms {
     }
     setOwnerNode(node)
 
-    // Step 4
+    // Step 3.2
     // no adopting steps here...
   }
 }

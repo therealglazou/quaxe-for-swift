@@ -11,6 +11,7 @@
  */
 
 enum Exception: ErrorType {
+  case IndexSizeError
   case HierarchyRequestError
   case NotFoundError
 }
