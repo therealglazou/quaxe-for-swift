@@ -17,7 +17,9 @@ public class CharacterData: Node, pCharacterData {
   internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   public var data: DOMString = ""
-  public var length: ulong = 0
+  public var length: ulong {
+    return ulong(data.characters.count)
+  }
   public func substringData(offset: ulong, _ count: ulong) -> DOMString { return ""}
   public func appendData(data: DOMString) -> Void {}
   public func insertData(offset: ulong, _ data: DOMString) -> Void {}
