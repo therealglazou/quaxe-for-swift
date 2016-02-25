@@ -17,7 +17,18 @@
  */
 public class ParentNode {
 
-  func children(n: Node) -> pHTMLCollection { return HTMLCollection()}
+  func children(n: Node) -> pHTMLCollection {
+    let collection = HTMLCollection()
+    var child = n.firstChild
+    while nil != child {
+      if Node.ELEMENT_NODE == child!.nodeType {
+        collection.append(child as! Element)
+      }
+      child = child!.nextSibling
+    }
+    return collection
+  }
+
   func firstElementChild(n: Node) -> pElement? { return nil }
   func lastElementChild(n: Node) -> pElement? { return nil}
   func childElementCount(n: Node) -> ulong { return 0}
