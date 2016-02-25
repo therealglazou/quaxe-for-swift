@@ -132,30 +132,6 @@ public class Node: EventTarget, pNode {
     return rv
   }
 
-  /*
-   * atomic tree insertion
-   */
-  internal func doInsertBefore(n: Node, _ referenceChild: Node?) -> Void {
-    if nil != referenceChild {
-      n.mPreviousSibling = referenceChild!.mPreviousSibling
-      referenceChild!.mPreviousSibling = n
-    }
-    else {
-      n.mPreviousSibling = self.mLastChild
-      self.mLastChild = n
-    }
-
-    if (nil != n.mPreviousSibling) {
-      (n.mPreviousSibling as! Node).mNextSibling = n
-    }
-    else {
-      self.mFirstChild = n
-    }
-
-    n.mNextSibling = referenceChild
-    n.mParentNode = self
-  }
-
   /* public from pNode */
 
   public var nodeType: ushort { return mNodeType }

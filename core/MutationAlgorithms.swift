@@ -152,7 +152,7 @@ internal class MutationAlgorithms {
 
     // Step 6
     nodes.forEach({
-      parent.doInsertBefore($0, child)
+      AtomicTreeActions.insertBefore($0, parent, child)
     })
 
     // Step 7
