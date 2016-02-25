@@ -97,31 +97,20 @@ public class CharacterData: Node, pCharacterData {
     return try CharacterData._substringData(self, offset, count)
   }
 
-  public func appendData(str: DOMString) -> Void {
-    self.data += str
+  public func appendData(str: DOMString) throws -> Void {
+    try CharacterData._replaceData(self, self.length, 0, str)
   }
 
-  public func insertData(offset: ulong, _ str: DOMString) -> Void {
-    let index1 = self.data.startIndex.advancedBy(Int(offset))
-    let preData = self.data.substringToIndex(index1)
-    let postData = self.data.substringFromIndex(index1)
-    self.data = preData + str + postData
+  public func insertData(offset: ulong, _ str: DOMString) throws -> Void {
+    try CharacterData._replaceData(self, offset, 0, str)
   }
 
-  public func deleteData(offset: ulong, _ count: ulong) -> Void {
-    let index1 = self.data.startIndex.advancedBy(Int(offset))
-    let index2 = self.data.startIndex.advancedBy(Int(offset + count))
-    let preData = self.data.substringToIndex(index1)
-    let postData = self.data.substringFromIndex(index2)
-    self.data = preData + postData
+  public func deleteData(offset: ulong, _ count: ulong) throws -> Void {
+    try CharacterData._replaceData(self, offset, count, "")
   }
 
-  public func replaceData(offset: ulong, _ count: ulong, _ str: DOMString) -> Void {
-    let index1 = self.data.startIndex.advancedBy(Int(offset))
-    let index2 = self.data.startIndex.advancedBy(Int(offset + count))
-    let preData = self.data.substringToIndex(index1)
-    let postData = self.data.substringFromIndex(index2)
-    self.data = preData + str + postData
+  public func replaceData(offset: ulong, _ count: ulong, _ str: DOMString) throws -> Void {
+    try CharacterData._replaceData(self, offset, count, str)
   }
 
   override init() {

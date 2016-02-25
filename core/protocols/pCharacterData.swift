@@ -14,8 +14,8 @@ public protocol pCharacterData: pNode {
   var data: DOMString { get set }
   var length: ulong { get }
   func substringData(offset: ulong, _ count: ulong) throws -> DOMString
-  func appendData(data: DOMString) -> Void
-  func insertData(offset: ulong, _ data: DOMString) -> Void
-  func deleteData(offset: ulong, _ count: ulong) -> Void
-  func replaceData(offset: ulong, _ count: ulong, _ data: DOMString) -> Void
+  func appendData(data: DOMString) throws -> Void
+  func insertData(offset: ulong, _ data: DOMString) throws -> Void
+  func deleteData(offset: ulong, _ count: ulong) throws -> Void
+  func replaceData(offset: ulong, _ count: ulong, _ data: DOMString) throws -> Void
 }
