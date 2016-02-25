@@ -14,4 +14,10 @@ public class ProcessingInstruction: CharacterData, pProcessingInstruction {
   public var target: DOMString = ""
 
   override init() {}
+
+  init(_ targetStr: DOMString, _ dataStr: DOMString) {
+    super.init()
+    self.data = dataStr
+    self.target = targetStr
+  }
 }
