@@ -14,4 +14,11 @@
 
 public class Comment: CharacterData, pComment {
   override init() {}
+
+  init(_ str: DOMString) {
+    super.init()
+    data = str
+    mNodeType = Node.COMMENT_NODE
+  }
+
 }
