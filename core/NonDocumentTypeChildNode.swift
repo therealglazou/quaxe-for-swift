@@ -27,7 +27,16 @@ public class NonDocumentTypeChildNode {
     }
     return nil
   }
-  func nextElementSibling(n: Node) -> pElement? {return nil}
+  func nextElementSibling(n: Node) -> pElement? {
+    var child = n.nextSibling
+    while nil != child {
+      if child!.nodeType == Node.ELEMENT_NODE {
+        return child as? Element
+      }
+      child = child!.nextSibling
+    }
+    return nil
+  }
 
   init() {}
 }
