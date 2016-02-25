@@ -20,8 +20,6 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-
 enum S: UInt {
   case IGNORE_SPACES = 1
   case BEGIN

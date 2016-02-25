@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class ProcessingInstruction: CharacterData, pProcessingInstruction {
   public var target: DOMString = ""
 

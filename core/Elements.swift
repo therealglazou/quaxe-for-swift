@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class Elements: pElements {
   public func query(relativeSelectors: DOMString) -> pElement? {return nil}
   public func queryAll(relativeSelectors: DOMString) -> pElements {return Elements()}

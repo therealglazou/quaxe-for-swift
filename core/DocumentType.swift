@@ -10,8 +10,6 @@
  * 
  */
 
-import Foundation
-
 public class DocumentType: Node, pDocumentType {
 
   internal var mTearoffs: Dictionary<String, AnyObject> = [:]

@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class CustomEvent: Event, pCustomEvent {
 
   internal var mDetail: Any

@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class Document: Node, pDocument {
 
   internal var mTearoffs: Dictionary<String, AnyObject> = [:]

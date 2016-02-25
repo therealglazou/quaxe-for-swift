@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class Text: CharacterData, pText {
   public func splitText(offset: ulong) -> pText { return Text()}
   public var wholeText: DOMString = ""

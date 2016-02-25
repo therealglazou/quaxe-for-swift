@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class CharacterData: Node, pCharacterData {
 
   internal var mTearoffs: Dictionary<String, AnyObject> = [:]

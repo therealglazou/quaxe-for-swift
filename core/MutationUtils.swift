@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class MutationUtils {
   static func queueMutationRecord(target: Node,
                                   _ type: DOMString,

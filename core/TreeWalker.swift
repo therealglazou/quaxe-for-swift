@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class TreeWalker: pTreeWalker {
   public var root: pNode = Node()
   public var whatToShow: ulong = 0

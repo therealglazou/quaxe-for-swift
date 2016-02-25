@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class Comment: CharacterData, pComment {
   override init() {}
 

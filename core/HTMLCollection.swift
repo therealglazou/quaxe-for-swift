@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class HTMLCollection: pHTMLCollection {
 
   internal func append(element: pElement) -> Void {

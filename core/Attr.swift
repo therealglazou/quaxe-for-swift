@@ -10,8 +10,6 @@
  * 
  */
 
-
-
 public class Attr: pAttr {
 
   internal var mNamespaceURI: DOMString?
