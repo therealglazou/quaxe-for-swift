@@ -51,7 +51,17 @@ public class ParentNode {
     return nil
   }
 
-  func childElementCount(n: Node) -> ulong { return 0}
+  func childElementCount(n: Node) -> ulong {
+    var count: ulong = 0
+    var child = n.firstChild
+    while nil != child {
+      if Node.ELEMENT_NODE == child!.nodeType {
+        count++
+      }
+      child = child!.nextSibling
+    }
+    return count
+  }
 
   func prepend(n: Node, _ nodes: Array<pNode>) -> Void {}
   func prepend(n: Node, _ node: pNode) -> Void {}
