@@ -28,4 +28,33 @@ internal class AtomicTreeActions {
       parent.mLastChild = nil;
     }
   }
+
+  static func insertBefore(node: Node, _ parent: Node, _ child: Node?) -> Void {
+    if nil == child {
+      // append
+      node.mPreviousSibling = parent.mLastChild
+      node.mNextSibling = nil
+      node.mParentNode = parent
+      parent.mLastChild = node
+      if nil == parent.firstChild {
+        parent.mFirstChild = node
+      }
+    }
+    else {
+      node.mParentNode = parent
+      node.mNextSibling = child
+      node.mPreviousSibling = child!.previousSibling
+      if nil != child!.previousSibling {
+        (child!.mPreviousSibling as! Node).mNextSibling = node
+      }
+      else {
+        parent.mFirstChild = node
+      }
+      child!.mPreviousSibling = node
+    }
+  }
+
+  static func append(node: Node, _ parent: Node) -> Void {
+    insertBefore(node, parent, nil)
+  }
 }
