@@ -29,7 +29,17 @@ public class ParentNode {
     return collection
   }
 
-  func firstElementChild(n: Node) -> pElement? { return nil }
+  func firstElementChild(n: Node) -> pElement? {
+    var child = n.firstChild
+    while nil != child {
+      if Node.ELEMENT_NODE == child!.nodeType {
+        return child as! Element
+      }
+      child = child!.nextSibling
+    }
+    return nil
+  }
+
   func lastElementChild(n: Node) -> pElement? { return nil}
   func childElementCount(n: Node) -> ulong { return 0}
 
