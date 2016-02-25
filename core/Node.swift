@@ -238,18 +238,106 @@ public class Node: EventTarget, pNode {
           if !n.isEmpty {
             node = Text(n)
           }
+          // XXX we are force to ignore if replaceAll() throws because
+          // Swift computed properties don't allow to throw yet...
+          let _ = try? MutationAlgorithms.replaceAll(node as? Node, self)
         case Node.TEXT_NODE,
              Node.PROCESSING_INSTRUCTION_NODE,
              Node.COMMENT_NODE:
-          var characterData = (self as! pCharacterData)
-          characterData.data = n
+          let characterData = (self as! CharacterData)
+          // XXX we are force to ignore if replaceAll() throws because
+          // Swift computed properties don't allow to throw yet...
+          let _ = try? CharacterData._replaceData(characterData, 0, characterData.length, n)
         default: break;
       }
       // TODO
     }
   }
 
-  public func normalize() -> Void {}
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-normalize
+   */
+  public func normalize() throws -> Void {
+    var node = self.firstChild
+    while node != nil {
+      switch (node!.nodeType) {
+        case Node.TEXT_NODE:
+          // Step 2
+          var length = (node as! Text).length
+          if 0 == length {
+            // Step 3
+            MutationAlgorithms.remove(node as! Node, node!.parentNode as! Node)
+          }
+          else {
+            // Step 4
+            var data: DOMString = (node as! Text).data
+            var child = node!.nextSibling
+            while nil != child && child!.nodeType == Node.TEXT_NODE {
+              data += (child as! Text).data
+              child = child!.nextSibling
+            }
+
+            // Step 5
+            try CharacterData._replaceData(node as! CharacterData, length, 0, data)
+
+            // Step 6
+            var currentNode = node!.nextSibling
+
+            // Step 7
+            let rangeCollection = ((node as! Node).ownerDocument as! Document).rangeCollection
+            while nil != currentNode && currentNode!.nodeType == Node.TEXT_NODE {
+              // Step 7.1
+              rangeCollection.forEach( {
+                if $0.startContainer as! Node === currentNode as! Node {
+                  $0.setStart(node!, $0.startOffset + length);
+                }
+              })
+
+              // Step 7.2
+              rangeCollection.forEach( {
+                if $0.endContainer as! Node === currentNode as! Node {
+                  $0.setEnd(node!, $0.endOffset + length);
+                }
+              })
+
+              // Step 7.3
+              rangeCollection.forEach( {
+                if $0.startContainer as! Node === currentNode!.parentNode as! Node &&
+                   $0.startOffset == (currentNode as! Node).index {
+                  $0.setStart(node!, length);
+                }
+              })
+
+              // Step 7.4
+              rangeCollection.forEach( {
+                if $0.endContainer as! Node === currentNode!.parentNode as! Node &&
+                   $0.endOffset == (currentNode as! Node).index {
+                  $0.setStart(node!, length);
+                }
+              })
+
+              // Step 7.5
+              length += (currentNode as! Text).length
+
+              // Step 7.6
+              currentNode = currentNode!.nextSibling
+            }
+
+            // Step 8
+            var textNode = node!.nextSibling
+            while nil != textNode && textNode!.nodeType == Node.TEXT_NODE {
+              let tmp = textNode!.nextSibling
+              MutationAlgorithms.remove(textNode as! Node, textNode!.parentNode as! Node)
+              textNode = tmp
+            }
+          }
+        case Node.ELEMENT_NODE:
+          try node!.normalize()
+        default: break
+      }
+      node = node!.nextSibling as? Node
+    }
+  }
 
   public func cloneNode(deep: Bool) -> pNode { return Node()}
   public func isEqualNode(otherNode: pNode?) -> Bool {return false}

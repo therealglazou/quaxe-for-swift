@@ -28,7 +28,7 @@ public protocol pNode: pEventTarget {
 
   var nodeValue: DOMString? { get set }
   var textContent: DOMString? { get set }
-  func normalize() -> Void
+  func normalize() throws -> Void
 
   func cloneNode(deep: Bool) -> pNode
   func isEqualNode(otherNode: pNode?) -> Bool
