@@ -85,4 +85,16 @@ public class Attr: pAttr {
   public var specified: Bool { return true }
 
   init() {}
+
+  init(givenName: DOMString) {
+    mLocalName = givenName
+  }
+
+  init(givenName: DOMString, _ namespaceURI: DOMString?, _ prefix: DOMString?, _ value: DOMString, _ownerElement: Element?) {
+    mLocalName = givenName
+    mNamespaceURI = namespaceURI
+    mPrefix = prefix
+    mValue = value
+    mOwnerElement = ownerElement
+  }
 }
