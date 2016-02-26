@@ -3,6 +3,7 @@ MODULE_NAME         = QuaxeCore
 
 include $(TOPSRCDIR)/swiftbuild/config.mk
 
+LIBS = -lQuaxeUtils
 
 SOURCES = \
 		protocols/pAttr.swift \
@@ -39,6 +40,7 @@ SOURCES = \
 		protocols/pTreeWalker.swift \
 		protocols/webidl_types.swift \
 		AtomicTreeActions.swift \
+		Namespaces.swift \
 		CharacterData.swift \
 		Comment.swift \
 		DocumentFragment.swift \
