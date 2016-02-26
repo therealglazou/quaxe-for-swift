@@ -40,36 +40,36 @@ SOURCES = \
 		protocols/pTreeWalker.swift \
 		protocols/webidl_types.swift \
 		AtomicTreeActions.swift \
-		Namespaces.swift \
+		Attr.swift \
 		CharacterData.swift \
+		ChildNode.swift \
 		Comment.swift \
-		DocumentFragment.swift \
-		DocumentType.swift \
+		CustomEvent.swift \
 		DOMImplementation.swift \
 		DOMRange.swift \
 		DOMTokenList.swift \
+		Document.swift \
+		DocumentFragment.swift \
+		DocumentType.swift \
 		Element.swift \
 		Elements.swift \
+		Event.swift \
+		EventTarget.swift \
+		Exception.swift \
 		HTMLCollection.swift \
+		MutationAlgorithms.swift \
+		MutationUtils.swift \
 		NamedNodeMap.swift \
-		ProcessingInstruction.swift \
-		Text.swift \
-		TreeWalker.swift \
+		Namespaces.swift \
+		Node.swift \
 		NodeIterator.swift \
-		ChildNode.swift \
+		NodeList.swift \
 		NonDocumentTypeChildNode.swift \
 		NonElementParentNode.swift \
 		ParentNode.swift \
-		Attr.swift \
-		Exception.swift \
-		CustomEvent.swift \
-		Document.swift \
-		Event.swift \
-		EventTarget.swift \
-		MutationAlgorithms.swift \
-		MutationUtils.swift \
-		Node.swift \
-		NodeList.swift \
+		ProcessingInstruction.swift \
+		Text.swift \
+		TreeWalker.swift \
 		$(NULL)
 
 include $(TOPSRCDIR)/swiftbuild/rules.mk
