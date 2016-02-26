@@ -429,6 +429,13 @@ internal class MutationAlgorithms {
     // no removing steps defined...
 
     // Step 11 TODO
+
+    // Step 12
+    if !suppressObserversFlag {
+      MutationUtils.queueMutationRecord(parent, "childList", nil, nil, nil,
+          nil, [node],
+          oldPreviousSibling as? Node, oldNextSibling as? Node)
+    }
   }
 
   /*
