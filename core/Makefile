@@ -3,8 +3,6 @@ MODULE_NAME         = QuaxeCore
 
 include $(TOPSRCDIR)/swiftbuild/config.mk
 
-LIBS = -lQuaxeUtils
-
 SOURCES = \
 		protocols/pAttr.swift \
 		protocols/pCharacterData.swift \
