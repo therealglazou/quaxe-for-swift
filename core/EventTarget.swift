@@ -76,6 +76,7 @@ public class EventTarget: pEventTarget {
 
     // Step 5
     // TODO
+        return false
   }
 
   /**
@@ -125,7 +126,7 @@ public class EventTarget: pEventTarget {
     }
 
     (event as! Event).mIsTrusted = false
-    return try _dispatchEvent(event as! Event, self as! Element)
+    return try EventTarget._dispatchEvent(event as! Event, self as! Element)
   }
 
   init() { mEventListenersArray = [] }
