@@ -49,6 +49,35 @@ public class EventTarget: pEventTarget {
     } 
   }
 
+  internal func getParent(event: Event) -> EventTarget? {
+    return nil
+  }
+
+  static internal func _dispatchEvent(event: Event, _ target: EventTarget, _ targetOverride: EventTarget? = nil) throws -> Bool {
+    // Step 1
+    event.setFlag(Event.DISPATCH_FLAG)
+
+    // Step 2
+    if nil != targetOverride {
+      event.mTarget = targetOverride!
+    }
+    else {
+      event.mTarget = target
+    }
+
+    // Step 3
+    var eventPath = [ target ]
+    while let parent = eventPath[eventPath.endIndex].getParent(event) {
+      eventPath.append(parent)
+    }
+
+    // Step 4
+    event.mEventPhase = Event.CAPTURING_PHASE
+
+    // Step 5
+    // TODO
+  }
+
   /**
    * https://dom.spec.whatwg.org/#interface-eventtarget
    */
@@ -66,6 +95,9 @@ public class EventTarget: pEventTarget {
     mEventListenersArray.append(toStore)
   }
 
+  /*
+   * https://dom.spec.whatwg.org/#dom-eventtarget-removeeventlistener
+   */
   public func removeEventListener(type: DOMString, _ callback: AnyObject?, _ options: Bool) -> Void {
     let toStore = EventListenerStruct(type, callback, options, false)
     if let index = mEventListenersArray.indexOf(toStore) {
@@ -83,9 +115,17 @@ public class EventTarget: pEventTarget {
     }
   }
 
+  /*
+   * https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent
+   */
   public func dispatchEvent(event: pEvent) throws -> Bool {
-    // TODO
-    return false
+    if (event as! Event).hasFlag(Event.DISPATCH_FLAG) ||
+       !(event as! Event).hasFlag(Event.INITIALIZED_FLAG) {
+      throw Exception.InvalidStateError
+    }
+
+    (event as! Event).mIsTrusted = false
+    return try _dispatchEvent(event as! Event, self as! Element)
   }
 
   init() { mEventListenersArray = [] }

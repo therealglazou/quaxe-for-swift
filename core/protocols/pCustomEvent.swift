@@ -15,5 +15,6 @@ public protocol pCustomEvent: pEvent {
 
   func initCustomEvent(type: DOMString, _ bubbles: Bool, _ cancelable: Bool, _ detail: Any) -> Void
 
-  init(_ type: DOMString, _ eventInitDict: Dictionary<String, Any>)
+  init(_ type: DOMString, _ eventInitDict: Dictionary<String, Any>,
+       _ aIsTrusted: Bool)
 }

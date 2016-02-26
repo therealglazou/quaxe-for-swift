@@ -132,6 +132,10 @@ public class Node: EventTarget, pNode {
     return rv
   }
 
+  override internal func getParent(event: Event) -> EventTarget? {
+    return self.parentNode as? EventTarget
+  }
+
   /* public from pNode */
 
   public var nodeType: ushort { return mNodeType }

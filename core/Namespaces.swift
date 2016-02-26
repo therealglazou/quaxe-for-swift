@@ -44,6 +44,9 @@ internal class Namespaces {
     try Namespaces._validateAsXMLQName(name);
   }
 
+  /*
+   * https://dom.spec.whatwg.org/#validate-and-extract
+   */
   internal static func _validateAndExtract(var namespaceURI: DOMString?, qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
     if nil != namespaceURI && "" == namespaceURI {
       namespaceURI = nil

@@ -14,4 +14,7 @@ enum Exception: ErrorType {
   case IndexSizeError
   case HierarchyRequestError
   case NotFoundError
+  case InvalidCharacterError
+  case InvalidStateError
+  case NamespaceError
 }

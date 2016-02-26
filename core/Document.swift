@@ -17,6 +17,15 @@ public class Document: Node, pDocument {
   internal var rangeCollection: Array<DOMRange> = []
   internal var nodeIteratorCollection: Array<NodeIterator> = []
 
+  override internal func getParent(event: Event) -> EventTarget? {
+    // A document's get the parent algorithm, given an event, returns
+    // null if event's type attribute value is "load" or document does
+    // not have a browsing context, and the document's associated
+    // Window object otherwise. 
+    // TODO
+    return nil
+  }
+
   public var type: DOMString = "xml"
 
   public var implementation: pDOMImplementation = DOMImplementation()
@@ -49,7 +58,7 @@ public class Document: Node, pDocument {
   public func createAttribute(localName: DOMString) -> pAttr {return Attr()}
   public func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pAttr {return Attr()}
 
-  public func createEvent(interface: DOMString) -> pEvent {return Event()}
+  public func createEvent(interface: DOMString) -> pEvent {return Event("", [:])}
 
   public func createRange() -> pDOMRange {return DOMRange()}
 

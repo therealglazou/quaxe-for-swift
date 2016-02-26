@@ -23,13 +23,14 @@ public class CustomEvent: Event, pCustomEvent {
     }
   }
 
-  public required init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>) {
+  public required init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>,
+                       _ aIsTrusted: Bool = false) {
     if let detail = aEventInitDict["detail"] {
-      mDetail = detail
+      self.mDetail = detail
     }
     else {
-      mDetail = 0
+      self.mDetail = 0
     }
-    super.init(aType, aEventInitDict)
+    super.init(aType, aEventInitDict, false)
   }
 }

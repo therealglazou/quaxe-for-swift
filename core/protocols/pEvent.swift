@@ -12,8 +12,8 @@
 
 public protocol pEvent {
   var type:             DOMString    { get }
-  var target:           pElement?     { get }
-  var currentTarget:    pElement?     { get }
+  var target:           pEventTarget?     { get }
+  var currentTarget:    pEventTarget?     { get }
 
   var eventPhase:       ushort        { get }
 
@@ -30,5 +30,6 @@ public protocol pEvent {
 
   func initEvent(type: DOMString, _ bubbles: Bool, _ cancelable: Bool) -> Void
 
-  init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>)
+  init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>,
+       _ aIsTrusted: Bool)
 }
