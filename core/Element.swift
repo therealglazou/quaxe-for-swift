@@ -12,7 +12,6 @@
 
 public class Element: Node, pElement {
 
-  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   static let HTML_NAMESPACE: DOMString = "http://www.w3.org/1999/xhtml"
 

@@ -15,21 +15,19 @@
  */
 public class ChildNode {
 
-  func before(n: Node, _ nodes: Array<pNode>) -> Void {  }
-  func before(n: Node, _ node: pNode) -> Void { }
-  func before(n: Node, _ string: DOMString) -> Void { }
+  static func before(n: Node, _ nodes: Array<pNode>) -> Void {  }
+  static func before(n: Node, _ node: pNode) -> Void { }
+  static func before(n: Node, _ string: DOMString) -> Void { }
 
-  func after(n: Node, _ nodes: Array<pNode>) -> Void { }
-  func after(n: Node, _ node: pNode) -> Void { }
-  func after(n: Node, _ string: DOMString) -> Void { }
+  static func after(n: Node, _ nodes: Array<pNode>) -> Void { }
+  static func after(n: Node, _ node: pNode) -> Void { }
+  static func after(n: Node, _ string: DOMString) -> Void { }
 
-  func replaceWith(n: Node, _ nodes: Array<pNode>) -> Void { }
-  func replaceWith(n: Node, _ node: pNode) -> Void { }
-  func replaceWith(n: Node, _ string: DOMString) -> Void { }
+  static func replaceWith(n: Node, _ nodes: Array<pNode>) -> Void { }
+  static func replaceWith(n: Node, _ node: pNode) -> Void { }
+  static func replaceWith(n: Node, _ string: DOMString) -> Void { }
 
-  func remove(n: Node) -> Void { }
-
-  init() { }
+  static func remove(n: Node) -> Void { }
 }
 
 /*
@@ -38,139 +36,109 @@ public class ChildNode {
 
 extension DocumentType: pChildNode {
   public func before(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, nodes)
+    ChildNode.before(self, nodes)
   }
   public func before(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, node)
+    ChildNode.before(self, node)
   }
   public func before(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, string)
+    ChildNode.before(self, string)
   }
 
   public func after(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, nodes)
+    ChildNode.after(self, nodes)
   }
   public func after(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, node)
+    ChildNode.after(self, node)
   }
   public func after(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, string)
+    ChildNode.after(self, string)
   }
 
   public func replaceWith(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, nodes)
+    ChildNode.replaceWith(self, nodes)
   }
   public func replaceWith(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, node)
+    ChildNode.replaceWith(self, node)
   }
   public func replaceWith(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, string)
+    ChildNode.replaceWith(self, string)
   }
 
   public func remove() -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).remove(self)
+    ChildNode.remove(self)
   }
 }
 
 extension Element: pChildNode {
   public func before(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, nodes)
+    ChildNode.before(self, nodes)
   }
   public func before(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, node)
+    ChildNode.before(self, node)
   }
   public func before(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, string)
+    ChildNode.before(self, string)
   }
 
   public func after(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, nodes)
+    ChildNode.after(self, nodes)
   }
   public func after(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, node)
+    ChildNode.after(self, node)
   }
   public func after(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, string)
+    ChildNode.after(self, string)
   }
 
   public func replaceWith(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, nodes)
+    ChildNode.replaceWith(self, nodes)
   }
   public func replaceWith(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, node)
+    ChildNode.replaceWith(self, node)
   }
   public func replaceWith(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, string)
+    ChildNode.replaceWith(self, string)
   }
 
   public func remove() -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).remove(self)
+    ChildNode.remove(self)
   }
 }
 
 extension CharacterData: pChildNode {
   public func before(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, nodes)
+    ChildNode.before(self, nodes)
   }
   public func before(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, node)
+    ChildNode.before(self, node)
   }
   public func before(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).before(self, string)
+    ChildNode.before(self, string)
   }
 
   public func after(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, nodes)
+    ChildNode.after(self, nodes)
   }
   public func after(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, node)
+    ChildNode.after(self, node)
   }
   public func after(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).after(self, string)
+    ChildNode.after(self, string)
   }
 
   public func replaceWith(nodes: Array<pNode>) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, nodes)
+    ChildNode.replaceWith(self, nodes)
   }
   public func replaceWith(node: pNode) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, node)
+    ChildNode.replaceWith(self, node)
   }
   public func replaceWith(string: DOMString) -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).replaceWith(self, string)
+    ChildNode.replaceWith(self, string)
   }
 
   public func remove() -> Void {
-    if nil == mTearoffs.indexForKey("ChildNode") { mTearoffs["ChildNode"] = ChildNode() }
-    (mTearoffs["ChildNode"] as! ChildNode).remove(self)
+    ChildNode.remove(self)
   }
 }
 

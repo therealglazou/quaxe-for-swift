@@ -12,7 +12,6 @@
 
 public class Document: Node, pDocument {
 
-  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   internal var rangeCollection: Array<DOMRange> = []
   internal var nodeIteratorCollection: Array<NodeIterator> = []

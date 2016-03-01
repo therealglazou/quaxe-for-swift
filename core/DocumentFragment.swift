@@ -12,7 +12,6 @@
 
 public class DocumentFragment: Node, pDocumentFragment {
 
-  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   override init() {
     super.init()

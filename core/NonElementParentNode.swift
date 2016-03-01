@@ -15,7 +15,7 @@
  */
 public class NonElementParentNode {
 
-  func _getElementById(child: Node?, _ elementId: DOMString) -> pElement? {
+  static func _getElementById(child: Node?, _ elementId: DOMString) -> pElement? {
     var n = child
     while nil != n {
       if Node.ELEMENT_NODE == n!.nodeType &&
@@ -31,15 +31,13 @@ public class NonElementParentNode {
     return nil
   }
 
-  func getElementById(n: Node, _ elementId: DOMString) -> pElement? {
+  static func getElementById(n: Node, _ elementId: DOMString) -> pElement? {
     if Node.ELEMENT_NODE == n.nodeType &&
        elementId == (n as! Element).getAttribute("id") {
       return n as! Element
     }
     return _getElementById(n.firstChild as? Node, elementId)
   }
-
-  init() {}
 }
 
 /*
@@ -47,14 +45,12 @@ public class NonElementParentNode {
  */
 extension Document: pNonElementParentNode {
   public func getElementById(elementId: DOMString) -> pElement? {
-    if nil == mTearoffs.indexForKey("NonElementParentNode") { mTearoffs["NonElementParentNode"] = ChildNode() }
-    return (mTearoffs["NonElementParentNode"] as! NonElementParentNode).getElementById(self, elementId)
+    return NonElementParentNode.getElementById(self, elementId)
   }
 }
 
 extension DocumentFragment: pNonElementParentNode {
   public func getElementById(elementId: DOMString) -> pElement? {
-    if nil == mTearoffs.indexForKey("NonElementParentNode") { mTearoffs["NonElementParentNode"] = ChildNode() }
-    return (mTearoffs["NonElementParentNode"] as! NonElementParentNode).getElementById(self, elementId)
+    return NonElementParentNode.getElementById(self, elementId)
   }
 }

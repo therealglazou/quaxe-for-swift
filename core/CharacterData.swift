@@ -12,7 +12,6 @@
 
 public class CharacterData: Node, pCharacterData {
 
-  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   public var data: DOMString = ""
   public var length: ulong {

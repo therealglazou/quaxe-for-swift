@@ -12,7 +12,6 @@
 
 public class DocumentType: Node, pDocumentType {
 
-  internal var mTearoffs: Dictionary<String, AnyObject> = [:]
 
   public var name: DOMString = ""
   public var publicId: DOMString = ""
