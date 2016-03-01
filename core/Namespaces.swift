@@ -26,20 +26,20 @@ internal class Namespaces {
   /*
    * https://dom.spec.whatwg.org/#validate
    */
-  internal static func _validateAsXMLName(name: DOMString) throws -> Void
+  static func _validateAsXMLName(name: DOMString) throws -> Void
   {
     if nil == name.rangeOfString(Namespaces.NAME_EREG, options: .RegularExpressionSearch) {
       throw Exception.InvalidCharacterError
     }
   }
 
-  internal static func _validateAsXMLQName(name: DOMString) throws -> Void {
+  static func _validateAsXMLQName(name: DOMString) throws -> Void {
     if nil == name.rangeOfString(Namespaces.PREFIXED_NAME_EREG, options: .RegularExpressionSearch) {
       throw Exception.NamespaceError
     }
   }
 
-  internal static func _validateQualifiedName(name: DOMString) throws -> Void {
+  static func _validateQualifiedName(name: DOMString) throws -> Void {
     try Namespaces._validateAsXMLName(name);
     try Namespaces._validateAsXMLQName(name);
   }
@@ -47,7 +47,7 @@ internal class Namespaces {
   /*
    * https://dom.spec.whatwg.org/#validate-and-extract
    */
-  internal static func _validateAndExtract(var namespaceURI: DOMString?, qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
+  static func _validateAndExtract(var namespaceURI: DOMString?, qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
     if nil != namespaceURI && "" == namespaceURI {
       namespaceURI = nil
     }
