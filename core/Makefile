@@ -37,7 +37,6 @@ SOURCES = \
 		protocols/pText.swift \
 		protocols/pTreeWalker.swift \
 		protocols/webidl_types.swift \
-		Trees.swift \
 		Attr.swift \
 		CharacterData.swift \
 		ChildNode.swift \
@@ -64,9 +63,11 @@ SOURCES = \
 		NodeList.swift \
 		NonDocumentTypeChildNode.swift \
 		NonElementParentNode.swift \
+		OrderedSets.swift \
 		ParentNode.swift \
 		ProcessingInstruction.swift \
 		Text.swift \
+		Trees.swift \
 		TreeWalker.swift \
 		$(NULL)
 
