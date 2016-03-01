@@ -37,7 +37,7 @@ SOURCES = \
 		protocols/pText.swift \
 		protocols/pTreeWalker.swift \
 		protocols/webidl_types.swift \
-		AtomicTreeActions.swift \
+		Trees.swift \
 		Attr.swift \
 		CharacterData.swift \
 		ChildNode.swift \

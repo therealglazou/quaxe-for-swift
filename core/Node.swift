@@ -346,6 +346,12 @@ public class Node: EventTarget, pNode {
   public func cloneNode(deep: Bool) -> pNode { return Node()}
   public func isEqualNode(otherNode: pNode?) -> Bool {return false}
 
+  static let DOCUMENT_POSITION_DISCONNECTED: ushort = 0x01
+  static let DOCUMENT_POSITION_PRECEDING: ushort = 0x02
+  static let DOCUMENT_POSITION_FOLLOWING: ushort = 0x04
+  static let DOCUMENT_POSITION_CONTAINS: ushort = 0x08
+  static let DOCUMENT_POSITION_CONTAINED_BY: ushort = 0x10
+  static let DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC: ushort = 0x20
   public func compareDocumentPosition(other: pNode) -> ushort {return 0}
   public func contains(other: pNode?) -> Bool {return false}
 

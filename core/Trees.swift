@@ -10,7 +10,10 @@
  * 
  */
 
-internal class AtomicTreeActions {
+/*
+ * https://dom.spec.whatwg.org/#trees
+ */
+internal class Trees {
 
   static func remove(node: Node, _ parent: Node) -> Void {
     if (node.previousSibling != nil) {
@@ -57,4 +60,66 @@ internal class AtomicTreeActions {
   static func append(node: Node, _ parent: Node) -> Void {
     insertBefore(node, parent, nil)
   }
+
+  static func getRootOf(var node: Node) -> Node {
+    while nil != node.parentNode {
+      node = node.parentNode as! Node
+    }
+    return node
+  }
+
+  static func isDescendantOf(var node: Node, _ candidate: Node) -> Bool {
+    while nil != node.parentNode {
+      if node.parentNode as! Node === candidate {
+        return true
+      }
+      node = node.parentNode as! Node
+    }
+    return false
+  }
+
+  static func isInclusiveDescendantOf(node: Node, _ candidate: Node) -> Bool {
+    return node === candidate ||
+           Trees.isDescendantOf(node, candidate)
+  }
+
+  static func isAncestorOf(node: Node, _ candidate: Node) -> Bool {
+    return Trees.isDescendantOf(candidate, node)
+  }
+
+  static func isInclusiveAncestorOf(node: Node, _ candidate: Node) -> Bool {
+    return Trees.isInclusiveDescendantOf(candidate, node)
+  }
+
+  static func isSiblingOf(node: Node, _ candidate: Node) -> Bool {
+    return nil != node.parentNode &&
+           nil != candidate.parentNode &&
+           node.parentNode as! Node === candidate.parentNode as! Node
+  }
+
+  static func isInclusiveSiblingOf(node: Node, _ candidate: Node) -> Bool {
+    return node === candidate ||
+           Trees.isSiblingOf(node, candidate)
+  }
+
+  static func isPreceding(node: Node, _ candidate: Node) -> Bool {
+    return Trees.getRootOf(node) === Trees.getRootOf(candidate) &&
+           node.compareDocumentPosition(candidate) == Node.DOCUMENT_POSITION_PRECEDING
+  }
+
+  static func isFollowing(node: Node, _ candidate: Node) -> Bool {
+    return Trees.getRootOf(node) === Trees.getRootOf(candidate) &&
+           node.compareDocumentPosition(candidate) == Node.DOCUMENT_POSITION_FOLLOWING
+  }
+
+  static func indexOf(node: Node) -> ulong {
+    var rv: ulong = 0
+    var child: pNode? = node
+    while nil != child && nil != child!.previousSibling {
+      rv++
+      child = child!.previousSibling
+    }
+    return rv
+  }
+
 }

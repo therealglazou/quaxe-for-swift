@@ -152,7 +152,7 @@ internal class MutationAlgorithms {
 
     // Step 6
     nodes.forEach({
-      AtomicTreeActions.insertBefore($0, parent, child)
+      Trees.insertBefore($0, parent, child)
     })
 
     // Step 7
@@ -423,7 +423,7 @@ internal class MutationAlgorithms {
     let oldNextSibling = node.nextSibling
 
     // Step 9
-    AtomicTreeActions.remove(node, parent)
+    Trees.remove(node, parent)
 
     // Step 10
     // no removing steps defined...
