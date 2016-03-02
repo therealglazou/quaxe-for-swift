@@ -10,11 +10,40 @@
  * 
  */
 
+import QuaxeUtils
+
 /*
  * https://dom.spec.whatwg.org/#parentnode
  */
 public class ParentNode {
 
+  /**
+   * https://dom.spec.whatwg.org/#converting-nodes-into-a-node
+   */
+  static internal func _convertNodesIntoNode(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Node {
+    var node: Node
+    var convertedNodes: Array<Node> = []
+    for either in nodes {
+      switch either {
+        case .Left(let eitherNode): convertedNodes.append(eitherNode as! Node)
+        case .Right(let s): convertedNodes.append(Text(s))
+      }
+    }
+    if convertedNodes.count == 1 {
+      node = convertedNodes[0]
+    }
+    else {
+      node = DocumentFragment()
+      for convertedNode in convertedNodes {
+        try MutationAlgorithms.append(convertedNode, node)
+      }
+    }
+    return node
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-parentnode-children
+   */
   static func children(n: Node) -> pHTMLCollection {
     let collection = HTMLCollection()
     var child = n.firstChild
@@ -27,6 +56,9 @@ public class ParentNode {
     return collection
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-parentnode-firstelementchild
+   */
   static func firstElementChild(n: Node) -> pElement? {
     var child = n.firstChild
     while nil != child {
@@ -38,6 +70,9 @@ public class ParentNode {
     return nil
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-parentnode-lastelementchild
+   */
   static func lastElementChild(n: Node) -> pElement? {
     var child = n.lastChild
     while nil != child {
@@ -49,6 +84,9 @@ public class ParentNode {
     return nil
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-parentnode-childelementcount
+   */
   static func childElementCount(n: Node) -> ulong {
     var count: ulong = 0
     var child = n.firstChild
@@ -61,12 +99,12 @@ public class ParentNode {
     return count
   }
 
-  static func prepend(n: Node, _ nodes: Array<pNode>) -> Void {}
-  static func prepend(n: Node, _ node: pNode) -> Void {}
-  static func prepend(n: Node, _ string: DOMString) -> Void {}
-  static func append(n: Node, _ nodes: Array<pNode>) -> Void {}
-  static func append(n: Node, _ node: pNode) -> Void {}
-  static func append(n: Node, _ string: DOMString) -> Void {}
+  static func prepend(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    let node = try ParentNode._convertNodesIntoNode(n, nodes)
+    try MutationAlgorithms.preInsert(node, n, n.firstChild as? Node)
+  }
+
+  static func append(n: Node, _ nodes: Array<Either<pNode, DOMString>>) -> Void {}
 
   static func query(n: Node, _ relativeSelectors: DOMString) -> pElement? {return nil}
   static func queryAll(n: Node, _ relativeSelectors: DOMString) -> pElements {return Elements()}
@@ -91,23 +129,11 @@ extension Document: pParentNode {
     return ParentNode.childElementCount(self)
   }
 
-  public func prepend(nodes: Array<pNode>) -> Void {
-    ParentNode.prepend(self, nodes)
+  public func prepend(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ParentNode.prepend(self, nodes)
   }
-  public func prepend(node: pNode) -> Void {
-    ParentNode.prepend(self, node)
-  }
-  public func prepend(string: DOMString) -> Void {
-    ParentNode.prepend(self, string)
-  }
-  public func append(nodes: Array<pNode>) -> Void {
+  public func append(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
     ParentNode.append(self, nodes)
-  }
-  public func append(node: pNode) -> Void {
-    ParentNode.append(self, node)
-  }
-  public func append(string: DOMString) -> Void {
-    ParentNode.append(self, string)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
@@ -138,23 +164,11 @@ extension DocumentFragment: pParentNode {
     return ParentNode.childElementCount(self)
   }
 
-  public func prepend(nodes: Array<pNode>) -> Void {
-    ParentNode.prepend(self, nodes)
+  public func prepend(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ParentNode.prepend(self, nodes)
   }
-  public func prepend(node: pNode) -> Void {
-    ParentNode.prepend(self, node)
-  }
-  public func prepend(string: DOMString) -> Void {
-    ParentNode.prepend(self, string)
-  }
-  public func append(nodes: Array<pNode>) -> Void {
+  public func append(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
     ParentNode.append(self, nodes)
-  }
-  public func append(node: pNode) -> Void {
-    ParentNode.append(self, node)
-  }
-  public func append(string: DOMString) -> Void {
-    ParentNode.append(self, string)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
@@ -185,23 +199,11 @@ extension Element: pParentNode {
     return ParentNode.childElementCount(self)
   }
 
-  public func prepend(nodes: Array<pNode>) -> Void {
-    ParentNode.prepend(self, nodes)
+  public func prepend(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ParentNode.prepend(self, nodes)
   }
-  public func prepend(node: pNode) -> Void {
-    ParentNode.prepend(self, node)
-  }
-  public func prepend(string: DOMString) -> Void {
-    ParentNode.prepend(self, string)
-  }
-  public func append(nodes: Array<pNode>) -> Void {
+  public func append(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
     ParentNode.append(self, nodes)
-  }
-  public func append(node: pNode) -> Void {
-    ParentNode.append(self, node)
-  }
-  public func append(string: DOMString) -> Void {
-    ParentNode.append(self, string)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
