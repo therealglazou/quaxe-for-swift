@@ -10,24 +10,117 @@
  * 
  */
 
+import QuaxeUtils
+
 /*
  * https://dom.spec.whatwg.org/#childnode
  */
 public class ChildNode {
 
-  static func before(n: Node, _ nodes: Array<pNode>) -> Void {  }
-  static func before(n: Node, _ node: pNode) -> Void { }
-  static func before(n: Node, _ string: DOMString) -> Void { }
+  static func firstViableSibling(n: Node, _ nodes: Array<Either<pNode, DOMString>>, _ reverseDirection: Bool) -> Node? {
+    var sibling = reverseDirection ? n.previousSibling : n.nextSibling
+    while nil != sibling {
+      var found = false
+      for e in nodes where !found {
+        switch e {
+          case .Left(let node):
+            if node as! Node === sibling as! Node {
+              found = true
+            }
+          default: break
+        }
+      }
+      if !found {
+        return sibling as? Node
+      }
+      sibling = reverseDirection ? sibling!.previousSibling : sibling!.nextSibling
+    }
+    return nil
+  }
 
-  static func after(n: Node, _ nodes: Array<pNode>) -> Void { }
-  static func after(n: Node, _ node: pNode) -> Void { }
-  static func after(n: Node, _ string: DOMString) -> Void { }
+  /**
+   * https://dom.spec.whatwg.org/#dom-childnode-before
+   */
+  static func before(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    //Step 1
+    let parent = n.parentNode
 
-  static func replaceWith(n: Node, _ nodes: Array<pNode>) -> Void { }
-  static func replaceWith(n: Node, _ node: pNode) -> Void { }
-  static func replaceWith(n: Node, _ string: DOMString) -> Void { }
+    //Step 2
+    if nil == parent {
+      return
+    }
 
-  static func remove(n: Node) -> Void { }
+    // Step 3
+    var viablePreviousSibling = ChildNode.firstViableSibling(n, nodes, true)
+
+    // Step 4
+    let node = try ParentNode._convertNodesIntoNode(nodes)
+
+    // Step 5
+    if nil != viablePreviousSibling {
+      viablePreviousSibling = viablePreviousSibling!.nextSibling as? Node
+    }
+    else {
+      viablePreviousSibling = parent!.firstChild as? Node
+    }
+
+    // Step 6
+    try MutationAlgorithms.preInsert(node, parent as! Node, viablePreviousSibling)
+  }
+
+  static func after(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    //Step 1
+    let parent = n.parentNode
+
+    //Step 2
+    if nil == parent {
+      return
+    }
+
+    // Step 3
+    let viableNextSibling = ChildNode.firstViableSibling(n, nodes, false)
+
+    // Step 4
+    let node = try ParentNode._convertNodesIntoNode(nodes)
+
+    // Step 5
+    try MutationAlgorithms.preInsert(node, parent as! Node, viableNextSibling)
+  }
+
+  static func replaceWith(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Void {    //Step 1
+    //Step 1
+    let parent = n.parentNode
+
+    //Step 2
+    if nil == parent {
+      return
+    }
+
+    // Step 3
+    let viableNextSibling = ChildNode.firstViableSibling(n, nodes, false)
+
+    // Step 4
+    let node = try ParentNode._convertNodesIntoNode(nodes)
+
+    // Step 5
+    if nil != n.parentNode && parent as! Node === n.parentNode as! Node {
+      try MutationAlgorithms.replace(n, node, parent as! Node)
+      return
+    }
+
+    // Step 6
+    try MutationAlgorithms.preInsert(node, parent as! Node, viableNextSibling)
+}
+
+  static func remove(n: Node) -> Void {
+    // Step 1
+    if nil == n.parentNode {
+      return
+    }
+
+    // Step 2
+    MutationAlgorithms.remove(n, n.parentNode as! Node)
+  }
 }
 
 /*
@@ -35,34 +128,16 @@ public class ChildNode {
  */
 
 extension DocumentType: pChildNode {
-  public func before(nodes: Array<pNode>) -> Void {
-    ChildNode.before(self, nodes)
-  }
-  public func before(node: pNode) -> Void {
-    ChildNode.before(self, node)
-  }
-  public func before(string: DOMString) -> Void {
-    ChildNode.before(self, string)
+  public func before(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.before(self, nodes)
   }
 
-  public func after(nodes: Array<pNode>) -> Void {
-    ChildNode.after(self, nodes)
-  }
-  public func after(node: pNode) -> Void {
-    ChildNode.after(self, node)
-  }
-  public func after(string: DOMString) -> Void {
-    ChildNode.after(self, string)
+  public func after(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.after(self, nodes)
   }
 
-  public func replaceWith(nodes: Array<pNode>) -> Void {
-    ChildNode.replaceWith(self, nodes)
-  }
-  public func replaceWith(node: pNode) -> Void {
-    ChildNode.replaceWith(self, node)
-  }
-  public func replaceWith(string: DOMString) -> Void {
-    ChildNode.replaceWith(self, string)
+  public func replaceWith(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.replaceWith(self, nodes)
   }
 
   public func remove() -> Void {
@@ -71,34 +146,16 @@ extension DocumentType: pChildNode {
 }
 
 extension Element: pChildNode {
-  public func before(nodes: Array<pNode>) -> Void {
-    ChildNode.before(self, nodes)
-  }
-  public func before(node: pNode) -> Void {
-    ChildNode.before(self, node)
-  }
-  public func before(string: DOMString) -> Void {
-    ChildNode.before(self, string)
+  public func before(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.before(self, nodes)
   }
 
-  public func after(nodes: Array<pNode>) -> Void {
-    ChildNode.after(self, nodes)
-  }
-  public func after(node: pNode) -> Void {
-    ChildNode.after(self, node)
-  }
-  public func after(string: DOMString) -> Void {
-    ChildNode.after(self, string)
+  public func after(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.after(self, nodes)
   }
 
-  public func replaceWith(nodes: Array<pNode>) -> Void {
-    ChildNode.replaceWith(self, nodes)
-  }
-  public func replaceWith(node: pNode) -> Void {
-    ChildNode.replaceWith(self, node)
-  }
-  public func replaceWith(string: DOMString) -> Void {
-    ChildNode.replaceWith(self, string)
+  public func replaceWith(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.replaceWith(self, nodes)
   }
 
   public func remove() -> Void {
@@ -107,34 +164,16 @@ extension Element: pChildNode {
 }
 
 extension CharacterData: pChildNode {
-  public func before(nodes: Array<pNode>) -> Void {
-    ChildNode.before(self, nodes)
-  }
-  public func before(node: pNode) -> Void {
-    ChildNode.before(self, node)
-  }
-  public func before(string: DOMString) -> Void {
-    ChildNode.before(self, string)
+  public func before(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.before(self, nodes)
   }
 
-  public func after(nodes: Array<pNode>) -> Void {
-    ChildNode.after(self, nodes)
-  }
-  public func after(node: pNode) -> Void {
-    ChildNode.after(self, node)
-  }
-  public func after(string: DOMString) -> Void {
-    ChildNode.after(self, string)
+  public func after(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.after(self, nodes)
   }
 
-  public func replaceWith(nodes: Array<pNode>) -> Void {
-    ChildNode.replaceWith(self, nodes)
-  }
-  public func replaceWith(node: pNode) -> Void {
-    ChildNode.replaceWith(self, node)
-  }
-  public func replaceWith(string: DOMString) -> Void {
-    ChildNode.replaceWith(self, string)
+  public func replaceWith(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    try ChildNode.replaceWith(self, nodes)
   }
 
   public func remove() -> Void {
