@@ -10,6 +10,9 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-htmlcollection
+ */
 public class HTMLCollection: pHTMLCollection {
 
   internal func append(element: pElement) -> Void {
@@ -22,10 +25,16 @@ public class HTMLCollection: pHTMLCollection {
 
   internal var mArray: Array<pElement> = []
   
+  /**
+   * https://dom.spec.whatwg.org/#dom-htmlcollection-length
+   */
   public var length: ulong {
     return ulong(self.mArray.count)
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-htmlcollection-item
+   */
   public func item(index: ulong) -> pElement? {
     if index >= self.length {
       return nil
@@ -33,12 +42,25 @@ public class HTMLCollection: pHTMLCollection {
     return mArray[Int(index)]
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-htmlcollection-nameditem
+   */
   public func namedItem(name: DOMString) -> pElement? {
-    let index = mArray.indexOf({ return $0.getAttribute("id") == name})
-    if nil != index {
-      return mArray[index!]
+    // Step 1
+    if name.isEmpty {
+      return nil
     }
-    return nil
+
+    // Step 2
+    for element in mArray {
+      if element.getAttribute("id") == name ||
+         (element.namespaceURI != nil &&
+          element.namespaceURI! == Namespaces.HTML_NAMESPACE &&
+          element.getAttributeNS(nil, "name") == name) {
+        return element
+      }
+    }
+    return nil;
   }
 
   init() {}
