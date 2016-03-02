@@ -10,6 +10,9 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-nodelist
+ */
 public class NodeList: pNodeList {
   internal var mNodeArray: Array<pNode>
 
@@ -17,15 +20,33 @@ public class NodeList: pNodeList {
     return mNodeArray.map({$0 as! Node}) 
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-nodelist-length
+   */
   public var length: ulong {
     return ulong(mNodeArray.count)
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-nodelist-item
+   */
   public func item(index: ulong) -> pNode? {
     if index >= length {
       return nil
     }
     return mNodeArray[Int(index)]
+  }
+
+  /**
+   * iterable<Node>
+   */
+  subscript(index: Int) -> pNode {
+    get {
+      return mNodeArray[index]
+    }
+    set(newValue) {
+      mNodeArray[index] = newValue
+    }
   }
 
   public init() {
