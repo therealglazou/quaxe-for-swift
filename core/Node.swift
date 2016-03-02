@@ -508,7 +508,7 @@ public class Node: EventTarget, pNode {
 
     var index = 1;
     while referenceAncestors[referenceAncestors.count - index] === otherAncestors[otherAncestors.count - index] {
-      index ++
+      index++
     }
     if Trees.isPreceding(otherAncestors[otherAncestors.count - index], referenceAncestors[referenceAncestors.count - index]) {
       return Node.DOCUMENT_POSITION_PRECEDING
