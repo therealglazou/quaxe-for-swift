@@ -1,11 +1,11 @@
 TOPSRCDIR           = ..
 MODULE_NAME         = QuaxeUtils
 
+include $(TOPSRCDIR)/swiftbuild/config.mk
+
 SOURCES = \
 		Combinators.swift \
 		Either.swift \
-		Global.swift \
-		String.swift \
 		$(NULL)
 
-include $(TOPSRCDIR)/config/rules.mk
+include $(TOPSRCDIR)/swiftbuild/rules.mk
