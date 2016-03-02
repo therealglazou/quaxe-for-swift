@@ -15,6 +15,9 @@
  */
 public class NonElementParentNode {
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid
+   */
   static func _getElementById(child: Node?, _ elementId: DOMString) -> pElement? {
     var n = child
     while nil != n {
