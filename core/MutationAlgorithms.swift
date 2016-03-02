@@ -24,7 +24,7 @@ internal class MutationAlgorithms {
     }
 
     // step 2
-    if node.isInclusiveAncestorOf(parent) {
+    if Trees.isInclusiveAncestorOf(node, parent) {
       throw Exception.HierarchyRequestError
     }
 
@@ -120,7 +120,7 @@ internal class MutationAlgorithms {
     // Step 2
     if (nil != child && nil != parent.ownerDocument) {
       let rangeCollection = (parent.ownerDocument as! Document).rangeCollection
-      let index = child!.index
+      let index = Trees.indexOf(child!)
       // Step 2.1
       rangeCollection.forEach( {
         if ($0.startContainer as! Node === parent && $0.startOffset > index) {
@@ -184,7 +184,7 @@ internal class MutationAlgorithms {
     }
 
     // Step 2
-    if node.isInclusiveAncestorOf(parent) {
+    if Trees.isInclusiveAncestorOf(node, parent) {
       throw Exception.HierarchyRequestError
     }
 
@@ -378,18 +378,18 @@ internal class MutationAlgorithms {
    */
   static func remove(node: Node, _ parent: Node, _ suppressObserversFlag: Bool = false) -> Void {
     // Step 1
-    let index = node.index
+    let index = Trees.indexOf(node)
 
     let rangeCollection = (parent.ownerDocument as! Document).rangeCollection
     // Step 2
     rangeCollection.forEach( {
-      if ($0.startContainer as! Node).isInclusiveAncestorOf(node) {
+      if Trees.isInclusiveAncestorOf($0.startContainer as! Node, node) {
         $0.setStart(parent, index);
       }
     })
     // Step 3
     rangeCollection.forEach( {
-      if ($0.endContainer as! Node).isInclusiveAncestorOf(node) {
+      if Trees.isInclusiveAncestorOf($0.endContainer as! Node, node) {
         $0.setEnd(parent, index);
       }
     })

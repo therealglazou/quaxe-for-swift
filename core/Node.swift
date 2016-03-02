@@ -51,17 +51,6 @@ public class Node: EventTarget, pNode {
     return rv
   }
 
-  internal func isInclusiveAncestorOf(candidate: pNode) -> Bool {
-    var node: pNode? = candidate
-    while nil != node {
-      if self === (node as! Node) {
-        return true
-      }
-      node = node!.parentNode
-    }
-    return false
-  }
-
   internal func getCounts(inout elementCount: UInt, inout _ textCount: UInt) -> Void {
     var child = firstChild
     elementCount = 0
@@ -120,16 +109,6 @@ public class Node: EventTarget, pNode {
       child = child!.nextSibling
     }
     return false
-  }
-
-  internal var index: ulong {
-    var rv: ulong = 0
-    var child: pNode? = self
-    while nil != child {
-      rv++
-      child = child!.previousSibling
-    }
-    return rv
   }
 
   override internal func getParent(event: Event) -> EventTarget? {
@@ -307,7 +286,7 @@ public class Node: EventTarget, pNode {
               // Step 7.3
               rangeCollection.forEach( {
                 if $0.startContainer as! Node === currentNode!.parentNode as! Node &&
-                   $0.startOffset == (currentNode as! Node).index {
+                   $0.startOffset == Trees.indexOf(currentNode as! Node) {
                   $0.setStart(node!, length);
                 }
               })
@@ -315,7 +294,7 @@ public class Node: EventTarget, pNode {
               // Step 7.4
               rangeCollection.forEach( {
                 if $0.endContainer as! Node === currentNode!.parentNode as! Node &&
-                   $0.endOffset == (currentNode as! Node).index {
+                   $0.endOffset == Trees.indexOf(currentNode as! Node) {
                   $0.setStart(node!, length);
                 }
               })
