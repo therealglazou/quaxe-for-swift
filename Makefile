@@ -1,6 +1,11 @@
 
-TOPSRCDIR           = .
-
+TOPSRCDIR = .
 DIRS = utils core
 
-include $(TOPSRCDIR)/config/rules.mk
+include $(TOPSRCDIR)/swiftbuild/config.mk
+
+include $(TOPSRCDIR)/swiftbuild/rules.mk
+
+clobber: clean
+		$(shell rm -fr $(OBJDIR))
+
