@@ -15,6 +15,9 @@
  */
 public class NonDocumentTypeChildNode {
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-nondocumenttypechildnode-previouselementsibling
+   */
   static func previousElementSibling(n: Node) -> pElement? {
     var child = n.previousSibling
     while nil != child {
@@ -26,6 +29,9 @@ public class NonDocumentTypeChildNode {
     return nil
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-nondocumenttypechildnode-nextelementsibling
+   */
   static func nextElementSibling(n: Node) -> pElement? {
     var child = n.nextSibling
     while nil != child {
