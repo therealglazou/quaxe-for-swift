@@ -20,7 +20,7 @@ public class ParentNode {
   /**
    * https://dom.spec.whatwg.org/#converting-nodes-into-a-node
    */
-  static internal func _convertNodesIntoNode(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Node {
+  static internal func _convertNodesIntoNode(nodes: Array<Either<pNode, DOMString>>) throws -> Node {
     var node: Node
     var convertedNodes: Array<Node> = []
     for either in nodes {
@@ -100,12 +100,12 @@ public class ParentNode {
   }
 
   static func prepend(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Void {
-    let node = try ParentNode._convertNodesIntoNode(n, nodes)
+    let node = try ParentNode._convertNodesIntoNode(nodes)
     try MutationAlgorithms.preInsert(node, n, n.firstChild as? Node)
   }
 
   static func append(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Void {
-    let node = try ParentNode._convertNodesIntoNode(n, nodes)
+    let node = try ParentNode._convertNodesIntoNode(nodes)
     try MutationAlgorithms.append(node, n)
   }
 
