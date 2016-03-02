@@ -117,8 +117,14 @@ public class Node: EventTarget, pNode {
 
   /* public from pNode */
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-nodetype
+   */
   public var nodeType: ushort { return mNodeType }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-nodename
+   */
   public var nodeName: DOMString {
     switch nodeType {
       case Node.ELEMENT_NODE:
@@ -139,8 +145,14 @@ public class Node: EventTarget, pNode {
     }
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-baseuri
+   */
   public var baseURI: DOMString { return "about:blank" }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-ownerdocument
+   */
   public var ownerDocument: pDocument? {
     if Node.DOCUMENT_NODE == nodeType {
       return nil
@@ -148,8 +160,14 @@ public class Node: EventTarget, pNode {
     return mOwnerDocument
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-parentnode
+   */
   public var parentNode: pNode? { return mParentNode }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-parentelement
+   */
   public var parentElement: pElement? {
     if let pe = mParentNode as? pElement {
       return pe
@@ -157,10 +175,16 @@ public class Node: EventTarget, pNode {
     return nil
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-haschildnodes
+   */
   public func hasChildNodes() -> Bool {
     return nil != self.firstChild
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-childnodes
+   */
   public var childNodes: pNodeList {
     let list = NodeList()
     var child = self.firstChild
@@ -171,11 +195,20 @@ public class Node: EventTarget, pNode {
     return list
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-firstchild
+   * https://dom.spec.whatwg.org/#dom-node-lastchild
+   * https://dom.spec.whatwg.org/#dom-node-previoussibling
+   * https://dom.spec.whatwg.org/#dom-node-nextsibling
+   */
   public var firstChild: pNode? { return mFirstChild }
   public var lastChild: pNode? { return mLastChild }
   public var previousSibling: pNode? { return mPreviousSibling }
   public var nextSibling: pNode? { return mNextSibling }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-nodevalue
+   */
   public var nodeValue: DOMString? {
     get {
       switch nodeType {
@@ -199,6 +232,9 @@ public class Node: EventTarget, pNode {
     }
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-textcontent
+   */
   public var textContent: DOMString? {
     get {
       switch nodeType {
@@ -322,8 +358,100 @@ public class Node: EventTarget, pNode {
     }
   }
 
-  public func cloneNode(deep: Bool) -> pNode { return Node()}
-  public func isEqualNode(otherNode: pNode?) -> Bool {return false}
+  /**
+   * https://dom.spec.whatwg.org/#concept-node-clone
+   */
+  internal func _clone(var document: pDocument? = nil, _ cloneChildrenFlag: Bool = false) -> Node {
+    // Step 1
+    if nil == document {
+      document = self.ownerDocument
+    }
+
+    // Step 2
+    var copy: Node?
+    switch self.nodeType {
+      case Node.DOCUMENT_NODE:
+        var d = Document()
+        d.mInputEncoding = (self as! Document).inputEncoding
+        d.mContentType = (self as! Document).contentType
+        d.mURL = (self as! Document).URL
+        d.type = (self as! Document).type
+        d.mCompatMode = (self as! Document).mode
+        copy = d
+      case Node.DOCUMENT_TYPE_NODE:
+        var dt = DocumentType()
+        dt.mName = (self as! DocumentType).name
+        dt.mPublicId = (self as! DocumentType).publicId
+        dt.mSystemId = (self as! DocumentType).systemId
+        copy = dt
+      case Node.ELEMENT_NODE:
+        var e = Element()
+        e.mNamespaceURI = (self as! Element).namespaceURI
+        e.mPrefix = (self as! Element).prefix
+        e.mLocalName = (self as! Element).localName
+
+        var attributes = (self as! Element).attributes
+        for attributeIndex in 0...attributes.length-1 {
+          var a = attributes.item(attributeIndex)
+          e.setAttributeNS(a!.namespaceURI, a!.localName, a!.value)
+        }
+        copy = e
+      case Node.TEXT_NODE:
+        copy = Text((self as! Text).data)
+      case Node.COMMENT_NODE:
+        copy = Comment((self as! Comment).data)
+      case Node.PROCESSING_INSTRUCTION_NODE:
+        copy = ProcessingInstruction((self as! ProcessingInstruction).target,
+                                     (self as! ProcessingInstruction).data)
+
+    }
+
+    // Step 3
+    if Node.DOCUMENT_NODE == copy!.nodeType {
+      copy!.mOwnerDocument = copy as? pDocument
+      document = copy as? pDocument
+    }
+    else {
+      copy!.mOwnerDocument = document
+    }
+
+    // Step 4, clonig steps
+    // TODO
+
+    // Step 5
+    if cloneChildrenFlag {
+      var child = self.firstChild
+      while nil != child {
+        Trees.append((child as! Node)._clone(document, cloneChildrenFlag), copy!)
+        child = child!.nextSibling
+      }
+    }
+
+    // Step 6
+    return copy!
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-clonenode
+   */
+  public func cloneNode(deep: Bool) -> pNode {
+    // Step 1
+    // IGNORED, we don't implement Shadow DOM
+
+    // Step 2
+    return self._clone(nil, true)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-isequalnode
+   */
+  public func isEqualNode(otherNode: pNode?) -> Bool {
+    if nil != otherNode &&
+       self === otherNode as! Node {
+      return true
+    }
+    return false
+  }
 
   static let DOCUMENT_POSITION_DISCONNECTED: ushort = 0x01
   static let DOCUMENT_POSITION_PRECEDING: ushort = 0x02
@@ -331,8 +459,70 @@ public class Node: EventTarget, pNode {
   static let DOCUMENT_POSITION_CONTAINS: ushort = 0x08
   static let DOCUMENT_POSITION_CONTAINED_BY: ushort = 0x10
   static let DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC: ushort = 0x20
-  public func compareDocumentPosition(other: pNode) -> ushort {return 0}
-  public func contains(other: pNode?) -> Bool {return false}
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-comparedocumentposition
+   */
+  public func compareDocumentPosition(other: pNode) -> ushort {
+    // Step 1
+    let reference = self
+
+    // Step 2
+    if other as! Node === reference {
+      return 0
+    }
+
+    // Step 3
+    if self.ownerDocument as? Document !== other.ownerDocument as? Document {
+      return  Node.DOCUMENT_POSITION_DISCONNECTED
+              | Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC
+              | Node.DOCUMENT_POSITION_PRECEDING
+    }
+
+    // Step 4
+    if Trees.isAncestorOf(other as! Node, reference) {
+      return  Node.DOCUMENT_POSITION_CONTAINS
+              | Node.DOCUMENT_POSITION_PRECEDING
+    }
+
+    // Step 5
+    if Trees.isDescendantOf(other as! Node, reference) {
+      return  Node.DOCUMENT_POSITION_CONTAINED_BY
+              | Node.DOCUMENT_POSITION_FOLLOWING
+    }
+
+    // Step 6
+    var referenceAncestors: Array<Node> = []
+    var parent = reference.parentNode
+    while nil != parent {
+      referenceAncestors.append(parent as! Node)
+      parent = parent!.parentNode
+    }
+
+    var otherAncestors: Array<Node> = []
+    parent = other.parentNode
+    while nil != parent {
+      otherAncestors.append(parent as! Node)
+      parent = parent!.parentNode
+    }
+
+    var index = 1;
+    while referenceAncestors[referenceAncestors.count - index] === otherAncestors[otherAncestors.count - index] {
+      index ++
+    }
+    if Trees.isPreceding(otherAncestors[otherAncestors.count - index], referenceAncestors[referenceAncestors.count - index]) {
+      return Node.DOCUMENT_POSITION_PRECEDING
+    }
+
+    return Node.DOCUMENT_POSITION_FOLLOWING
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-node-contains
+   */
+  public func contains(other: pNode?) -> Bool {
+    return (nil != other && Trees.isInclusiveDescendantOf(other as! Node, self))
+  }
 
   public func lookupPrefix(namespace: DOMString?) -> DOMString? {return nil}
   public func lookupNamespaceURI(prefix: DOMString?) -> DOMString? {return nil}
