@@ -11,8 +11,15 @@
  */
 
 public class Elements: pElements {
-  public func query(relativeSelectors: DOMString) -> pElement? {return nil}
-  public func queryAll(relativeSelectors: DOMString) -> pElements {return Elements()}
+  public func query(relativeSelectors: DOMString) -> pElement? {
+    // TODO
+    return nil
+  }
+
+  public func queryAll(relativeSelectors: DOMString) -> pElements {
+    // TODO
+    return Elements()
+  }
 
   init() {}
 }
