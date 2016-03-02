@@ -104,7 +104,10 @@ public class ParentNode {
     try MutationAlgorithms.preInsert(node, n, n.firstChild as? Node)
   }
 
-  static func append(n: Node, _ nodes: Array<Either<pNode, DOMString>>) -> Void {}
+  static func append(n: Node, _ nodes: Array<Either<pNode, DOMString>>) throws -> Void {
+    let node = try ParentNode._convertNodesIntoNode(n, nodes)
+    try MutationAlgorithms.append(node, n)
+  }
 
   static func query(n: Node, _ relativeSelectors: DOMString) -> pElement? {return nil}
   static func queryAll(n: Node, _ relativeSelectors: DOMString) -> pElements {return Elements()}
@@ -133,7 +136,7 @@ extension Document: pParentNode {
     try ParentNode.prepend(self, nodes)
   }
   public func append(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
-    ParentNode.append(self, nodes)
+    try ParentNode.append(self, nodes)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
@@ -168,7 +171,7 @@ extension DocumentFragment: pParentNode {
     try ParentNode.prepend(self, nodes)
   }
   public func append(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
-    ParentNode.append(self, nodes)
+    try ParentNode.append(self, nodes)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
@@ -203,7 +206,7 @@ extension Element: pParentNode {
     try ParentNode.prepend(self, nodes)
   }
   public func append(nodes: Array<Either<pNode, DOMString>>) throws -> Void {
-    ParentNode.append(self, nodes)
+    try ParentNode.append(self, nodes)
   }
 
   public func query(relativeSelectors: DOMString) -> pElement? {
