@@ -10,12 +10,21 @@
  * 
  */
 
+/*
+ * https://dom.spec.whatwg.org/#interface-customevent
+ */
 public class CustomEvent: Event, pCustomEvent {
 
   internal var mDetail: Any
 
+  /*
+   * https://dom.spec.whatwg.org/#dom-customevent-detail
+   */
   public var detail: Any { return mDetail }
 
+  /*
+   * https://dom.spec.whatwg.org/#dom-customevent-initcustomevent
+   */
   public func initCustomEvent(aType: DOMString, _ aBubbles: Bool, _ aCancelable: Bool, _ aDetail: Any) -> Void {
     if !hasFlag(Event.DISPATCH_FLAG) {
       super.initEvent(aType, aBubbles, aCancelable)
