@@ -109,10 +109,25 @@ public class ParentNode {
     try MutationAlgorithms.append(node, n)
   }
 
-  static func query(n: Node, _ relativeSelectors: DOMString) -> pElement? {return nil}
-  static func queryAll(n: Node, _ relativeSelectors: DOMString) -> pElements {return Elements()}
-  static func querySelector(n: Node, _ selectors: DOMString) -> pElement {return Element()}
-  static func querySelectorAll(n: Node, _ selectors: DOMString) -> pNodeList {return NodeList()}
+  static func query(n: Node, _ relativeSelectors: DOMString) -> pElement? {
+    // TODO
+    return nil
+  }
+
+  static func queryAll(n: Node, _ relativeSelectors: DOMString) -> pElements {
+    // TODO
+    return Elements()
+  }
+
+  static func querySelector(n: Node, _ selectors: DOMString) -> pElement {
+    // TODO
+    return Element()
+  }
+
+  static func querySelectorAll(n: Node, _ selectors: DOMString) -> pNodeList {
+    // TODO
+    return NodeList()
+  }
 }
 
 /*
