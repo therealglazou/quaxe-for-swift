@@ -24,7 +24,7 @@ public protocol pElement: pNode {
   var attributes: pNamedNodeMap { get }
   func getAttributeNames() -> Array<DOMString>
   func getAttribute(qualifiedName: DOMString) -> DOMString?
-  func getAttributeNS(namespace: DOMString, _localName: DOMString) -> DOMString?
+  func getAttributeNS(namespace: DOMString?, _ localName: DOMString) -> DOMString?
   func setAttribute(qualifiedName: DOMString, _ value: DOMString) -> Void
   func setAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString, _ value: DOMString) -> Void
   func removeAttribute(qualifiedName: DOMString) -> Void

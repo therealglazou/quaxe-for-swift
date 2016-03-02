@@ -54,7 +54,7 @@ public class Element: Node, pElement {
   public var attributes: pNamedNodeMap = NamedNodeMap()
   public func getAttributeNames() -> Array<DOMString> { return []}
   public func getAttribute(qualifiedName: DOMString) -> DOMString? { return nil}
-  public func getAttributeNS(namespace: DOMString, _localName: DOMString) -> DOMString? { return nil}
+  public func getAttributeNS(namespace: DOMString?, _ localName: DOMString) -> DOMString? { return nil}
   public func setAttribute(qualifiedName: DOMString, _ value: DOMString) -> Void {}
   public func setAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString, _ value: DOMString) -> Void {}
   public func removeAttribute(qualifiedName: DOMString) -> Void {}
