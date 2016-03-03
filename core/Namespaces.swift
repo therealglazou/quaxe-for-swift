@@ -26,33 +26,33 @@ internal class Namespaces {
   /*
    * https://dom.spec.whatwg.org/#validate
    */
-  static func _validateAsXMLName(name: DOMString) throws -> Void
+  static func validateAsXMLName(name: DOMString) throws -> Void
   {
     if nil == name.rangeOfString(Namespaces.NAME_EREG, options: .RegularExpressionSearch) {
       throw Exception.InvalidCharacterError
     }
   }
 
-  static func _validateAsXMLQName(name: DOMString) throws -> Void {
+  static func validateAsXMLQName(name: DOMString) throws -> Void {
     if nil == name.rangeOfString(Namespaces.PREFIXED_NAME_EREG, options: .RegularExpressionSearch) {
       throw Exception.NamespaceError
     }
   }
 
-  static func _validateQualifiedName(name: DOMString) throws -> Void {
-    try Namespaces._validateAsXMLName(name);
-    try Namespaces._validateAsXMLQName(name);
+  static func validateQualifiedName(name: DOMString) throws -> Void {
+    try Namespaces.validateAsXMLName(name);
+    try Namespaces.validateAsXMLQName(name);
   }
 
   /*
    * https://dom.spec.whatwg.org/#validate-and-extract
    */
-  static func _validateAndExtract(var namespaceURI: DOMString?, qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
+  static func validateAndExtract(var namespaceURI: DOMString?, qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
     if nil != namespaceURI && "" == namespaceURI {
       namespaceURI = nil
     }
 
-    try Namespaces._validateQualifiedName(qualifiedName);
+    try Namespaces.validateQualifiedName(qualifiedName);
 
     var prefix: DOMString? = nil
     var localName = qualifiedName

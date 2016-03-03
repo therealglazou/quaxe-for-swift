@@ -25,24 +25,100 @@ public class Document: Node, pDocument {
     return nil
   }
 
-  public var type: DOMString = "xml"
+  internal var mURL: DOMString
+  internal var mMode: DOMString
+  internal var mInputEncoding: DOMString
+  internal var mContentType: DOMString
 
+  /**
+   * public
+   */
+  public var type: DOMString
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-implementation
+   */
   public var implementation: pDOMImplementation = DOMImplementation()
-  public var URL: DOMString = ""
-  public var documentURI: DOMString = ""
-  public var origin: DOMString = ""
-  public var compatMode: DOMString = ""
-  public var characterSet: DOMString = ""
-  public var charset: DOMString = ""
-  public var inputEncoding: DOMString = ""
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-url
+   */
+  public var URL: DOMString { return mURL }
+  public var documentURI: DOMString { return mURL }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-origin
+   * Explicitely not implemented here
+   */
+  public var origin: DOMString { return "" }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-compatmode
+   */
+  public var compatMode: DOMString {
+    return (mMode == "quirks") ? "BackCompat" : "CSS1Compat"
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-characterset
+   */
+  public var characterSet: DOMString { return mInputEncoding }
+  public var charset: DOMString { return mInputEncoding }
+  public var inputEncoding: DOMString { return mInputEncoding }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-contenttype
+   */
   public var contentType: DOMString = ""
 
-  public var doctype: pDocumentType?
-  public var documentElement: pElement?
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-doctype
+   */
+  public var doctype: pDocumentType? {
+    var child = self.firstChild
+    while nil != child {
+      if child!.nodeType == Node.DOCUMENT_TYPE_NODE {
+        return child as? DocumentType
+      }
+      child = child!.nextSibling
+    }
+    return nil
+  }
 
-  public func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection { return HTMLCollection()}
-  public func getElementsByTagNameNS(namespace: DOMString, _ localName: DOMString) -> pHTMLCollection {return HTMLCollection()}
-  public func getElementsByClassName(classNames: DOMString) -> pHTMLCollection {return HTMLCollection()}
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-documentelement
+   */
+  public var documentElement: pElement? {
+    var child = self.firstChild
+    while nil != child {
+      if child!.nodeType == Node.ELEMENT_NODE {
+        return child as? Element
+      }
+      child = child!.nextSibling
+    }
+    return nil
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-getelementsbytagname
+   */
+  public func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection {
+    return Trees.listElementsWithQualifiedName(self, qualifiedName)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-getelementsbytagnamens
+   */
+  public func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection {
+    return Trees.listElementsWithQualifiedNameAndNamespace(self, namespace, localName)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-getelementsbyclassname
+   */
+  public func getElementsByClassName(classNames: DOMString) -> pHTMLCollection {
+    return Trees.listElementsWithClassNames(self, classNames)
+  }
 
   public func createElement(localName: DOMString) -> pElement { return Element()}
   public func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pElement {return Element()}
@@ -65,6 +141,11 @@ public class Document: Node, pDocument {
   public func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {return TreeWalker()}
 
   override init() {
+    mURL = "about:blank"
+    mMode = "no-quirks"
+    type = "xml"
+    mInputEncoding = "utf-8"
+    mContentType = "application/xml"
     super.init()
   }
 }

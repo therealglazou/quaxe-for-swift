@@ -371,26 +371,26 @@ public class Node: EventTarget, pNode {
     var copy: Node?
     switch self.nodeType {
       case Node.DOCUMENT_NODE:
-        var d = Document()
+        let d = Document()
         d.mInputEncoding = (self as! Document).inputEncoding
         d.mContentType = (self as! Document).contentType
         d.mURL = (self as! Document).URL
         d.type = (self as! Document).type
-        d.mCompatMode = (self as! Document).mode
+        d.mMode = (self as! Document).mMode
         copy = d
       case Node.DOCUMENT_TYPE_NODE:
-        var dt = DocumentType()
+        let dt = DocumentType()
         dt.mName = (self as! DocumentType).name
         dt.mPublicId = (self as! DocumentType).publicId
         dt.mSystemId = (self as! DocumentType).systemId
         copy = dt
       case Node.ELEMENT_NODE:
-        var e = Element()
+        let e = Element()
         e.mNamespaceURI = (self as! Element).namespaceURI
         e.mPrefix = (self as! Element).prefix
         e.mLocalName = (self as! Element).localName
 
-        var attributes = (self as! Element).attributes
+        let attributes = (self as! Element).attributes
         for attributeIndex in 0...attributes.length-1 {
           var a = attributes.item(attributeIndex)
           e.setAttributeNS(a!.namespaceURI, a!.localName, a!.value)
@@ -403,7 +403,7 @@ public class Node: EventTarget, pNode {
       case Node.PROCESSING_INSTRUCTION_NODE:
         copy = ProcessingInstruction((self as! ProcessingInstruction).target,
                                      (self as! ProcessingInstruction).data)
-
+      default: break
     }
 
     // Step 3

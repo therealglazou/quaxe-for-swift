@@ -122,4 +122,111 @@ internal class Trees {
     return rv
   }
 
+  static func _listElementsWithQualifiedName(root: pNode?, _ qualifiedName: DOMString, var _ elementArray: Array<Element>) -> Void {
+    var child = root
+    while nil != child {
+      if Node.ELEMENT_NODE == child!.nodeType {
+        if "*" == qualifiedName {
+          elementArray.append(child as! Element)
+        }
+        else if nil != child!.ownerDocument &&
+                "html" == child!.ownerDocument!.type {
+          if (child as! Element).namespaceURI == Namespaces.HTML_NAMESPACE &&
+             (child as! Element).qualifiedName.lowercaseString == qualifiedName.lowercaseString {
+            elementArray.append(child as! Element)
+          }
+          if (child as! Element).namespaceURI != Namespaces.HTML_NAMESPACE &&
+             (child as! Element).qualifiedName == qualifiedName {
+            elementArray.append(child as! Element)
+          }
+        }
+        else if (child as! Element).qualifiedName == qualifiedName {
+          elementArray.append(child as! Element)
+        }
+      }
+
+      if nil != child!.firstChild {
+        Trees._listElementsWithQualifiedName(child!.firstChild, qualifiedName, elementArray)
+      }
+
+      child = child!.nextSibling
+    }
+  }
+
+  static func listElementsWithQualifiedName(root: Node, _ qualifiedName: DOMString) -> HTMLCollection {
+    let elementArray: Array<Element> = []
+    Trees._listElementsWithQualifiedName(root.firstChild, qualifiedName, elementArray)
+    return HTMLCollection(elementArray)
+  }
+
+  static func _listElementsWithQualifiedNameAndNamespace(root: pNode?, _ namespace: DOMString?, _ localName: DOMString, var _ elementArray: Array<Element>) -> Void {
+    var child = root
+    while nil != child {
+      if Node.ELEMENT_NODE == child!.nodeType {
+        if "*" == namespace && "*" == localName {
+          elementArray.append(child as! Element)
+        }
+        else if "*" == namespace {
+          if (child as! Element).localName == localName {
+            elementArray.append(child as! Element)
+          }
+        }
+        else if "*" == localName {
+          if (child as! Element).namespaceURI == namespace {
+            elementArray.append(child as! Element)
+          }
+        }
+        else {
+          if (child as! Element).localName == localName &&
+             (child as! Element).namespaceURI == namespace {
+            elementArray.append(child as! Element)
+          }
+        }
+      }
+
+      if nil != child!.firstChild {
+        Trees._listElementsWithQualifiedNameAndNamespace(child!.firstChild, namespace, localName, elementArray)
+      }
+
+      child = child!.nextSibling
+    }
+  }
+
+  static func listElementsWithQualifiedNameAndNamespace(root: Node, var _ namespace: DOMString?, _ localName: DOMString) -> HTMLCollection {
+    let elementArray: Array<Element> = []
+    if "" == namespace {
+      namespace = nil
+    }
+    Trees._listElementsWithQualifiedNameAndNamespace(root.firstChild, namespace, localName, elementArray)
+    return HTMLCollection(elementArray)
+  }
+
+  static func _listElementsWithClassNames(root: pNode?, _ classes: Set<String>, var _ elementArray: Array<Element>) -> Void {
+    var child = root
+    while nil != child {
+      if Node.ELEMENT_NODE == child!.nodeType {
+        let elementClasses = OrderedSets.parse((child as! Element).className)
+        if elementClasses.isSubsetOf(classes) {
+          elementArray.append(child as! Element)
+        }
+      }
+
+      if nil != child!.firstChild {
+        Trees._listElementsWithClassNames(child!.firstChild, classes, elementArray)
+      }
+
+      child = child!.nextSibling
+    }
+  }
+
+  static func listElementsWithClassNames(root: Node, _ classNames: DOMString) -> HTMLCollection {
+    let classes = OrderedSets.parse(classNames)
+    if classes.isEmpty {
+      return HTMLCollection()
+    }
+
+    let elementArray: Array<Element> = []
+    Trees._listElementsWithClassNames(root.firstChild, classes, elementArray)
+    return HTMLCollection(elementArray)
+  }
 }
