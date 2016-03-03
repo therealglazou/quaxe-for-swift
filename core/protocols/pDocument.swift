@@ -29,18 +29,18 @@ public protocol pDocument: pNode {
   func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection
   func getElementsByClassName(classNames: DOMString) -> pHTMLCollection
 
-  func createElement(localName: DOMString) -> pElement
-  func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pElement
+  func createElement(localName: DOMString) throws -> pElement
+  func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pElement
   func createDocumentFragment() -> pDocumentFragment
   func createTextNode(data: DOMString) -> pText
-  func createComment(data: DOMString) -> pText
-  func createProcessingInstruction(target: DOMString, _ data: DOMString) -> pProcessingInstruction
+  func createComment(data: DOMString) -> pComment
+  func createProcessingInstruction(target: DOMString, _ data: DOMString) throws -> pProcessingInstruction
 
-  func importNode(node: pNode, _ deep: Bool) -> pNode
-  func adoptNode(node: pNode) -> pNode
+  func importNode(node: pNode, _ deep: Bool) throws -> pNode
+  func adoptNode(node: pNode) throws -> pNode
 
-  func createAttribute(localName: DOMString) -> pAttr
-  func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pAttr
+  func createAttribute(localName: DOMString) throws -> pAttr
+  func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr
 
   func createEvent(interface: DOMString) -> pEvent
 

@@ -120,18 +120,133 @@ public class Document: Node, pDocument {
     return Trees.listElementsWithClassNames(self, classNames)
   }
 
-  public func createElement(localName: DOMString) -> pElement { return Element()}
-  public func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pElement {return Element()}
-  public func createDocumentFragment() -> pDocumentFragment {return DocumentFragment()}
-  public func createTextNode(data: DOMString) -> pText {return Text()}
-  public func createComment(data: DOMString) -> pText {return Text()}
-  public func createProcessingInstruction(target: DOMString, _ data: DOMString) -> pProcessingInstruction {return ProcessingInstruction()}
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createelement
+   */
+  public func createElement(var localName: DOMString) throws -> pElement {
+    //Step 1
+    try Namespaces.validateAsXMLName(localName)
 
-  public func importNode(node: pNode, _ deep: Bool) -> pNode {return Node()}
-  public func adoptNode(node: pNode) -> pNode {return Node()}
+    // Step 2
+    if self.type == "html" {
+        localName = localName.lowercaseString 
+    }
 
-  public func createAttribute(localName: DOMString) -> pAttr {return Attr()}
-  public func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> pAttr {return Attr()}
+    let rv = Element()
+    rv.mNamespaceURI = Namespaces.HTML_NAMESPACE
+    rv.mLocalName = localName
+    rv.mOwnerDocument = self
+
+    return rv
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createelementns
+   */
+  public func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pElement {
+    let dict: Dictionary<DOMString, DOMString?> = try Namespaces.validateAndExtract(namespace, qualifiedName)
+
+    let rv = Element()
+    if let n = dict["namespace"] {
+      rv.mNamespaceURI = n
+    }
+    rv.mLocalName = dict["localName"]!!
+    if let p = dict["prefix"] {
+      rv.mPrefix = p
+    }
+    rv.mOwnerDocument = self
+
+    return rv
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createdocumentfragment
+   */
+  public func createDocumentFragment() -> pDocumentFragment {
+    let rv = DocumentFragment()
+    rv.mOwnerDocument = self
+    return rv
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createtextnode
+   */
+  public func createTextNode(data: DOMString) -> pText {
+    let rv = Text(data)
+    rv.mOwnerDocument = self
+    return rv
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createcomment
+   */
+  public func createComment(data: DOMString) -> pComment {
+    let rv = Comment(data)
+    rv.mOwnerDocument = self
+    return rv
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createprocessinginstruction
+   */
+  public func createProcessingInstruction(target: DOMString, _ data: DOMString) throws -> pProcessingInstruction {
+    try Namespaces.validateAsXMLName(target)
+
+    if data.rangeOfString("?>") != nil {
+      throw Exception.InvalidCharacterError
+    }
+
+    let rv = ProcessingInstruction(target, data)
+    rv.mOwnerDocument = self
+    return rv
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-importnode
+   */
+  public func importNode(node: pNode, _ deep: Bool) throws -> pNode {
+    if node.nodeType == Node.DOCUMENT_NODE {
+      throw Exception.NotSupportedError
+    }
+    return (node as! Node)._clone(self, deep)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-adoptnode
+   */
+  public func adoptNode(node: pNode) throws -> pNode {
+    if node.nodeType == Node.DOCUMENT_NODE {
+      throw Exception.NotSupportedError
+    }
+
+    MutationAlgorithms.adopt(node as! Node, self)
+    return node
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createattribute
+   */
+  public func createAttribute(var localName: DOMString) throws -> pAttr {
+    try Namespaces.validateAsXMLName(localName)
+
+    if self.type == "html" {
+      localName = localName.lowercaseString 
+    }
+
+    return Attr(localName)
+  }
+  public func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr {
+    let dict: Dictionary<DOMString, DOMString?> = try Namespaces.validateAndExtract(namespace, qualifiedName)
+
+    let rv = Attr(dict["localName"]!!)
+    if let n = dict["namespace"] {
+      rv.mNamespaceURI = n
+    }
+    if let p = dict["prefix"] {
+      rv.mPrefix = p
+    }
+    return rv
+  }
 
   public func createEvent(interface: DOMString) -> pEvent {return Event("", [:])}
 

@@ -84,7 +84,7 @@ public class Attr: pAttr {
 
   init() {}
 
-  init(givenName: DOMString) {
+  init(_ givenName: DOMString) {
     mLocalName = givenName
   }
 

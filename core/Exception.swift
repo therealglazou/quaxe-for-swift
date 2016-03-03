@@ -17,4 +17,5 @@ enum Exception: ErrorType {
   case InvalidCharacterError
   case InvalidStateError
   case NamespaceError
+  case NotSupportedError
 }
