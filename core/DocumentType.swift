@@ -12,10 +12,13 @@
 
 public class DocumentType: Node, pDocumentType {
 
+  internal var mName: DOMString = ""
+  internal var mPublicId: DOMString = ""
+  internal var mSystemId: DOMString = ""
 
-  public var name: DOMString = ""
-  public var publicId: DOMString = ""
-  public var systemId: DOMString = ""
+  public var name: DOMString { return mName }
+  public var publicId: DOMString { return mPublicId }
+  public var systemId: DOMString { return mSystemId }
 
   override init() {
     super.init()
