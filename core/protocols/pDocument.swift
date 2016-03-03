@@ -26,7 +26,7 @@ public protocol pDocument: pNode {
   var doctype: pDocumentType? { get }
   var documentElement: pElement? { get }
   func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection
-  func getElementsByTagNameNS(namespace: DOMString, _ localName: DOMString) -> pHTMLCollection
+  func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection
   func getElementsByClassName(classNames: DOMString) -> pHTMLCollection
 
   func createElement(localName: DOMString) -> pElement
