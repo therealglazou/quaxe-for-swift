@@ -10,7 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
 
 public class Document: Node, pDocument {
 
@@ -237,6 +236,10 @@ public class Document: Node, pDocument {
 
     return Attr(localName)
   }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createattributens
+   */
   public func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr {
     let dict: Dictionary<DOMString, DOMString?> = try Namespaces.validateAndExtract(namespace, qualifiedName)
 
@@ -250,7 +253,30 @@ public class Document: Node, pDocument {
     return rv
   }
 
-  public func createEvent(interface: DOMString) -> pEvent {return Event("", [:])}
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createevent
+   */
+  public func createEvent(interface: DOMString) throws -> pEvent {
+    var rv: pEvent
+    switch interface {
+      case "customevent": rv = CustomEvent("", [:])
+      case "event",
+           "events",
+           "htmlevents":  rv = Event("", [:])
+      case "keyboardevent",
+           "messageevent",
+           "mouseevent",
+           "mouseevents",
+           "touchevent",
+           "uievent",
+           "uievents": rv = EventCreator.createEvent("", [:])
+      default: throw Exception.NotSupportedError
+    }
+
+    (rv as! Event).unsetFlag(Event.INITIALIZED_FLAG)
+    
+    return rv
+  }
 
   public func createRange() -> pDOMRange {return DOMRange()}
 
@@ -265,4 +291,8 @@ public class Document: Node, pDocument {
     mContentType = "application/xml"
     super.init()
   }
+}
+
+extension Document {
+  static let foo: Int = 1
 }

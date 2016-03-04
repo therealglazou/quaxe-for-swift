@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class Node: EventTarget, pNode {
 
   static let ELEMENT_NODE: ushort                 = 1;

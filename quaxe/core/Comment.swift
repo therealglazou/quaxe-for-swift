@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class Comment: CharacterData, pComment {
   override init() {}
 

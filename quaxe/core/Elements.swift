@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class Elements: pElements {
   public func query(relativeSelectors: DOMString) -> pElement? {
     // TODO

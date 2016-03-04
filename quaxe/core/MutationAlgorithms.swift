@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 internal class MutationAlgorithms {
 
   /**

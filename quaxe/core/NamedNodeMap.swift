@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class NamedNodeMap: pNamedNodeMap {
   public var length: ulong = 0
   public func item(index: ulong) -> pAttr? {return nil}

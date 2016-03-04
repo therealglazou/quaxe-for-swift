@@ -11,8 +11,6 @@
  */
 
 import Foundation
-import QuaxeCoreProtocols
-
 public class Event: pEvent {
   static let NONE: ushort = 0
   static let CAPTURING_PHASE: ushort = 1

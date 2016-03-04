@@ -42,7 +42,7 @@ public protocol pDocument: pNode {
   func createAttribute(localName: DOMString) throws -> pAttr
   func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr
 
-  func createEvent(interface: DOMString) -> pEvent
+  func createEvent(interface: DOMString) throws -> pEvent
 
   func createRange() -> pDOMRange
 

@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class NodeIterator: pNodeIterator {
   internal func preRemovingSteps(node: Node) {}
   public var root: pNode = Node()

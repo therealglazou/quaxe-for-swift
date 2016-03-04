@@ -10,10 +10,6 @@
  * 
  */
 
-public class DocumentFragment: Node, pDocumentFragment {
-
-
-  override init() {
-    super.init()
-  }
+public protocol pEventCreator {
+  static func createEvent(interface: DOMString, _ aEventInitDict: Dictionary<String, Any>) -> pEvent
 }

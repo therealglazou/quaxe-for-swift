@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 internal class Namespaces {
 
   static let HTML_NAMESPACE  = "http://www.w3.org/1999/xhtml"

@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class DocumentType: Node, pDocumentType {
 
   internal var mName: DOMString = ""

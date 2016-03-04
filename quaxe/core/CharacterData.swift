@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class CharacterData: Node, pCharacterData {
 
 

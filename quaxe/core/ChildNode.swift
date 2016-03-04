@@ -11,8 +11,6 @@
  */
 
 import QuaxeUtils
-import QuaxeCoreProtocols
-
 /*
  * https://dom.spec.whatwg.org/#childnode
  */

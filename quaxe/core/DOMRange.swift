@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class DOMRange: pDOMRange {
   public var startContainer: pNode? // XXXX
   public var startOffset: ulong = 0

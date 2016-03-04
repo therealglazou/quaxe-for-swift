@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 internal struct EventListenerStruct: Equatable {
   var type: DOMString
   var callback: AnyObject?

@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 /*
  * https://dom.spec.whatwg.org/#nonelementparentnode
  */

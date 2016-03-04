@@ -10,8 +10,6 @@
  * 
  */
 
-import QuaxeCoreProtocols
-
 public class DOMTokenList: pDOMTokenList {
   public var length: ulong = 0
   public func item(index: ulong) -> DOMString? {return ""}
