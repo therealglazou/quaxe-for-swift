@@ -42,7 +42,7 @@ public class DOMImplementation: pDOMImplementation {
 
     // Step 3
     if nil != qualifiedName && !qualifiedName!.isEmpty {
-      try element = doc.createElementNS(namespace, qualifiedName!)
+      element = try doc.createElementNS(namespace, qualifiedName!)
     }
 
     // Step 4
@@ -61,7 +61,50 @@ public class DOMImplementation: pDOMImplementation {
     // Step 7
     return doc
   }
-  public func createHTMLDocument(title: DOMString) -> pDocument {return Document()}
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-domimplementation-createhtmldocument
+   */
+  public func createHTMLDocument(title: DOMString? = nil) throws -> pDocument {
+    // Step 1
+    let doc = Document()
+    doc.type = "html"
+
+    // Step 2
+    doc.mContentType = "text/html"
+
+    // Step 3
+    let dt = try createDocumentType("html", "", "")
+    try MutationAlgorithms.append(dt as! Node, doc)
+
+    // Step 4
+    let htmlElement = try doc.createElementNS(Namespaces.HTML_NAMESPACE, "html")
+    try MutationAlgorithms.append(htmlElement as! Node, doc)
+
+    // Step 5
+    let headElement = try doc.createElementNS(Namespaces.HTML_NAMESPACE, "head")
+    try MutationAlgorithms.append(headElement as! Node, htmlElement as! Node)
+
+    // Step 6
+    if let t = title {
+      // Step 6.1
+      let titleElement = try doc.createElementNS(Namespaces.HTML_NAMESPACE, "title")
+      try MutationAlgorithms.append(titleElement as! Node, headElement as! Node)
+
+      let textNode = doc.createTextNode(t)
+      try MutationAlgorithms.append(textNode as! Node, titleElement as! Node)
+    }
+
+    // Step 7
+    let bodyElement = try doc.createElementNS(Namespaces.HTML_NAMESPACE, "head")
+    try MutationAlgorithms.append(bodyElement as! Node, htmlElement as! Node)
+
+    // Step 8
+    // explicitely not implemented by Quaxe
+
+    // Step 9
+    return doc
+  }
 
   public func hasFeatures() -> Bool {return true}
 
