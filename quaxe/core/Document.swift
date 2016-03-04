@@ -290,7 +290,16 @@ public class Document: Node, pDocument {
     return r
   }
 
-  public func createNodeIterator(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator {return NodeIterator()}
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createnodeiterator
+   */
+  public func createNodeIterator(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator {
+    let ni = NodeIterator(root)
+    ni.mPointerBeforeReferenceNode = true
+    ni.mWhatToShow = whatToShow
+    ni.mFilter = filter
+    return ni
+  }
   public func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {return TreeWalker()}
 
   override init() {

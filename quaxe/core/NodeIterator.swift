@@ -11,17 +11,28 @@
  */
 
 public class NodeIterator: pNodeIterator {
+
+  internal var mRoot: pNode
+  internal var mReferenceNode: pNode
+  internal var mWhatToShow: ulong = 0
+  internal var mPointerBeforeReferenceNode: Bool = true
+  internal var mFilter: pNodeFilter?
+
   internal func preRemovingSteps(node: Node) {}
-  public var root: pNode = Node()
-  public var referenceNode: pNode = Node()
-  public var pointerBeforeReferenceNode: Bool = false
-  public var whatToShow: ulong = 0
-  public var filter: pNodeFilter? 
+
+  public var root: pNode { return mRoot }
+  public var referenceNode: pNode { return mReferenceNode }
+  public var pointerBeforeReferenceNode: Bool { return mPointerBeforeReferenceNode }
+  public var whatToShow: ulong { return mWhatToShow }
+  public var filter: pNodeFilter? { return mFilter }
 
   public func nextNode() -> pNode? {return nil}
   public func previousNode() -> pNode? {return nil}
 
   public func detach() -> Void {}
 
-  init() {}
+  init(_ root: pNode) {
+    mRoot = root
+    mReferenceNode = root
+  }
 }
