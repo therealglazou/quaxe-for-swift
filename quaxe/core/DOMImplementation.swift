@@ -29,7 +29,38 @@ public class DOMImplementation: pDOMImplementation {
     dt.mSystemId = systemId
     return dt
   }
-  public func createDocument(namespace: DOMString?, _ qualifiedName: DOMString?, _ doctype: pDocumentType) -> pXMLDocument {return Document()}
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-domimplementation-createdocument
+   */
+  public func createDocument(namespace: DOMString?, _ qualifiedName: DOMString?, _ doctype: pDocumentType? = nil) throws -> pXMLDocument {
+    // Step 1
+    let doc = Document()
+
+    // Step 2
+    var element: pElement? = nil
+
+    // Step 3
+    if nil != qualifiedName && !qualifiedName!.isEmpty {
+      try element = doc.createElementNS(namespace, qualifiedName!)
+    }
+
+    // Step 4
+    if nil != doctype {
+      try MutationAlgorithms.append(doctype as! Node, doc)
+    }
+
+    // Step 5
+    if nil != element {
+      try MutationAlgorithms.append(element as! Node, doc)
+    }
+
+    // Step 6
+    // Explicitely not implemented here
+
+    // Step 7
+    return doc
+  }
   public func createHTMLDocument(title: DOMString) -> pDocument {return Document()}
 
   public func hasFeatures() -> Bool {return true}
