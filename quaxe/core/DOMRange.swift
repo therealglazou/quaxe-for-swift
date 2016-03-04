@@ -10,11 +10,21 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-range
+ */
 public class DOMRange: pDOMRange {
-  public var startContainer: pNode? // XXXX
-  public var startOffset: ulong = 0
-  public var endContainer: pNode?
-  public var endOffset: ulong = 0
+
+  internal var mStartContainer: pNode? = nil
+  internal var mStartOffset: ulong = 0
+  internal var mEndContainer: pNode? = nil
+  internal var mEndOffset: ulong = 0
+
+  public var startContainer: pNode? { return mStartContainer }
+  public var startOffset: ulong { return mStartOffset }
+  public var endContainer: pNode? { return mEndContainer }
+  public var endOffset: ulong { return mEndOffset }
+
   public var collapsed: Bool = false
   public var commonAncestorContainer: pNode?
 

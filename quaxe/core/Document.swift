@@ -278,7 +278,17 @@ public class Document: Node, pDocument {
     return rv
   }
 
-  public func createRange() -> pDOMRange {return DOMRange()}
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createrange
+   */
+  public func createRange() -> pDOMRange {
+    let r = DOMRange()
+    r.mStartContainer = self
+    r.mEndContainer = self
+    r.mStartOffset = 0
+    r.mEndOffset = 0
+    return r
+  }
 
   public func createNodeIterator(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator {return NodeIterator()}
   public func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {return TreeWalker()}
