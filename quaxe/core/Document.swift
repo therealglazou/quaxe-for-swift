@@ -300,7 +300,16 @@ public class Document: Node, pDocument {
     ni.mFilter = filter
     return ni
   }
-  public func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {return TreeWalker()}
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-document-createtreewalker
+   */
+  public func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {
+    let tw = TreeWalker(root)
+    tw.mWhatToShow = whatToShow
+    tw.mFilter = filter
+    return tw
+  }
 
   override init() {
     mURL = "about:blank"
