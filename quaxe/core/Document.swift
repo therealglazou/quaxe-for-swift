@@ -320,7 +320,3 @@ public class Document: Node, pDocument {
     super.init()
   }
 }
-
-extension Document {
-  static let foo: Int = 1
-}
