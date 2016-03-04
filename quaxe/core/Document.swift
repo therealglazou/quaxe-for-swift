@@ -320,3 +320,5 @@ public class Document: Node, pDocument {
     super.init()
   }
 }
+
+public typealias XMLDocument = Document
