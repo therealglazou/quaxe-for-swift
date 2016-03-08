@@ -12,19 +12,25 @@
 
 extension String
 {
-    subscript(integerIndex: Int) -> Character
+    public subscript(integerIndex: Int) -> UnicodeScalar 
     {
-        return self[self.startIndex.advancedBy(integerIndex)]
+        return self.unicodeScalars[self.unicodeScalars.startIndex.advancedBy(integerIndex)]
     }
 
-    subscript(integerRange: Range<Int>) -> String
+    public subscript(integerRange: Range<Int>) -> UnicodeScalarView
     {
-        let start = self.startIndex.advancedBy(integerRange.startIndex)
-        let end = self.startIndex.advancedBy(integerRange.endIndex)
-        return self[start..<end]
+        let start = self.unicodeScalars.startIndex.advancedBy(integerRange.startIndex)
+        let end = self.unicodeScalars.startIndex.advancedBy(integerRange.endIndex)
+        return self.unicodeScalars[start..<end]
     }
 
     public func length() -> Int {
-      return self.characters.count
+      return self.unicodeScalars.count
+    }
+
+    public func substr(from: Int, _ to: Int) -> String {
+        let start = self.startIndex.advancedBy(from)
+        let end = self.startIndex.advancedBy(from + to)
+        return self[start..<end]
     }
 }
