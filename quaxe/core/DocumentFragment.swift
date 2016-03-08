@@ -10,6 +10,9 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-documentfragment
+ */
 public class DocumentFragment: Node, pDocumentFragment {
 
 

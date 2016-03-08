@@ -18,4 +18,11 @@ enum Exception: ErrorType {
   case InvalidStateError
   case NamespaceError
   case NotSupportedError
+
+  case CDATADeclarationExpected
+  case DOCTYPEDeclarationExpected
+  case COMMENTDeclarationExpected
+  case NODE_NAMEDeclarationExpected
+  case ATTRIBUTE_NAMEDeclarationExpected
+  case SyntaxError
 }
