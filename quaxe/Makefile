@@ -74,6 +74,7 @@ SOURCES += \
 		core/Text.swift \
 		core/TreeWalker.swift \
 		core/Trees.swift \
+		core/XMLParser.swift \
 		$(NULL)
 
 SOURCES += \
