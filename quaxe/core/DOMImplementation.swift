@@ -106,6 +106,9 @@ public class DOMImplementation: pDOMImplementation {
     return doc
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
+   */
   public func hasFeatures() -> Bool {return true}
 
   init() {}
