@@ -32,6 +32,9 @@ public class CharacterData: Node, pCharacterData {
     return ulong(data.unicodeScalars.count)
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#concept-cd-substring
+   */
   static internal func _substringData(node: pCharacterData, _ offset: ulong, _ count: ulong) throws -> DOMString {
     // Step 1
     let length = node.length
@@ -52,6 +55,9 @@ public class CharacterData: Node, pCharacterData {
     return String(node.data.unicodeScalars[index1..<index2])
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#concept-cd-replace
+   */
   static internal func _replaceData(node: pCharacterData, _ offset: ulong, var _ count: ulong, _ str: DOMString) throws -> Void {
     // Step 1
     let length = node.length
@@ -106,22 +112,37 @@ public class CharacterData: Node, pCharacterData {
     })
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-characterdata-substringdata
+   */
   public func substringData(offset: ulong, _ count: ulong) throws -> DOMString {
     return try CharacterData._substringData(self, offset, count)
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-characterdata-appenddata
+   */
   public func appendData(str: DOMString) throws -> Void {
     try CharacterData._replaceData(self, self.length, 0, str)
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-characterdata-insertdata
+   */
   public func insertData(offset: ulong, _ str: DOMString) throws -> Void {
     try CharacterData._replaceData(self, offset, 0, str)
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-characterdata-deletedata
+   */
   public func deleteData(offset: ulong, _ count: ulong) throws -> Void {
     try CharacterData._replaceData(self, offset, count, "")
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-characterdata-replacedata
+   */
   public func replaceData(offset: ulong, _ count: ulong, _ str: DOMString) throws -> Void {
     try CharacterData._replaceData(self, offset, count, str)
   }
