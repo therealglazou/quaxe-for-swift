@@ -10,12 +10,26 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-characterdata
+ * 
+ * status: done
+ */
 public class CharacterData: Node, pCharacterData {
 
-
+  /**
+   * https://dom.spec.whatwg.org/#dom-characterdata-data
+   * 
+   * Cannot TreatNullAsEmptyString here because it would imply
+   * unwrapping the string every time <CharacterData>.data is accessed...
+   */
   public var data: DOMString = ""
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-characterdata-length
+   */
   public var length: ulong {
-    return ulong(data.characters.count)
+    return ulong(data.unicodeScalars.count)
   }
 
   static internal func _substringData(node: pCharacterData, _ offset: ulong, _ count: ulong) throws -> DOMString {
@@ -27,15 +41,15 @@ public class CharacterData: Node, pCharacterData {
       throw Exception.IndexSizeError
     }
 
-    let index1 = node.data.startIndex.advancedBy(Int(offset))
-    let index2 = node.data.startIndex.advancedBy(Int(offset + count))
+    let index1 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset))
+    let index2 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset + count))
     // Step 3
     if offset + count > length {
-      return  node.data.substringFromIndex(index1)
+      return  String(node.data.unicodeScalars[index1..<node.data.unicodeScalars.endIndex])
     }
 
     // Step 4
-    return node.data.substringWithRange(index1...index2)
+    return String(node.data.unicodeScalars[index1..<index2])
   }
 
   static internal func _replaceData(node: pCharacterData, _ offset: ulong, var _ count: ulong, _ str: DOMString) throws -> Void {
@@ -56,10 +70,10 @@ public class CharacterData: Node, pCharacterData {
     MutationUtils.queueMutationRecord(node as! Node, "characterData", nil, nil, node.data, nil, nil, nil, nil)
 
     // Step 5, 6 and 7
-    let index1 = node.data.startIndex.advancedBy(Int(offset))
-    let index2 = node.data.startIndex.advancedBy(Int(offset + count))
-    let preData = node.data.substringToIndex(index1)
-    let postData = node.data.substringFromIndex(index2)
+    let index1 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset))
+    let index2 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset + count))
+    let preData = String(node.data.unicodeScalars[node.data.unicodeScalars.startIndex..<index1])
+    let postData = String(node.data.unicodeScalars[index2..<node.data.unicodeScalars.endIndex])
     (node as! CharacterData).data = preData + str + postData
 
     let rangeCollection = ((node as! Node).ownerDocument as! Document).rangeCollection
@@ -80,14 +94,14 @@ public class CharacterData: Node, pCharacterData {
     // Step 10
     rangeCollection.forEach( {
       if ($0.startContainer as! Node === node as! Node && $0.startOffset > offset + count) {
-        $0.setStart($0.startContainer!, $0.startOffset + ulong(str.characters.count) - count);
+        $0.setStart($0.startContainer!, $0.startOffset + ulong(str.unicodeScalars.count) - count);
       }
     })
 
     // Step 11
     rangeCollection.forEach( {
       if ($0.endContainer as! Node === node as! Node && $0.endOffset > offset + count) {
-        $0.setEnd($0.endContainer!, $0.endOffset + ulong(str.characters.count) - count);
+        $0.setEnd($0.endContainer!, $0.endOffset + ulong(str.unicodeScalars.count) - count);
       }
     })
   }
