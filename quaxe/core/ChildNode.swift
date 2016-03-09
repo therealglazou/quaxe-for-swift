@@ -10,9 +10,12 @@
  * 
  */
 
-import QuaxeUtils
+import QuaxeUtils // Either
+
 /*
  * https://dom.spec.whatwg.org/#childnode
+ * 
+ * status: done
  */
 public class ChildNode {
 
