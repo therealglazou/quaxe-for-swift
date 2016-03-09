@@ -10,6 +10,12 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-attr
+ * 
+ * status: done
+ */
+
 public class Attr: pAttr {
 
   internal var mNamespaceURI: DOMString?
@@ -19,21 +25,29 @@ public class Attr: pAttr {
   internal var mOwnerElement: pElement?
 
   /**
-   * https://dom.spec.whatwg.org/#interface-attr
+   * https://dom.spec.whatwg.org/#dom-attr-namespaceuri
    */
-
   public var namespaceURI: DOMString? {
     return mNamespaceURI
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-attr-prefix
+   */
   public var prefix: DOMString? {
     return mPrefix
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-attr-localname
+   */
   public var localName: DOMString {
     return mLocalName
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-attr-name
+   */
   public var name: DOMString {
     var rv: DOMString = ""
     if nil != mPrefix {
@@ -43,6 +57,14 @@ public class Attr: pAttr {
     return rv
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-attr-nodename
+   */
+  public var nodeName: DOMString { return self.name }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-attr-value
+   */
   public var value: DOMString {
     get {
       return mValue
@@ -76,10 +98,16 @@ public class Attr: pAttr {
     }
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-attr-ownerelement
+   */
   public var ownerElement: pElement? {
     return mOwnerElement
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#dom-attr-specified
+   */
   public var specified: Bool { return true }
 
   init() {}
