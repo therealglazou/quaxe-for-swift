@@ -3,6 +3,39 @@ Quaxe for Swift
 
 Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as build system
 
+    Attr.swift:                     * status: done
+    CharacterData.swift:            * status: done
+    ChildNode.swift:                * status: done
+    Comment.swift:                  * status: done
+    CustomEvent.swift:              * status: done
+    DOMImplementation.swift:        * status: done
+    DOMRange.swift:                 * status: TODO 100%
+    DOMTokenList.swift:             * status: TODO 100%
+    Document.swift:                 * status: XXX rangeCollection, nodeIteratorCollection
+    DocumentFragment.swift:         * status: done
+    DocumentType.swift:             * status: done
+    Element.swift:                  * status: TODO 80%
+    Elements.swift:                 * status: TODO 100%
+    Event.swift:                    * status: done
+    EventTarget.swift:              * status: done
+    Exception.swift:                * status: TODO
+    HTMLCollection.swift:           * status: done
+    MutationAlgorithms.swift:       * status: done
+    MutationUtils.swift:            * status: TODO 100%
+    NamedNodeMap.swift:             * status: TODO 100%
+    Namespaces.swift:               * status: done
+    Node.swift:                     * status: TODO 15%
+    NodeIterator.swift:             * status: TODO 100%
+    NodeList.swift:                 * status: done
+    NonDocumentTypeChildNode.swift: * status: done
+    NonElementParentNode.swift:     * status: done
+    OrderedSets.swift:              * status: done, optimize with Foundation?
+    ParentNode.swift:               * status: TODO 50%, querySelector and friends
+    ProcessingInstruction.swift:    * status: done
+    Text.swift:                     * status: TODO 100%
+    TreeWalker.swift:               * status: TODO 100%
+    Trees.swift:                    * status: done
+
 ###Download and Build instructions
 
 (tested on OS X 10.11.3 and Xcode 7.2.1 (7C1002)
