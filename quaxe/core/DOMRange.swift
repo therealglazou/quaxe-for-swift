@@ -59,4 +59,8 @@ public class DOMRange: pDOMRange {
   public func toString() -> DOMString {return ""}
 
   init() {}
+
+  // we absolutely need the deiniter because the documents holds a collection
+  // of existing ranges and we need to clean that up when the range is deleted
+  deinit {}
 }
