@@ -49,6 +49,8 @@ Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as bu
 
 `utils/Either.swift` and `utils/Combinators.swift` are (c) 2014 Maxwell Swadling and used user the BSD License (Cf. https://github.com/typelift/Swiftx)
 
+`quaxe/core/XMLParser.swift` is (c) 2005-2012 Haxe Foundation and used under the [Haxe libraries license](http://old.haxe.org/doc/license#the-haxe-libraries-license)
+
 ###License
 
 MPL 2.0
