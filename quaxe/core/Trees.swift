@@ -231,4 +231,32 @@ internal class Trees {
     Trees._listElementsWithClassNames(root.firstChild, classes, elementArray)
     return HTMLCollection(elementArray)
   }
+
+  static func length(node: Node) -> ulong {
+    switch node.nodeType {
+      case Node.DOCUMENT_TYPE_NODE: return 0
+      case Node.TEXT_NODE,
+           Node.COMMENT_NODE,
+           Node.PROCESSING_INSTRUCTION_NODE: return (node as! CharacterData).length
+      default: return node.childNodes.length
+    }
+  }
+
+  static func nextInTraverseOrder(node: Node) -> pNode? {
+    if nil != node.firstChild {
+      return node.firstChild
+    }
+    if nil != node.nextSibling {
+      return node.nextSibling
+    }
+
+    var parent = node.parentNode
+    while nil != parent && nil == parent!.nextSibling {
+      parent = parent!.parentNode
+    }
+    if nil != parent {
+      return parent!.nextSibling
+    }
+    return nil
+  }
 }
