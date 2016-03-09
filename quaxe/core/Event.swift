@@ -11,7 +11,14 @@
  */
 
 import Foundation
+
+/**
+ * https://dom.spec.whatwg.org/#interface-event
+ * 
+ * status: done
+ */
 public class Event: pEvent {
+
   static let NONE: ushort = 0
   static let CAPTURING_PHASE: ushort = 1
   static let AT_TARGET: ushort = 1

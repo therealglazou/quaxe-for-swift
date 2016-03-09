@@ -10,7 +10,19 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-processinginstruction
+ * 
+ * status: done
+ */
 public class ProcessingInstruction: CharacterData, pProcessingInstruction {
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-processinginstruction-target
+   * 
+   * Making 'target' read-only in spec is ridiculous and counter-productive for
+   * editing environments; making it read-write here...
+   */
   public var target: DOMString = ""
 
   override init() {}

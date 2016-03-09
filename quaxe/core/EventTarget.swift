@@ -34,6 +34,11 @@ func == (lhs: EventListenerStruct, rhs: EventListenerStruct) -> Bool {
          lhs.passive == rhs.passive
 }
 
+/**
+ * https://dom.spec.whatwg.org/#interface-eventtarget
+ * 
+ * status: done
+ */
 public class EventTarget: pEventTarget {
 
   internal var mEventListenersArray: Array<EventListenerStruct>

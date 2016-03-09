@@ -13,6 +13,8 @@
 import QuaxeUtils
 /*
  * https://dom.spec.whatwg.org/#parentnode
+ * 
+ * status: TODO 50%, querySelector and friends
  */
 public class ParentNode {
 

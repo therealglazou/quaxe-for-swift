@@ -12,6 +12,8 @@
 
 /*
  * https://dom.spec.whatwg.org/#NonDocumentTypeChildNode
+ * 
+ * status: done
  */
 public class NonDocumentTypeChildNode {
 

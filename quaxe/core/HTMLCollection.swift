@@ -12,6 +12,8 @@
 
 /**
  * https://dom.spec.whatwg.org/#interface-htmlcollection
+ * 
+ * status: done
  */
 public class HTMLCollection: pHTMLCollection {
 

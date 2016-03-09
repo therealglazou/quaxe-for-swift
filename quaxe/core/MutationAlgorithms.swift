@@ -10,6 +10,11 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#mutation-algorithms
+ * 
+ * status: done
+ */
 internal class MutationAlgorithms {
 
   /**

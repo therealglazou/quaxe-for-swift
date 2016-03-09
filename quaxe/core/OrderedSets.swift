@@ -12,6 +12,8 @@
 
 /*
  * https://dom.spec.whatwg.org/#ordered%20sets
+ * 
+ * status: done, optimize with Foundation?
  */
 internal class OrderedSets {
 

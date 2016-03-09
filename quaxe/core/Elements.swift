@@ -10,6 +10,11 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#element-collections
+ * 
+ * status: TODO 100%
+ */
 public class Elements: pElements {
   public func query(relativeSelectors: DOMString) -> pElement? {
     // TODO

@@ -20,6 +20,14 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * Quaxe for Swift
+ *
+ * Contributors:
+ *   Daniel Glazman <daniel.glazman@disruptive-innovations.com>
+ * 
+ */
+
 import Foundation
 import QuaxeUtils
 

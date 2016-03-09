@@ -10,6 +10,11 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-nodeiterator
+ *
+ * status: TODO 100%
+ */
 public class NodeIterator: pNodeIterator {
 
   internal var mRoot: pNode

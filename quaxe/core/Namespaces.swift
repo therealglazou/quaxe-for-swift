@@ -10,6 +10,11 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#namespaces
+ * 
+ * status: done
+ */
 internal class Namespaces {
 
   static let HTML_NAMESPACE  = "http://www.w3.org/1999/xhtml"

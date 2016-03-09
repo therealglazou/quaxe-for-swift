@@ -10,6 +10,11 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-treewalker
+ * 
+ * status: TODO 100%
+ */
 public class TreeWalker: pTreeWalker {
 
   internal var mRoot: pNode

@@ -10,10 +10,12 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-element
+ * 
+ * status: TODO 80%
+ */
 public class Element: Node, pElement {
-
-
-  static let HTML_NAMESPACE: DOMString = "http://www.w3.org/1999/xhtml"
 
   internal var mNamespaceURI: DOMString?
   internal var mPrefix: DOMString?
@@ -34,7 +36,7 @@ public class Element: Node, pElement {
   public var tagName: DOMString {
     var qname = qualifiedName
     if let ns = mNamespaceURI {
-      if Element.HTML_NAMESPACE == ns {
+      if Namespaces.HTML_NAMESPACE == ns {
         if let d = ownerDocument {
           if d.type == "html" {
             qname = qname.uppercaseString

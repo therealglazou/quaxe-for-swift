@@ -10,6 +10,11 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-node
+ * 
+ * status: TODO 15%
+ */
 public class Node: EventTarget, pNode {
 
   static let ELEMENT_NODE: ushort                 = 1;
@@ -114,8 +119,6 @@ public class Node: EventTarget, pNode {
   override internal func getParent(event: Event) -> EventTarget? {
     return self.parentNode as? EventTarget
   }
-
-  /* public from pNode */
 
   /**
    * https://dom.spec.whatwg.org/#dom-node-nodetype

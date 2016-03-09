@@ -12,6 +12,8 @@
 
 /**
  * https://dom.spec.whatwg.org/#interface-domimplementation
+ * 
+ * status: done
  */
 public class DOMImplementation: pDOMImplementation {
 

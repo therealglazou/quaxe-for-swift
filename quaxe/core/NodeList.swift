@@ -12,6 +12,8 @@
 
 /**
  * https://dom.spec.whatwg.org/#interface-nodelist
+ * 
+ * status: done
  */
 public class NodeList: pNodeList {
   internal var mNodeArray: Array<pNode>

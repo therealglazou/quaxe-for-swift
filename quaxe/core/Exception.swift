@@ -10,6 +10,9 @@
  * 
  */
 
+/**
+ * status: TODO
+ */
 enum Exception: ErrorType {
   case IndexSizeError
   case HierarchyRequestError
