@@ -11,26 +11,26 @@
  */
 
 public protocol pDOMRange {
-  var startContainer: pNode? { get }
+  var startContainer: pNode { get }
   var startOffset: ulong { get }
-  var endContainer: pNode? { get }
+  var endContainer: pNode { get }
   var endOffset: ulong { get }
   var collapsed: Bool { get }
-  var commonAncestorContainer: pNode? { get }
+  var commonAncestorContainer: pNode { get }
 
   func setStart(node: pNode, _ offset: ulong);
   func setEnd(node: pNode, _ offset: ulong);
-  func setStartBefore(node: pNode) -> Void
-  func setStartAfter(node: pNode) -> Void
-  func setEndBefore(node: pNode) -> Void
-  func setEndAfter(node: pNode) -> Void
+  func setStartBefore(node: pNode) throws -> Void
+  func setStartAfter(node: pNode) throws -> Void
+  func setEndBefore(node: pNode) throws -> Void
+  func setEndAfter(node: pNode) throws -> Void
   func collapse(toStart: Bool) -> Void
-  func selectNode(nod: pNode) -> Void
-  func selectNodeContents(node: pNode) -> Void
+  func selectNode(node: pNode) throws -> Void
+  func selectNodeContents(node: pNode) throws -> Void
 
-  func compareBoundaryPoints(how: ushort, _ sourceRange: pDOMRange) -> short
+  func compareBoundaryPoints(how: ushort, _ sourceRange: pDOMRange) throws -> short
 
-  func deleteContents() -> Void
+  func deleteContents() throws -> Void
   func extractContents() -> pDocumentFragment
   func cloneContents() -> pDocumentFragment
   func insertNode(node: pNode) -> Void

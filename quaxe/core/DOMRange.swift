@@ -295,7 +295,6 @@ public class DOMRange: pDOMRange {
     }
 
     // Step 4
-    
   }
   public func extractContents() -> pDocumentFragment { return DocumentFragment()}
   public func cloneContents() -> pDocumentFragment { return DocumentFragment()}
