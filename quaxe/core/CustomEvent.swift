@@ -12,6 +12,8 @@
 
 /*
  * https://dom.spec.whatwg.org/#interface-customevent
+ * 
+ * status: done
  */
 public class CustomEvent: Event, pCustomEvent {
 

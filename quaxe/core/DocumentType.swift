@@ -20,7 +20,10 @@ public class DocumentType: Node, pDocumentType {
   public var publicId: DOMString { return mPublicId }
   public var systemId: DOMString { return mSystemId }
 
-  override init() {
+  init(_ name: DOMString, _ publicId: DOMString = "", _ systemId: DOMString = "") {
+    self.mName = name
+    self.mPublicId = publicId
+    self.mSystemId = systemId
     super.init()
   }
 }

@@ -12,9 +12,10 @@
 
 /**
  * https://dom.spec.whatwg.org/#interface-documentfragment
+ * 
+ * status: done
  */
 public class DocumentFragment: Node, pDocumentFragment {
-
 
   override init() {
     super.init()

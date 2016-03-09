@@ -10,6 +10,11 @@
  * 
  */
 
+/**
+ * https://dom.spec.whatwg.org/#interface-comment
+ * 
+ * status: done
+ */
 public class Comment: CharacterData, pComment {
   override init() {}
 

@@ -379,10 +379,9 @@ public class Node: EventTarget, pNode {
         d.mMode = (self as! Document).mMode
         copy = d
       case Node.DOCUMENT_TYPE_NODE:
-        let dt = DocumentType()
-        dt.mName = (self as! DocumentType).name
-        dt.mPublicId = (self as! DocumentType).publicId
-        dt.mSystemId = (self as! DocumentType).systemId
+        let dt = DocumentType((self as! DocumentType).name,
+                              (self as! DocumentType).publicId,
+                              (self as! DocumentType).systemId)
         copy = dt
       case Node.ELEMENT_NODE:
         let e = Element()

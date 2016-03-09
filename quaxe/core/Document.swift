@@ -10,7 +10,11 @@
  * 
  */
 
-
+/**
+ * https://dom.spec.whatwg.org/#interface-document
+ * 
+ * status: XXX rangeCollection, nodeIteratorCollection
+ */
 public class Document: Node, pDocument {
 
 

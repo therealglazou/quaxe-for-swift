@@ -23,11 +23,7 @@ public class DOMImplementation: pDOMImplementation {
     try Namespaces.validateQualifiedName(qualifiedName)
 
     // Step 2
-    let dt = DocumentType()
-    dt.mName = qualifiedName
-    dt.mPublicId = publicId
-    dt.mSystemId = systemId
-    return dt
+    return DocumentType(qualifiedName, publicId, systemId)
   }
 
   /**
