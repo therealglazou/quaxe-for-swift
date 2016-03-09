@@ -129,13 +129,13 @@ internal class MutationAlgorithms {
       // Step 2.1
       rangeCollection.forEach( {
         if ($0.startContainer as! Node === parent && $0.startOffset > index) {
-          $0.setStart($0.startContainer!, $0.startOffset + ulong(count));
+          $0.setStart($0.startContainer, $0.startOffset + ulong(count));
         }
       })
       // Step 2.2
       rangeCollection.forEach( {
         if ($0.endContainer as! Node === parent && $0.endOffset > index) {
-          $0.setEnd($0.endContainer!, $0.endOffset + ulong(count));
+          $0.setEnd($0.endContainer, $0.endOffset + ulong(count));
         }
       })
     }
@@ -402,14 +402,14 @@ internal class MutationAlgorithms {
     rangeCollection.forEach( {
       if ($0.startContainer as! Node) === parent &&
           $0.startOffset > index {
-        $0.setStart($0.startContainer!, $0.startOffset - 1);
+        $0.setStart($0.startContainer, $0.startOffset - 1);
       }
     })
     // Step 5
     rangeCollection.forEach( {
       if ($0.endContainer as! Node) === parent &&
           $0.endOffset > index {
-        $0.setEnd($0.endContainer!, $0.endOffset - 1);
+        $0.setEnd($0.endContainer, $0.endOffset - 1);
       }
     })
 

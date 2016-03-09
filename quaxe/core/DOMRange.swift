@@ -17,32 +17,286 @@
  */
 public class DOMRange: pDOMRange {
 
-  internal var mStartContainer: pNode? = nil
+  internal var mStartContainer: pNode?
   internal var mStartOffset: ulong = 0
-  internal var mEndContainer: pNode? = nil
+  internal var mEndContainer: pNode?
   internal var mEndOffset: ulong = 0
 
-  public var startContainer: pNode? { return mStartContainer }
+  /**
+   * https://dom.spec.whatwg.org/#concept-range-select
+   */
+  internal func _selectNode(node: Node) throws -> Void {
+    let parent = node.parentNode
+    if parent == nil {
+      throw Exception.InvalidNodeTypeError
+    }
+
+    let index = Trees.indexOf(node)
+    mStartContainer = parent!
+    mStartOffset = index
+    mEndContainer = parent!
+    mEndOffset = index + 1
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-startcontainer
+   */
+  public var startContainer: pNode { return mStartContainer! }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-startoffset
+   */
   public var startOffset: ulong { return mStartOffset }
-  public var endContainer: pNode? { return mEndContainer }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-endcontainer
+   */
+  public var endContainer: pNode { return mEndContainer! }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-endoffset
+   */
   public var endOffset: ulong { return mEndOffset }
 
-  public var collapsed: Bool = false
-  public var commonAncestorContainer: pNode?
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-collapsed
+   */
+  public var collapsed: Bool {
+    return self.startContainer as! Node === self.endContainer as! Node &&
+           self.startOffset == self.endOffset
+  }
 
-  public func setStart(node: pNode, _ offset: ulong)  {}
-  public func setEnd(node: pNode, _ offset: ulong)  {}
-  public func setStartBefore(node: pNode) -> Void {}
-  public func setStartAfter(node: pNode) -> Void {}
-  public func setEndBefore(node: pNode) -> Void {}
-  public func setEndAfter(node: pNode) -> Void {}
-  public func collapse(toStart: Bool) -> Void {}
-  public func selectNode(nod: pNode) -> Void {}
-  public func selectNodeContents(node: pNode) -> Void {}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-commonancestorcontainer
+   */
+  public var commonAncestorContainer: pNode {
+    var container: Node = self.startContainer as! Node
+    while !Trees.isInclusiveAncestorOf(container, self.endContainer as! Node) {
+      container = container.parentNode as! Node
+    }
+    return container
+  }
 
-  public func compareBoundaryPoints(how: ushort, _ sourceRange: pDOMRange) -> short {return 0}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-setstart
+   */
+  public func setStart(node: pNode, _ offset: ulong)  {
+    self.mStartContainer = node
+    self.mStartOffset = offset
+  }
 
-  public func deleteContents() -> Void {}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-setend
+   */
+  public func setEnd(node: pNode, _ offset: ulong)  {
+    self.mEndContainer = node
+    self.mEndOffset = offset
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-setstartbefore
+   */
+  public func setStartBefore(node: pNode) throws -> Void {
+    if let parent = node.parentNode {
+      self.setStart(parent, Trees.indexOf(node as! Node))
+      return
+    }
+
+    throw Exception.InvalidNodeTypeError
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-setstartafter
+   */
+  public func setStartAfter(node: pNode) throws -> Void {
+    if let parent = node.parentNode {
+      self.setStart(parent, Trees.indexOf(node as! Node) + 1)
+      return
+    }
+
+    throw Exception.InvalidNodeTypeError
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-setendbefore
+   */
+  public func setEndBefore(node: pNode) throws -> Void {
+    if let parent = node.parentNode {
+      self.setEnd(parent, Trees.indexOf(node as! Node))
+      return
+    }
+
+    throw Exception.InvalidNodeTypeError
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-setendafter
+   */
+  public func setEndAfter(node: pNode) throws -> Void {
+    if let parent = node.parentNode {
+      self.setEnd(parent, Trees.indexOf(node as! Node) + 1)
+      return
+    }
+
+    throw Exception.InvalidNodeTypeError
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-collapse
+   */
+  public func collapse(toStart: Bool = false) -> Void {
+    if toStart {
+      mEndContainer = mStartContainer
+      mEndOffset = mStartOffset
+    }
+    else {
+      mStartContainer = mEndContainer
+      mStartOffset = mEndOffset
+    }
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-selectnode
+   */
+  public func selectNode(node: pNode) throws -> Void {
+    try self._selectNode(node as! Node)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-selectnodecontents
+   */
+  public func selectNodeContents(node: pNode) throws -> Void {
+    if node.nodeType == Node.DOCUMENT_TYPE_NODE {
+      throw Exception.InvalidNodeTypeError
+    }
+
+    let length = Trees.length(node as! Node)
+    mStartContainer = node
+    mStartOffset = 0
+    mEndContainer = node
+    mEndOffset = length
+  }
+
+  static let START_TO_START: ushort = 0
+  static let START_TO_END: ushort   = 1
+  static let END_TO_END: ushort     = 2
+  static let END_TO_START: ushort   = 3
+
+  static let POSITION_EQUAL: short =   0
+  static let POSITION_BEFORE: short = -1
+  static let POSITION_AFTER: short =  +1
+
+  /*
+   * https://dom.spec.whatwg.org/#concept-range-bp-position
+   */
+  internal func _relativePosition(nodeA: Node, _ offsetA: ulong, _ nodeB: Node, _ offsetB: ulong) -> short {
+    if nodeA === nodeB {
+      if offsetA == offsetB {
+        return 0
+      }
+      if offsetA < offsetB {
+        return -1
+      }
+      return +1
+    }
+
+    if Trees.isFollowing(nodeA, nodeB) {
+      let position = self._relativePosition(nodeB, offsetB, nodeA, offsetA)
+      if position == DOMRange.POSITION_BEFORE {
+        return DOMRange.POSITION_AFTER
+      }
+      if position == DOMRange.POSITION_AFTER {
+        return DOMRange.POSITION_BEFORE
+      }
+    }
+
+    if Trees.isAncestorOf(nodeA, nodeB) {
+      var child: pNode = nodeB
+      while child.parentNode as! Node !== nodeA {
+        child = child.parentNode!
+      }
+      if Trees.indexOf(child as! Node) < offsetA {
+        return DOMRange.POSITION_AFTER
+      }
+    }
+
+    return DOMRange.POSITION_BEFORE
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-compareboundarypoints
+   */
+  public func compareBoundaryPoints(how: ushort, _ sourceRange: pDOMRange) throws -> short {
+    if how != DOMRange.START_TO_START &&
+       how != DOMRange.START_TO_END &&
+       how != DOMRange.END_TO_END &&
+       how != DOMRange.END_TO_START {
+      throw Exception.NotSupportedError
+    }
+
+    if Trees.getRootOf(mStartContainer as! Node) !== Trees.getRootOf(sourceRange.startContainer as! Node) {
+      throw Exception.WrongDocumentError
+    }
+
+    var thisPointNode: Node
+    var thisPointOffset: ulong
+    var otherPointNode: Node
+    var otherPointOffset: ulong
+    switch how {
+      case DOMRange.START_TO_START:
+        thisPointNode = mStartContainer as! Node
+        thisPointOffset = mStartOffset
+        otherPointNode = sourceRange.startContainer as! Node
+        otherPointOffset = sourceRange.startOffset
+      case DOMRange.START_TO_END:
+        thisPointNode = mEndContainer as! Node
+        thisPointOffset = mEndOffset
+        otherPointNode = sourceRange.startContainer as! Node
+        otherPointOffset = sourceRange.startOffset
+      case DOMRange.END_TO_END:
+        thisPointNode = mEndContainer as! Node
+        thisPointOffset = mEndOffset
+        otherPointNode = sourceRange.endContainer as! Node
+        otherPointOffset = sourceRange.endOffset
+      case DOMRange.END_TO_START:
+        thisPointNode = mStartContainer as! Node
+        thisPointOffset = mStartOffset
+        otherPointNode = sourceRange.endContainer as! Node
+        otherPointOffset = sourceRange.endOffset
+      default: throw Exception.NotSupportedError
+    }
+
+    return self._relativePosition(thisPointNode, thisPointOffset,
+                                  otherPointNode, otherPointOffset)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-deletecontents
+   */
+  public func deleteContents() throws -> Void {
+    // Step 1
+    if self.collapsed {
+      return
+    }
+
+    // Step 2
+    let originalStartNode = self.startContainer
+    let originalStartOffset = self.startOffset
+    let originalEndNode = self.endContainer
+    let originalEndOffset = self.endOffset
+
+    // Step 3
+    if originalStartNode as! Node === originalEndNode as! Node &&
+       (originalStartNode.nodeType == Node.TEXT_NODE ||
+        originalStartNode.nodeType == Node.COMMENT_NODE ||
+        originalStartNode.nodeType == Node.PROCESSING_INSTRUCTION_NODE) {
+      try CharacterData._replaceData(originalStartNode as! CharacterData, originalStartOffset, originalEndOffset - originalStartOffset, "")
+      return
+    }
+
+    // Step 4
+    
+  }
   public func extractContents() -> pDocumentFragment { return DocumentFragment()}
   public func cloneContents() -> pDocumentFragment { return DocumentFragment()}
   public func insertNode(node: pNode) -> Void {}

@@ -18,9 +18,11 @@ enum Exception: ErrorType {
   case HierarchyRequestError
   case NotFoundError
   case InvalidCharacterError
+  case InvalidNodeTypeError
   case InvalidStateError
   case NamespaceError
   case NotSupportedError
+  case WrongDocumentError
 
   case CDATADeclarationExpected
   case DOCTYPEDeclarationExpected
