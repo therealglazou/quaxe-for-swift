@@ -295,7 +295,80 @@ public class DOMRange: pDOMRange {
     }
 
     // Step 4
+    var nodesToRemove: Array<pNode> = []
+    var node = self.startContainer.nodeType == Node.TEXT_NODE
+                 ? self.startContainer
+                 : self.startContainer.childNodes.item(self.startOffset)
+    let endNode = self.endContainer.nodeType == Node.TEXT_NODE
+                 ? self.endContainer
+                 : self.endContainer.childNodes.item(self.endOffset)
+    while nil != node {
+      if Trees.getRootOf(node as! Node) === Trees.getRootOf(self.startContainer as! Node) &&
+         self._relativePosition(node as! Node, 0,
+                                self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_AFTER &&
+         self._relativePosition(node as! Node, Trees.length(node as! Node),
+                                self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_BEFORE {
+        nodesToRemove.append(node!)
+        node = Trees.nextInTraverseOrder(node as! Node)
+        if node as? Node === endNode as! Node {
+          node = nil
+        }
+      }
+    }
+
+    // Step 5
+    let newNode: pNode
+    let newOffset: ulong
+    if Trees.isInclusiveAncestorOf(originalStartNode as! Node, originalEndNode as! Node) {
+      newNode = originalStartNode
+      newOffset = originalStartOffset
+    }
+    else { // Step 6
+      // Step 6.1
+      var referenceNode: pNode? = originalStartNode
+      // Step 6.2
+      while referenceNode!.parentNode != nil &&
+            !Trees.isInclusiveAncestorOf(referenceNode!.parentNode as! Node, originalEndNode as! Node) {
+        referenceNode = referenceNode!.parentNode
+      }
+      // Step 6.3
+      newNode = referenceNode!.parentNode!
+      newOffset = Trees.indexOf(referenceNode as! Node)
+    }
+
+    // Step 7
+    if originalStartNode.nodeType == Node.TEXT_NODE ||
+       originalStartNode.nodeType == Node.COMMENT_NODE ||
+       originalStartNode.nodeType == Node.PROCESSING_INSTRUCTION_NODE {
+      try CharacterData._replaceData(originalStartNode as! CharacterData,
+                                     originalStartOffset,
+                                     Trees.length(originalStartNode as! Node) - originalStartOffset,
+                                     "")
+    }
+
+    // Step 8
+    for node in nodesToRemove {
+      Trees.remove(node as! Node, (node as! Node).parentNode as! Node)
+    }
+
+    // Step 9
+    if originalEndNode.nodeType == Node.TEXT_NODE ||
+       originalEndNode.nodeType == Node.COMMENT_NODE ||
+       originalEndNode.nodeType == Node.PROCESSING_INSTRUCTION_NODE {
+      try CharacterData._replaceData(originalEndNode as! CharacterData,
+                                     0,
+                                     originalEndOffset,
+                                     "")
+    }
+
+    // Step 10
+    self.setStart(newNode, newOffset)
+    self.setEnd(newNode, newOffset)
   }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-extractcontents
+   */
   public func extractContents() -> pDocumentFragment { return DocumentFragment()}
   public func cloneContents() -> pDocumentFragment { return DocumentFragment()}
   public func insertNode(node: pNode) -> Void {}
