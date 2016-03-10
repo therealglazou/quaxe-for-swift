@@ -39,6 +39,25 @@ SOURCES = \
 		core/protocols/pTreeWalker.swift \
 		core/protocols/webidl_types.swift \
 		events/protocols/pEventCreator.swift \
+		css/protocols/pCSSCharsetRule.swift \
+		css/protocols/pCSSFontFaceRule.swift \
+		css/protocols/pCSSImportRule.swift \
+		css/protocols/pCSSMediaRule.swift \
+		css/protocols/pCSSPageRule.swift \
+		css/protocols/pCSSRule.swift \
+		css/protocols/pCSSUnknownRule.swift \
+		css/protocols/pCSSRuleList.swift \
+		css/protocols/pCSSStyleDeclaration.swift \
+		css/protocols/pCSSStyleRule.swift \
+		css/protocols/pCSSStyleSheet.swift \
+		css/protocols/pCSSValue.swift \
+		css/protocols/pDocumentStyle.swift \
+		css/protocols/pElementCSSInlineStyle.swift \
+		css/protocols/pLinkStyle.swift \
+		css/protocols/pMediaList.swift \
+		css/protocols/pStyleSheet.swift \
+		css/protocols/pStyleSheetList.swift \
+		css/protocols/pViewCSS.swift \
 		$(NULL)
 
 SOURCES += \
