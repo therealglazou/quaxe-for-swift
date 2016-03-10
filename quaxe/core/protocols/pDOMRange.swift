@@ -31,7 +31,7 @@ public protocol pDOMRange {
   func compareBoundaryPoints(how: ushort, _ sourceRange: pDOMRange) throws -> short
 
   func deleteContents() throws -> Void
-  func extractContents() -> pDocumentFragment
+  func extractContents() throws -> pDocumentFragment
   func cloneContents() -> pDocumentFragment
   func insertNode(node: pNode) -> Void
   func surroundContents(node: pNode) -> Void

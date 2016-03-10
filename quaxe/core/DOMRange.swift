@@ -366,10 +366,91 @@ public class DOMRange: pDOMRange {
     self.setEnd(newNode, newOffset)
   }
 
+  internal func _extract() throws -> pDocumentFragment {
+    // Step 1
+    let fragment = self.mStartContainer!.ownerDocument!.createDocumentFragment()
+
+    // Step 2
+    if self.collapsed {
+      return fragment
+    }
+
+    // Step 3
+    let originalStartNode = self.startContainer
+    let originalStartOffset = self.startOffset
+    let originalEndNode = self.endContainer
+    let originalEndOffset = self.endOffset
+
+    // Step 4
+    if originalStartNode as! Node === originalEndNode as! Node &&
+       (originalEndNode.nodeType == Node.TEXT_NODE ||
+        originalEndNode.nodeType == Node.COMMENT_NODE ||
+        originalEndNode.nodeType == Node.PROCESSING_INSTRUCTION_NODE) {
+      // Step 4.1
+      let clone = (originalStartNode as! Node).cloneNode()
+      // Step 4.2
+      (clone as! CharacterData).data =
+          try CharacterData._substringData(originalStartNode as! CharacterData,
+                                           originalStartOffset,
+                                           originalEndOffset - originalStartOffset)
+      // Step 4.3
+      Trees.append(clone as! Node, fragment as! Node)
+      return fragment
+    }
+
+    // Step 5
+    var commonAncestor = originalStartNode
+
+    // Step 6
+    while !Trees.isInclusiveAncestorOf(commonAncestor as! Node, originalEndNode as! Node) {
+      commonAncestor = (commonAncestor as! Node).parentNode!
+    }
+
+    // Step 7
+    var firstPartiallyContainedChild: pNode? = nil
+
+    // Step 8
+    if !Trees.isInclusiveAncestorOf(originalStartNode as! Node, originalEndNode as! Node) {
+      var child = commonAncestor.firstChild
+      while child != nil && firstPartiallyContainedChild == nil {
+        if (Trees.isInclusiveAncestorOf(child as! Node, originalStartNode as! Node) &&
+            !Trees.isInclusiveAncestorOf(child as! Node, originalEndNode as! Node)) ||
+           (Trees.isInclusiveAncestorOf(child as! Node, originalEndNode as! Node) &&
+            !Trees.isInclusiveAncestorOf(child as! Node, originalStartNode as! Node)) {
+          firstPartiallyContainedChild = child
+        }
+        child = child!.nextSibling
+      }
+    }
+
+    // Step 9
+    var lastPartiallyContainedChild: pNode? = nil
+
+    // Step 10
+    if !Trees.isInclusiveAncestorOf(originalEndNode as! Node, originalStartNode as! Node) {
+      var child = commonAncestor.lastChild
+      while child != nil && lastPartiallyContainedChild == nil {
+        if (Trees.isInclusiveAncestorOf(child as! Node, originalStartNode as! Node) &&
+            !Trees.isInclusiveAncestorOf(child as! Node, originalEndNode as! Node)) ||
+           (Trees.isInclusiveAncestorOf(child as! Node, originalEndNode as! Node) &&
+            !Trees.isInclusiveAncestorOf(child as! Node, originalStartNode as! Node)) {
+          lastPartiallyContainedChild = child
+        }
+        child = child!.previousSibling
+      }
+    }
+
+    // Step 11
+    
+  }
+  
   /**
    * https://dom.spec.whatwg.org/#dom-range-extractcontents
    */
-  public func extractContents() -> pDocumentFragment { return DocumentFragment()}
+  public func extractContents() throws -> pDocumentFragment {
+    return try self._extract()
+  }
+
   public func cloneContents() -> pDocumentFragment { return DocumentFragment()}
   public func insertNode(node: pNode) -> Void {}
   public func surroundContents(node: pNode) -> Void {}

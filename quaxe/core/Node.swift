@@ -436,7 +436,7 @@ public class Node: EventTarget, pNode {
   /**
    * https://dom.spec.whatwg.org/#dom-node-clonenode
    */
-  public func cloneNode(deep: Bool) -> pNode {
+  public func cloneNode(deep: Bool = false) -> pNode {
     // Step 1
     // IGNORED, we don't implement Shadow DOM
 
