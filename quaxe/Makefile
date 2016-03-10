@@ -38,7 +38,9 @@ SOURCES = \
 		core/protocols/pText.swift \
 		core/protocols/pTreeWalker.swift \
 		core/protocols/webidl_types.swift \
-		events/protocols/pEventCreator.swift \
+		$(NULL)
+
+SOURCES += \
 		css/protocols/pCSSCharsetRule.swift \
 		css/protocols/pCSSFontFaceRule.swift \
 		css/protocols/pCSSImportRule.swift \
@@ -58,6 +60,10 @@ SOURCES = \
 		css/protocols/pStyleSheet.swift \
 		css/protocols/pStyleSheetList.swift \
 		css/protocols/pViewCSS.swift \
+		$(NULL)
+
+SOURCES += \
+		events/protocols/pEventCreator.swift \
 		$(NULL)
 
 SOURCES += \
