@@ -9,7 +9,7 @@ Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as bu
     Comment.swift:                  * status: done
     CustomEvent.swift:              * status: done
     DOMImplementation.swift:        * status: done
-    DOMRange.swift:                 * status: TODO 30%
+    DOMRange.swift:                 * status: done
     DOMTokenList.swift:             * status: TODO 100%
     Document.swift:                 * status: XXX rangeCollection, nodeIteratorCollection
     DocumentFragment.swift:         * status: done
