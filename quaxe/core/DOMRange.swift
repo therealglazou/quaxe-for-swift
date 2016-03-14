@@ -494,7 +494,83 @@ public class DOMRange: pDOMRange {
     }
 
     // Step 15
-    
+    if firstPartiallyContainedChild != nil &&
+       (firstPartiallyContainedChild!.nodeType == Node.TEXT_NODE ||
+        firstPartiallyContainedChild!.nodeType == Node.COMMENT_NODE ||
+        firstPartiallyContainedChild!.nodeType == Node.PROCESSING_INSTRUCTION_NODE) {
+      let clone = (originalStartNode as! Node)._clone(nil, false)
+      (clone as! CharacterData).data = try CharacterData._substringData(
+                                         originalStartNode as! CharacterData,
+                                         originalStartOffset,
+                                         (originalStartNode as! CharacterData).length  - originalStartOffset)
+      Trees.append(clone, fragment as! Node)
+      try CharacterData._replaceData(originalStartNode as! CharacterData,
+                                     originalStartOffset,
+                                     (originalStartNode as! CharacterData).length  - originalStartOffset,
+                                     "")
+    }
+    else if firstPartiallyContainedChild != nil {
+      // Step 16.1
+      let clone = (originalStartNode as! Node)._clone(nil, false)
+      // Step 16.2
+      Trees.append(clone, fragment as! Node)
+      // Step 16.3
+      let subrange = originalStartNode.ownerDocument!.createRange() as! DOMRange
+      subrange.mStartContainer = originalStartNode
+      subrange.mStartOffset = originalStartOffset
+      subrange.mEndContainer = firstPartiallyContainedChild!
+      subrange.mStartOffset = Trees.length(firstPartiallyContainedChild as! Node)
+      // Step 16.4
+      let subfragment = try subrange._extract()
+      // Step 16.5
+      Trees.append(subfragment as! Node, clone)
+    }
+
+    // Step 17
+    for containedChild in containedChildren {
+      Trees.append(containedChild as! Node, fragment as! Node)
+    }
+
+    // Step 18
+    if lastPartiallyContainedChild != nil &&
+       (lastPartiallyContainedChild!.nodeType == Node.TEXT_NODE ||
+        lastPartiallyContainedChild!.nodeType == Node.COMMENT_NODE ||
+        lastPartiallyContainedChild!.nodeType == Node.PROCESSING_INSTRUCTION_NODE) {
+      // Step 18.1
+      let clone = (originalEndNode as! Node)._clone(nil, false)
+      (clone as! CharacterData).data = try CharacterData._substringData(
+                                         originalEndNode as! CharacterData,
+                                         0,
+                                         originalEndOffset)
+      Trees.append(clone, fragment as! Node)
+      try CharacterData._replaceData(originalEndNode as! CharacterData,
+                                     0,
+                                     originalEndOffset,
+                                     "")
+    }
+    else if lastPartiallyContainedChild != nil {
+      // Step 19.1
+      let clone = (originalEndNode as! Node)._clone(nil, false)
+      // Step 19.2
+      Trees.append(clone, fragment as! Node)
+      // Step 19.3
+      let subrange = originalEndNode.ownerDocument!.createRange() as! DOMRange
+      subrange.mStartContainer = lastPartiallyContainedChild!
+      subrange.mStartOffset = 0
+      subrange.mEndContainer = originalEndNode
+      subrange.mStartOffset = originalEndOffset
+      // Step 19.4
+      let subfragment = try subrange._extract()
+      // Step 19.5
+      Trees.append(subfragment as! Node, clone)
+    }
+
+    // Step 20
+    self.setStart(newNode, newOffset)
+    self.setEnd(newNode, newOffset)
+
+    // Step 21
+    return fragment
   }
   
   /**
