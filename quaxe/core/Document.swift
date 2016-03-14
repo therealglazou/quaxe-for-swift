@@ -15,7 +15,7 @@ import QuaxeUtils
 /**
  * https://dom.spec.whatwg.org/#interface-document
  * 
- * status: XXX rangeCollection, nodeIteratorCollection
+ * status: XXX nodeIteratorCollection
  */
 public class Document: Node, pDocument {
 
