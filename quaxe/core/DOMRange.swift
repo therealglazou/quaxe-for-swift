@@ -760,7 +760,37 @@ public class DOMRange: pDOMRange {
     return true
   }
 
-  public func comparePoint(node: pNode, offset: ulong) -> short {return 0}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-comparepoint
+   */
+  public func comparePoint(node: pNode, offset: ulong) throws -> short {
+    // Step 1
+    if Trees.getRootOf(node as! Node) !== Trees.getRootOf(self.startContainer as! Node) {
+      throw Exception.WrongDocumentError
+    }
+
+    // Step 2
+    if node.nodeType == Node.DOCUMENT_TYPE_NODE {
+      throw Exception.InvalidNodeTypeError
+    }
+
+    // Step 3
+    if offset > Trees.length(node as! Node) {
+      throw Exception.IndexSizeError
+    }
+
+    // Step 4
+    if self._relativePosition(node as! Node, offset, self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_BEFORE {
+      return -1
+    }
+
+    // Step 5
+    if self._relativePosition(node as! Node, offset, self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_AFTER {
+      return +1
+    }
+
+    return 0
+  }
 
   public func intersectsNode(node: pNode) -> Bool {return false}
 
