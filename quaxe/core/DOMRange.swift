@@ -13,7 +13,7 @@
 /**
  * https://dom.spec.whatwg.org/#interface-range
  * 
- * status: TODO 40%
+ * status: TODO 30%
  */
 public class DOMRange: pDOMRange {
 
