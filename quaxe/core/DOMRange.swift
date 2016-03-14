@@ -372,7 +372,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#concept-range-extract
    */
-  internal func _extract() throws -> pDocumentFragment {
+  internal func _extract(forCloning: Bool = false) throws -> pDocumentFragment {
     // Step 1
     let fragment = self.mStartContainer!.ownerDocument!.createDocumentFragment()
 
@@ -395,10 +395,12 @@ public class DOMRange: pDOMRange {
       // Step 4.1
       let clone = (originalStartNode as! Node).cloneNode()
       // Step 4.2
-      (clone as! CharacterData).data =
-          try CharacterData._substringData(originalStartNode as! CharacterData,
-                                           originalStartOffset,
-                                           originalEndOffset - originalStartOffset)
+      if !forCloning {
+        (clone as! CharacterData).data =
+            try CharacterData._substringData(originalStartNode as! CharacterData,
+                                             originalStartOffset,
+                                             originalEndOffset - originalStartOffset)
+      }
       // Step 4.3
       Trees.append(clone as! Node, fragment as! Node)
       return fragment
@@ -476,21 +478,23 @@ public class DOMRange: pDOMRange {
     }
 
     // Step 13
-    let newNode: pNode
-    let newOffset: ulong
-    if Trees.isInclusiveAncestorOf(originalStartNode as! Node, originalEndNode as! Node) {
-      newNode = originalStartNode
-      newOffset = originalStartOffset
-    }
-    else {
-      // Step 14
-      var referenceNode = originalStartNode
-      while referenceNode.parentNode != nil &&
-            !Trees.isInclusiveAncestorOf(referenceNode.parentNode as! Node, originalEndNode as! Node) {
-        referenceNode = referenceNode.parentNode!
+    var newNode: pNode = originalStartNode
+    var newOffset: ulong = originalStartOffset
+    if !forCloning {
+      if Trees.isInclusiveAncestorOf(originalStartNode as! Node, originalEndNode as! Node) {
+        newNode = originalStartNode
+        newOffset = originalStartOffset
       }
-      newNode = referenceNode.parentNode!
-      newOffset = Trees.indexOf(referenceNode as! Node) + 1
+      else {
+        // Step 14
+        var referenceNode = originalStartNode
+        while referenceNode.parentNode != nil &&
+              !Trees.isInclusiveAncestorOf(referenceNode.parentNode as! Node, originalEndNode as! Node) {
+          referenceNode = referenceNode.parentNode!
+        }
+        newNode = referenceNode.parentNode!
+        newOffset = Trees.indexOf(referenceNode as! Node) + 1
+      }
     }
 
     // Step 15
@@ -504,10 +508,12 @@ public class DOMRange: pDOMRange {
                                          originalStartOffset,
                                          (originalStartNode as! CharacterData).length  - originalStartOffset)
       Trees.append(clone, fragment as! Node)
-      try CharacterData._replaceData(originalStartNode as! CharacterData,
-                                     originalStartOffset,
-                                     (originalStartNode as! CharacterData).length  - originalStartOffset,
-                                     "")
+      if !forCloning {
+        try CharacterData._replaceData(originalStartNode as! CharacterData,
+                                       originalStartOffset,
+                                       (originalStartNode as! CharacterData).length  - originalStartOffset,
+                                       "")
+      }
     }
     else if firstPartiallyContainedChild != nil {
       // Step 16.1
@@ -521,14 +527,20 @@ public class DOMRange: pDOMRange {
       subrange.mEndContainer = firstPartiallyContainedChild!
       subrange.mStartOffset = Trees.length(firstPartiallyContainedChild as! Node)
       // Step 16.4
-      let subfragment = try subrange._extract()
+      let subfragment = try subrange._extract(forCloning)
       // Step 16.5
       Trees.append(subfragment as! Node, clone)
     }
 
     // Step 17
     for containedChild in containedChildren {
-      Trees.append(containedChild as! Node, fragment as! Node)
+      if forCloning {
+        let clone = (containedChild as! Node)._clone(nil, true)
+        Trees.append(clone, fragment as! Node)
+      }
+      else {
+        Trees.append(containedChild as! Node, fragment as! Node)
+      }
     }
 
     // Step 18
@@ -543,10 +555,12 @@ public class DOMRange: pDOMRange {
                                          0,
                                          originalEndOffset)
       Trees.append(clone, fragment as! Node)
-      try CharacterData._replaceData(originalEndNode as! CharacterData,
-                                     0,
-                                     originalEndOffset,
-                                     "")
+      if !forCloning {
+        try CharacterData._replaceData(originalEndNode as! CharacterData,
+                                       0,
+                                       originalEndOffset,
+                                       "")
+      }
     }
     else if lastPartiallyContainedChild != nil {
       // Step 19.1
@@ -560,14 +574,16 @@ public class DOMRange: pDOMRange {
       subrange.mEndContainer = originalEndNode
       subrange.mStartOffset = originalEndOffset
       // Step 19.4
-      let subfragment = try subrange._extract()
+      let subfragment = try subrange._extract(forCloning)
       // Step 19.5
       Trees.append(subfragment as! Node, clone)
     }
 
     // Step 20
-    self.setStart(newNode, newOffset)
-    self.setEnd(newNode, newOffset)
+    if !forCloning {
+      self.setStart(newNode, newOffset)
+      self.setEnd(newNode, newOffset)
+    }
 
     // Step 21
     return fragment
@@ -577,11 +593,90 @@ public class DOMRange: pDOMRange {
    * https://dom.spec.whatwg.org/#dom-range-extractcontents
    */
   public func extractContents() throws -> pDocumentFragment {
-    return try self._extract()
+    return try self._extract(false)
   }
 
-  public func cloneContents() -> pDocumentFragment { return DocumentFragment()}
-  public func insertNode(node: pNode) -> Void {}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-clonecontents
+   */
+  public func cloneContents() throws -> pDocumentFragment {
+    return try self._extract(true)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#concept-range-insert
+   */
+  internal func _insertNode(node: pNode) throws -> Void {
+    // Step 1
+    if self.startContainer.nodeType == Node.PROCESSING_INSTRUCTION_NODE ||
+       self.startContainer.nodeType == Node.COMMENT_NODE ||
+       (self.startContainer.nodeType == Node.TEXT_NODE &&
+        self.startContainer.parentNode == nil) ||
+       self.startContainer as! Node === node as! Node {
+      throw Exception.HierarchyRequestError
+    }
+
+    // Step 2
+    var referenceNode: pNode? = nil
+
+    // Step 3
+    if self.startContainer.nodeType == Node.TEXT_NODE {
+      referenceNode = self.startContainer
+    }
+    else {
+      // Step 4
+      referenceNode = self.startContainer.childNodes.item(self.startOffset)
+    }
+
+    // Step 5
+    let parent = (referenceNode == nil)
+                   ? self.startContainer
+                   : referenceNode!.parentNode
+
+    // Step 6
+    try MutationAlgorithms.ensurePreInsertionValidity(node as! Node, parent as! Node, referenceNode as? Node)
+
+    // Step 7
+    if self.startContainer.nodeType == Node.TEXT_NODE {
+      referenceNode = (self.startContainer as! Text).splitText(self.startOffset)
+    }
+
+    // Step 8
+    if node as! Node === referenceNode as? Node {
+      referenceNode = referenceNode!.nextSibling
+    }
+
+    // Step 9
+    if node.parentNode != nil {
+      MutationAlgorithms.remove(node as! Node, node.parentNode as! Node)
+    }
+
+    // Step 10
+    var newOffset = (referenceNode == nil)
+                      ? Trees.length(parent as! Node)
+                      : Trees.indexOf(referenceNode as! Node)
+
+    // Step 11
+    newOffset += (node.nodeType == Node.DOCUMENT_FRAGMENT_NODE)
+                   ? Trees.length(node as! Node)
+                   : 1
+
+    // Step 12
+    try MutationAlgorithms.preInsert(node as! Node, parent as! Node, referenceNode as? Node)
+
+    // Step 13
+    if self.collapsed {
+      self.setEnd(parent as! Node, newOffset)
+    }
+  }
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-range-insertnode
+   */
+  public func insertNode(node: pNode) throws -> Void {
+    try self._insertNode(node)
+  }
+
   public func surroundContents(node: pNode) -> Void {}
 
   public func cloneRange() -> pDOMRange {return DOMRange()}
@@ -598,5 +693,9 @@ public class DOMRange: pDOMRange {
 
   // we absolutely need the deiniter because the documents holds a collection
   // of existing ranges and we need to clean that up when the range is deleted
-  deinit {}
+  deinit {
+    if mStartContainer!.ownerDocument != nil {
+      (mStartContainer!.ownerDocument as! Document).removeRangeFromRangeCollection(self)
+    }
+  }
 }

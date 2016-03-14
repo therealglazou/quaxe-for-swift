@@ -32,8 +32,8 @@ public protocol pDOMRange {
 
   func deleteContents() throws -> Void
   func extractContents() throws -> pDocumentFragment
-  func cloneContents() -> pDocumentFragment
-  func insertNode(node: pNode) -> Void
+  func cloneContents() throws -> pDocumentFragment
+  func insertNode(node: pNode) throws -> Void
   func surroundContents(node: pNode) -> Void
 
   func cloneRange() -> pDOMRange

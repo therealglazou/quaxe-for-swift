@@ -310,31 +310,31 @@ public class Node: EventTarget, pNode {
             while nil != currentNode && currentNode!.nodeType == Node.TEXT_NODE {
               // Step 7.1
               rangeCollection.forEach( {
-                if $0.startContainer as! Node === currentNode as! Node {
-                  $0.setStart(node!, $0.startOffset + length);
+                if $0.value!.startContainer as! Node === currentNode as! Node {
+                  $0.value!.setStart(node!, $0.value!.startOffset + length);
                 }
               })
 
               // Step 7.2
               rangeCollection.forEach( {
-                if $0.endContainer as! Node === currentNode as! Node {
-                  $0.setEnd(node!, $0.endOffset + length);
+                if $0.value!.endContainer as! Node === currentNode as! Node {
+                  $0.value!.setEnd(node!, $0.value!.endOffset + length);
                 }
               })
 
               // Step 7.3
               rangeCollection.forEach( {
-                if $0.startContainer as! Node === currentNode!.parentNode as! Node &&
-                   $0.startOffset == Trees.indexOf(currentNode as! Node) {
-                  $0.setStart(node!, length);
+                if $0.value!.startContainer as! Node === currentNode!.parentNode as! Node &&
+                   $0.value!.startOffset == Trees.indexOf(currentNode as! Node) {
+                  $0.value!.setStart(node!, length);
                 }
               })
 
               // Step 7.4
               rangeCollection.forEach( {
-                if $0.endContainer as! Node === currentNode!.parentNode as! Node &&
-                   $0.endOffset == Trees.indexOf(currentNode as! Node) {
-                  $0.setStart(node!, length);
+                if $0.value!.endContainer as! Node === currentNode!.parentNode as! Node &&
+                   $0.value!.endOffset == Trees.indexOf(currentNode as! Node) {
+                  $0.value!.setStart(node!, length);
                 }
               })
 

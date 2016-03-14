@@ -10,6 +10,8 @@
  * 
  */
 
+import QuaxeUtils
+
 /**
  * https://dom.spec.whatwg.org/#interface-document
  * 
@@ -18,8 +20,18 @@
 public class Document: Node, pDocument {
 
 
-  internal var rangeCollection: Array<DOMRange> = []
+  internal var rangeCollection: Array<Weak<DOMRange>> = []
   internal var nodeIteratorCollection: Array<NodeIterator> = []
+
+  internal func addRangeToRangeCollection(range: DOMRange) -> Void {
+    rangeCollection.append(Weak<DOMRange>(range))
+  }
+
+  internal func removeRangeFromRangeCollection(range: DOMRange) -> Void {
+    if let index = rangeCollection.indexOf({ $0.value! === range}) {
+      rangeCollection.removeAtIndex(index)
+    }
+  }
 
   override internal func getParent(event: Event) -> EventTarget? {
     // A document's get the parent algorithm, given an event, returns
@@ -291,6 +303,7 @@ public class Document: Node, pDocument {
     r.mEndContainer = self
     r.mStartOffset = 0
     r.mEndOffset = 0
+    self.addRangeToRangeCollection(r)
     return r
   }
 

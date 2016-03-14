@@ -128,14 +128,14 @@ internal class MutationAlgorithms {
       let index = Trees.indexOf(child!)
       // Step 2.1
       rangeCollection.forEach( {
-        if ($0.startContainer as! Node === parent && $0.startOffset > index) {
-          $0.setStart($0.startContainer, $0.startOffset + ulong(count));
+        if ($0.value!.startContainer as! Node === parent && $0.value!.startOffset > index) {
+          $0.value!.setStart($0.value!.startContainer, $0.value!.startOffset + ulong(count));
         }
       })
       // Step 2.2
       rangeCollection.forEach( {
-        if ($0.endContainer as! Node === parent && $0.endOffset > index) {
-          $0.setEnd($0.endContainer, $0.endOffset + ulong(count));
+        if ($0.value!.endContainer as! Node === parent && $0.value!.endOffset > index) {
+          $0.value!.setEnd($0.value!.endContainer, $0.value!.endOffset + ulong(count));
         }
       })
     }
@@ -388,28 +388,28 @@ internal class MutationAlgorithms {
     let rangeCollection = (parent.ownerDocument as! Document).rangeCollection
     // Step 2
     rangeCollection.forEach( {
-      if Trees.isInclusiveAncestorOf($0.startContainer as! Node, node) {
-        $0.setStart(parent, index);
+      if Trees.isInclusiveAncestorOf($0.value!.startContainer as! Node, node) {
+        $0.value!.setStart(parent, index);
       }
     })
     // Step 3
     rangeCollection.forEach( {
-      if Trees.isInclusiveAncestorOf($0.endContainer as! Node, node) {
-        $0.setEnd(parent, index);
+      if Trees.isInclusiveAncestorOf($0.value!.endContainer as! Node, node) {
+        $0.value!.setEnd(parent, index);
       }
     })
     // Step 4
     rangeCollection.forEach( {
-      if ($0.startContainer as! Node) === parent &&
-          $0.startOffset > index {
-        $0.setStart($0.startContainer, $0.startOffset - 1);
+      if ($0.value!.startContainer as! Node) === parent &&
+          $0.value!.startOffset > index {
+        $0.value!.setStart($0.value!.startContainer, $0.value!.startOffset - 1);
       }
     })
     // Step 5
     rangeCollection.forEach( {
-      if ($0.endContainer as! Node) === parent &&
-          $0.endOffset > index {
-        $0.setEnd($0.endContainer, $0.endOffset - 1);
+      if ($0.value!.endContainer as! Node) === parent &&
+          $0.value!.endOffset > index {
+        $0.value!.setEnd($0.value!.endContainer, $0.value!.endOffset - 1);
       }
     })
 

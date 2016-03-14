@@ -8,6 +8,7 @@ SOURCES = \
 		Either.swift \
 		Regexp.swift \
 		String.swift \
+		Weak.swift \
 		$(NULL)
 
 include $(TOPSRCDIR)/swiftbuild/rules.mk
