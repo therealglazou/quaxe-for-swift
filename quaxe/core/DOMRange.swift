@@ -677,9 +677,58 @@ public class DOMRange: pDOMRange {
     try self._insertNode(node)
   }
 
-  public func surroundContents(node: pNode) -> Void {}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-surroundcontents
+   */
+  public func surroundContents(newParent: pNode) throws -> Void {
+    // Step 1
+    if self.startContainer.nodeType == Node.PROCESSING_INSTRUCTION_NODE ||
+       self.startContainer.nodeType == Node.COMMENT_NODE ||
+       self.endContainer.nodeType == Node.PROCESSING_INSTRUCTION_NODE ||
+       self.endContainer.nodeType == Node.COMMENT_NODE {
+      throw Exception.InvalidStateError
+    }
 
-  public func cloneRange() -> pDOMRange {return DOMRange()}
+    // Step 2
+    if newParent.nodeType == Node.DOCUMENT_NODE ||
+       newParent.nodeType == Node.DOCUMENT_TYPE_NODE ||
+       newParent.nodeType == Node.DOCUMENT_FRAGMENT_NODE {
+      throw Exception.InvalidNodeTypeError
+    }
+
+    // Step 3
+    let fragment = try self._extract(false)
+
+    // Step 4
+    if newParent.hasChildNodes() {
+      try MutationAlgorithms.replaceAll(nil, newParent as! Node)
+    }
+
+    // Step 5
+    try self._insertNode(newParent as! Node)
+
+    // Step 6
+    try MutationAlgorithms.append(fragment as! Node, newParent as! Node)
+
+    // Step 7
+    try self._selectNode(newParent as! Node)
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-clonerange
+   */
+  public func cloneRange() -> pDOMRange {
+    let range = self.startContainer.ownerDocument!.createRange() as! DOMRange
+    range.mStartContainer = self.mStartContainer
+    range.mStartOffset = self.mStartOffset
+    range.mEndContainer = self.mEndContainer
+    range.mEndOffset = self.mEndOffset
+    return range
+  }
+
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-detach
+   */
   public func detach() -> Void {}
 
   public func isPointInRange(node: pNode, offset: ulong) -> Bool {return false}
