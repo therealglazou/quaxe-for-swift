@@ -308,7 +308,10 @@ public class DOMRange: pDOMRange {
                                 self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_AFTER &&
          self._relativePosition(node as! Node, Trees.length(node as! Node),
                                 self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_BEFORE {
-        nodesToRemove.append(node!)
+        let index = nodesToRemove.indexOf({ $0 as! Node === node!.parentNode as! Node})
+        if index == nil {
+          nodesToRemove.append(node!)
+        }
         node = Trees.nextInTraverseOrder(node as! Node)
         if node as? Node === endNode as! Node {
           node = nil
@@ -366,6 +369,9 @@ public class DOMRange: pDOMRange {
     self.setEnd(newNode, newOffset)
   }
 
+  /**
+   * https://dom.spec.whatwg.org/#concept-range-extract
+   */
   internal func _extract() throws -> pDocumentFragment {
     // Step 1
     let fragment = self.mStartContainer!.ownerDocument!.createDocumentFragment()
@@ -441,6 +447,53 @@ public class DOMRange: pDOMRange {
     }
 
     // Step 11
+    var containedChildren: Array<pNode> = []
+    var node = self.startContainer.nodeType == Node.TEXT_NODE
+                 ? self.startContainer
+                 : self.startContainer.childNodes.item(self.startOffset)
+    let endNode = self.endContainer.nodeType == Node.TEXT_NODE
+                 ? self.endContainer
+                 : self.endContainer.childNodes.item(self.endOffset)
+    while nil != node {
+      if Trees.getRootOf(node as! Node) === Trees.getRootOf(self.startContainer as! Node) &&
+         self._relativePosition(node as! Node, 0,
+                                self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_AFTER &&
+         self._relativePosition(node as! Node, Trees.length(node as! Node),
+                                self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_BEFORE {
+        containedChildren.append(node!)
+        node = Trees.nextInTraverseOrder(node as! Node)
+        if node as? Node === endNode as! Node {
+          node = nil
+        }
+      }
+    }
+
+    // Step 12
+    for containedChild in containedChildren {
+      if containedChild.nodeType == Node.DOCUMENT_TYPE_NODE {
+        throw Exception.HierarchyRequestError
+      }
+    }
+
+    // Step 13
+    let newNode: pNode
+    let newOffset: ulong
+    if Trees.isInclusiveAncestorOf(originalStartNode as! Node, originalEndNode as! Node) {
+      newNode = originalStartNode
+      newOffset = originalStartOffset
+    }
+    else {
+      // Step 14
+      var referenceNode = originalStartNode
+      while referenceNode.parentNode != nil &&
+            !Trees.isInclusiveAncestorOf(referenceNode.parentNode as! Node, originalEndNode as! Node) {
+        referenceNode = referenceNode.parentNode!
+      }
+      newNode = referenceNode.parentNode!
+      newOffset = Trees.indexOf(referenceNode as! Node) + 1
+    }
+
+    // Step 15
     
   }
   
