@@ -731,7 +731,35 @@ public class DOMRange: pDOMRange {
    */
   public func detach() -> Void {}
 
-  public func isPointInRange(node: pNode, offset: ulong) -> Bool {return false}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-ispointinrange
+   */
+  public func isPointInRange(node: pNode, offset: ulong) throws -> Bool {
+    // Step 1
+    if Trees.getRootOf(node as! Node) !== Trees.getRootOf(self.startContainer as! Node) {
+      return false
+    }
+
+    // Step 2
+    if node.nodeType == Node.DOCUMENT_TYPE_NODE {
+      throw Exception.InvalidNodeTypeError
+    }
+
+    // Step 3
+    if offset > Trees.length(node as! Node) {
+      throw Exception.IndexSizeError
+    }
+
+    // Step 4
+    if self._relativePosition(node as! Node, offset, self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_BEFORE ||
+       self._relativePosition(node as! Node, offset, self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_AFTER {
+      return false
+    }
+
+    // Step 5
+    return true
+  }
+
   public func comparePoint(node: pNode, offset: ulong) -> short {return 0}
 
   public func intersectsNode(node: pNode) -> Bool {return false}

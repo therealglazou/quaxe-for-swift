@@ -39,7 +39,7 @@ public protocol pDOMRange {
   func cloneRange() -> pDOMRange
   func detach() -> Void
 
-  func isPointInRange(node: pNode, offset: ulong) -> Bool
+  func isPointInRange(node: pNode, offset: ulong) throws -> Bool
   func comparePoint(node: pNode, offset: ulong) -> short
 
   func intersectsNode(node: pNode) -> Bool
