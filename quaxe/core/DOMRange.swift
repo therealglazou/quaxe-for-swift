@@ -822,7 +822,69 @@ public class DOMRange: pDOMRange {
     return false
   }
 
-  public func toString() -> DOMString {return ""}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-stringifier
+   */
+  public func toString() -> DOMString {
+    // Step 1
+    var s = ""
+
+    // Step 2
+    if self.startContainer as! Node === self.endContainer as! Node &&
+       self.startContainer.nodeType == Node.TEXT_NODE {
+      do {
+        return try CharacterData._substringData(self.startContainer as! CharacterData,
+                                                self.startOffset,
+                                                self.endOffset - self.startOffset)
+      } catch {
+        return s
+      }
+    }
+
+    // Step 3
+    if self.startContainer.nodeType == Node.TEXT_NODE {
+      do {
+        s += try CharacterData._substringData(self.startContainer as! CharacterData,
+                                          self.startOffset,
+                                          (self.startContainer as! CharacterData).length - self.startOffset)
+      } catch {}
+    }
+
+    // Step 4
+    var node = self.startContainer.nodeType == Node.TEXT_NODE
+                 ? self.startContainer
+                 : self.startContainer.childNodes.item(self.startOffset)
+    let endNode = self.endContainer.nodeType == Node.TEXT_NODE
+                 ? self.endContainer
+                 : self.endContainer.childNodes.item(self.endOffset)
+    while nil != node {
+      if Trees.getRootOf(node as! Node) === Trees.getRootOf(self.startContainer as! Node) &&
+         self._relativePosition(node as! Node, 0,
+                                self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_AFTER &&
+         self._relativePosition(node as! Node, Trees.length(node as! Node),
+                                self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_BEFORE {
+        if node!.nodeType == Node.TEXT_NODE {
+          s += (node as! CharacterData).data
+        }
+        node = Trees.nextInTraverseOrder(node as! Node)
+        if node as? Node === endNode as! Node {
+          node = nil
+        }
+      }
+    }
+
+    // Step 4
+    if self.endContainer.nodeType == Node.TEXT_NODE {
+      do {
+        s += try CharacterData._substringData(self.endContainer as! CharacterData,
+                                              0,
+                                              self.endOffset)
+      } catch {}
+    }
+
+    // Step 5
+    return s
+  }
 
   init() {}
 
