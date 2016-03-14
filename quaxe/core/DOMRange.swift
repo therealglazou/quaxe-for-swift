@@ -792,7 +792,35 @@ public class DOMRange: pDOMRange {
     return 0
   }
 
-  public func intersectsNode(node: pNode) -> Bool {return false}
+  /**
+   * https://dom.spec.whatwg.org/#dom-range-intersectsnode
+   */
+  public func intersectsNode(node: pNode) -> Bool {
+    // Step 1
+    if Trees.getRootOf(node as! Node) !== Trees.getRootOf(self.startContainer as! Node) {
+      return false
+    }
+
+    // Step 2
+    let parent = node.parentNode
+
+    // Step 3
+    if parent == nil {
+      return true
+    }
+
+    // Step 4
+    let offset = Trees.indexOf(node as! Node)
+
+    // Step 5
+    if self._relativePosition(parent as! Node, offset, self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_BEFORE &&
+       self._relativePosition(parent as! Node, offset + 1, self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_AFTER {
+      return true
+    }
+
+    // Step 6
+    return false
+  }
 
   public func toString() -> DOMString {return ""}
 
