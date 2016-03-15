@@ -11,7 +11,7 @@ Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as bu
     DOMImplementation.swift:        * status: done
     DOMRange.swift:                 * status: done
     DOMTokenList.swift:             * status: TODO 100%
-    Document.swift:                 * status: XXX nodeIteratorCollection
+    Document.swift:                 * status: done
     DocumentFragment.swift:         * status: done
     DocumentType.swift:             * status: done
     Element.swift:                  * status: TODO 80%
