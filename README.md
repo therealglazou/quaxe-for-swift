@@ -10,7 +10,7 @@ Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as bu
     CustomEvent.swift:              * status: done
     DOMImplementation.swift:        * status: done
     DOMRange.swift:                 * status: done
-    DOMTokenList.swift:             * status: TODO 100%
+    DOMTokenList.swift:             * status: TODO 1%
     Document.swift:                 * status: done
     DocumentFragment.swift:         * status: done
     DocumentType.swift:             * status: done

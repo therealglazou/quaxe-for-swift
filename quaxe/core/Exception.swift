@@ -22,6 +22,7 @@ enum Exception: ErrorType {
   case InvalidStateError
   case NamespaceError
   case NotSupportedError
+  case TypeError
   case WrongDocumentError
 
   case CDATADeclarationExpected

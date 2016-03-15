@@ -77,6 +77,14 @@ public class Element: Node, pElement {
   public func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection { return HTMLCollection() }
   public func getElementsByClassName(classNames: DOMString) -> pHTMLCollection { return HTMLCollection() }
 
+  public func definesSupportedTokens(attributeName: DOMString) -> Bool {
+    return true
+  }
+
+  public func supportsToken(attributeName: DOMString, _ token: DOMString) -> Bool {
+    return true
+  }
+
   override init() {
     super.init()
   }
