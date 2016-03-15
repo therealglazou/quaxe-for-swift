@@ -85,28 +85,38 @@ public class CharacterData: Node, pCharacterData {
     let rangeCollection = ((node as! Node).ownerDocument as! Document).rangeCollection
     // Step 8
     rangeCollection.forEach( {
-      if ($0.value!.startContainer as! Node === node as! Node && $0.value!.startOffset > offset && $0.value!.startOffset <= offset + count) {
+      if ($0.value != nil &&
+          $0.value!.startContainer as! Node === node as! Node &&
+          $0.value!.startOffset > offset &&
+          $0.value!.startOffset <= offset + count) {
         $0.value!.setStart($0.value!.startContainer, offset);
       }
     })
 
     // Step 9
     rangeCollection.forEach( {
-      if ($0.value!.endContainer as! Node === node as! Node && $0.value!.endOffset > offset && $0.value!.endOffset <= offset + count) {
+      if ($0.value != nil &&
+          $0.value!.endContainer as! Node === node as! Node &&
+          $0.value!.endOffset > offset &&
+          $0.value!.endOffset <= offset + count) {
         $0.value!.setEnd($0.value!.endContainer, offset);
       }
     })
 
     // Step 10
     rangeCollection.forEach( {
-      if ($0.value!.startContainer as! Node === node as! Node && $0.value!.startOffset > offset + count) {
+      if ($0.value != nil &&
+          $0.value!.startContainer as! Node === node as! Node &&
+          $0.value!.startOffset > offset + count) {
         $0.value!.setStart($0.value!.startContainer, $0.value!.startOffset + ulong(str.unicodeScalars.count) - count);
       }
     })
 
     // Step 11
     rangeCollection.forEach( {
-      if ($0.value!.endContainer as! Node === node as! Node && $0.value!.endOffset > offset + count) {
+      if ($0.value != nil &&
+          $0.value!.endContainer as! Node === node as! Node &&
+          $0.value!.endOffset > offset + count) {
         $0.value!.setEnd($0.value!.endContainer, $0.value!.endOffset + ulong(str.unicodeScalars.count) - count);
       }
     })

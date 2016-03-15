@@ -21,14 +21,24 @@ public class Document: Node, pDocument {
 
 
   internal var rangeCollection: Array<Weak<DOMRange>> = []
-  internal var nodeIteratorCollection: Array<NodeIterator> = []
+  internal var nodeIteratorCollection: Array<Weak<NodeIterator>> = []
+
+  internal func addNodeIteratorToNodeIteratorCollection(iterator: NodeIterator) -> Void {
+    nodeIteratorCollection.append(Weak<NodeIterator>(iterator))
+  }
+
+  internal func removeNodeIteratorFromNodeIteratorCollection(iterator: NodeIterator) -> Void {
+    if let index = nodeIteratorCollection.indexOf({ $0.value === iterator}) {
+      nodeIteratorCollection.removeAtIndex(index)
+    }
+  }
 
   internal func addRangeToRangeCollection(range: DOMRange) -> Void {
     rangeCollection.append(Weak<DOMRange>(range))
   }
 
   internal func removeRangeFromRangeCollection(range: DOMRange) -> Void {
-    if let index = rangeCollection.indexOf({ $0.value! === range}) {
+    if let index = rangeCollection.indexOf({ $0.value === range}) {
       rangeCollection.removeAtIndex(index)
     }
   }
@@ -315,6 +325,7 @@ public class Document: Node, pDocument {
     ni.mPointerBeforeReferenceNode = true
     ni.mWhatToShow = whatToShow
     ni.mFilter = filter
+    self.addNodeIteratorToNodeIteratorCollection(ni)
     return ni
   }
 

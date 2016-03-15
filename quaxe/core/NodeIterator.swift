@@ -40,4 +40,13 @@ public class NodeIterator: pNodeIterator {
     mRoot = root
     mReferenceNode = root
   }
+
+  // we absolutely need the deiniter because the documents holds a collection
+  // of existing iterators and we need to clean that up when the iterator is deleted
+  deinit {
+    if mRoot.ownerDocument != nil {
+      (mRoot.ownerDocument as! Document).removeNodeIteratorFromNodeIteratorCollection(self)
+    }
+  }
+
 }

@@ -20,5 +20,5 @@ public protocol pDOMTokenList {
   func replace(token: DOMString, _ newToken: DOMString) -> Void
   func supports(token: DOMString) -> Bool
   var value: DOMString { get set }
-  func ToString() -> DOMString
+  func toString() -> DOMString
 }

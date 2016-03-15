@@ -25,7 +25,7 @@ public class DOMTokenList: pDOMTokenList {
   public func replace(token: DOMString, _ newToken: DOMString) -> Void {}
   public func supports(token: DOMString) -> Bool  {return false}
   public var value: DOMString = ""
-  public func ToString() -> DOMString {return ""}
+  public func toString() -> DOMString {return ""}
 
   init() {}
 }
