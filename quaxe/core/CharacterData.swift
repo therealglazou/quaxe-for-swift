@@ -58,7 +58,8 @@ public class CharacterData: Node, pCharacterData {
   /**
    * https://dom.spec.whatwg.org/#concept-cd-replace
    */
-  static internal func _replaceData(node: pCharacterData, _ offset: ulong, var _ count: ulong, _ str: DOMString) throws -> Void {
+  static internal func _replaceData(node: pCharacterData, _ offset: ulong, _ c: ulong, _ str: DOMString) throws -> Void {
+    var count = c
     // Step 1
     let length = node.length
 

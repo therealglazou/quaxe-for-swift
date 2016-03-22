@@ -133,7 +133,7 @@ public class XMLParser {
       let name   = attribute[1]
       let value  = attribute[2]
       if prefix.isEmpty {
-        xml.setAttribute(name, value)
+        try xml.setAttribute(name, value)
         if name == "xmlns" {
           if !self.elementPrefix.isEmpty {
             throw Exception.NamespaceError
@@ -143,7 +143,7 @@ public class XMLParser {
       }
       else {
         let n = (xml as! Node).lookupNamespaceURI(prefix)
-        xml.setAttributeNS(n, (prefix != "" ? prefix + ":" : "") + name, value);
+        try xml.setAttributeNS(n, (prefix != "" ? prefix + ":" : "") + name, value);
       }
     }
 
@@ -151,7 +151,9 @@ public class XMLParser {
     return xml as? Node
   }
 
-  internal func doParse(str: DOMString, var _ p: Int = 0, _ parent: Node) throws -> Int {
+  internal func doParse(str: DOMString, _ q: Int = 0, _ parent: Node) throws -> Int {
+    var p = q
+
     var xml: Node? = nil
     var state = S.BEGIN
     var next = S.BEGIN
@@ -192,7 +194,7 @@ public class XMLParser {
               throw Exception.HierarchyRequestError
             }
             buf = ""
-            nsubs++
+            nsubs += 1
             state = S.IGNORE_SPACES
             next = S.BEGIN_NODE
           }
@@ -208,7 +210,7 @@ public class XMLParser {
              str[p+2] == ">" {
             let child = document!.createTextNode(str.substr(start, p - start))
             parent.appendChild(child)
-            nsubs++
+            nsubs += 1
             p += 2
             state = S.BEGIN
           }
@@ -284,11 +286,11 @@ public class XMLParser {
           switch c {
             case "/":
               state = S.WAIT_END
-              nsubs++
+              nsubs += 1
             case ">":
               xml = try doCreateElement(parent)
               state = S.CHILDREN
-              nsubs++
+              nsubs += 1
             default:
               state = S.ATTRIB_NAME
               start = p
@@ -405,10 +407,10 @@ public class XMLParser {
           }
         case S.DOCTYPE:
           if c == "[" {
-            nbrackets++
+            nbrackets += 1
           }
           else if c == "]" {
-            nbrackets--
+            nbrackets -= 1
           }
           else if c == "<" && nbrackets == 0 {
             parent.appendChild(try document!.implementation.createDocumentType(str.substr(start, p - start), "", ""))
@@ -416,7 +418,7 @@ public class XMLParser {
           }
         case S.PI_TARGET:
           if !isValidChar(c) {
-            p++
+            p += 1
             aname = str.substr(start + 1, p - start - 2)
             start = p - 1
             state = S.IGNORE_SPACES
@@ -424,7 +426,7 @@ public class XMLParser {
           }
         case S.PI_DATA:
           if c == "?" && str[p+1] == ">" {
-            p++
+            p += 1
             let s = str.substr(start + 1, p - start - 2)
             parent.appendChild(try document!.createProcessingInstruction(aname!, s))
             state = S.BEGIN
@@ -454,7 +456,7 @@ public class XMLParser {
             }
           }
       }
-      p++
+      p += 1
       c = str[p]
     }
 

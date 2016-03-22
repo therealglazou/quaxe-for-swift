@@ -216,7 +216,7 @@ public class DOMTokenList: pDOMTokenList {
     return self.mTokens[self.mTokens.startIndex.advancedBy(Int(index))]
   }
 
-  internal init(elt: Element, _ attributeName: DOMString) {
+  internal init(_ elt: Element, _ attributeName: DOMString) {
     mOwnerElement = elt
     mOwnerAttribute = attributeName
   }

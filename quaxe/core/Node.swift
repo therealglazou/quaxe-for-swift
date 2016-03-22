@@ -38,7 +38,8 @@ public class Node: EventTarget, pNode {
   internal var mPreviousSibling: pNode?
   internal var mNextSibling: pNode?
 
-  internal func _getTextContent(var node: pNode?) -> DOMString {
+  internal func _getTextContent(n: pNode?) -> DOMString {
+    var node = n
     var rv = ""
     while nil != node {
       switch nodeType {
@@ -62,8 +63,8 @@ public class Node: EventTarget, pNode {
     textCount = 0
     while nil != child {
       switch child!.nodeType {
-        case Node.ELEMENT_NODE: elementCount++
-        case Node.TEXT_NODE:    textCount++
+        case Node.ELEMENT_NODE: elementCount += 1
+        case Node.TEXT_NODE:    textCount += 1
         default: break;
       }
       child = child!.nextSibling
@@ -74,7 +75,7 @@ public class Node: EventTarget, pNode {
     var child = firstChild
     var count: UInt = 0
     while nil != child {
-      count++
+      count += 1
       child = child!.nextSibling
     }
     return count
@@ -364,7 +365,8 @@ public class Node: EventTarget, pNode {
   /**
    * https://dom.spec.whatwg.org/#concept-node-clone
    */
-  internal func _clone(var document: pDocument? = nil, _ cloneChildrenFlag: Bool = false) -> Node {
+  internal func _clone(d: pDocument? = nil, _ cloneChildrenFlag: Bool = false) -> Node {
+    var document = d
     // Step 1
     if nil == document {
       document = self.ownerDocument
@@ -395,7 +397,10 @@ public class Node: EventTarget, pNode {
         let attributes = (self as! Element).attributes
         for attributeIndex in 0...attributes.length-1 {
           var a = attributes.item(attributeIndex)
-          e.setAttributeNS(a!.namespaceURI, a!.localName, a!.value)
+          do {
+            try e.setAttributeNS(a!.namespaceURI, a!.localName, a!.value)
+          }
+          catch _ {}
         }
         copy = e
       case Node.TEXT_NODE:
@@ -510,7 +515,7 @@ public class Node: EventTarget, pNode {
 
     var index = 1;
     while referenceAncestors[referenceAncestors.count - index] === otherAncestors[otherAncestors.count - index] {
-      index++
+      index += 1
     }
     if Trees.isPreceding(otherAncestors[otherAncestors.count - index], referenceAncestors[referenceAncestors.count - index]) {
       return Node.DOCUMENT_POSITION_PRECEDING

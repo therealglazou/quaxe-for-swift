@@ -52,7 +52,8 @@ internal class Namespaces {
   /*
    * https://dom.spec.whatwg.org/#validate-and-extract
    */
-  static func validateAndExtract(var namespaceURI: DOMString?, _ qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
+  static func validateAndExtract(ns: DOMString?, _ qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
+    var namespaceURI = ns
     if nil != namespaceURI && "" == namespaceURI {
       namespaceURI = nil
     }

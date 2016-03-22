@@ -16,13 +16,16 @@
  * status: done
  */
 
-public class Attr: pAttr {
+/*import Foundation
+
+@objc(Attr)*/
+public class Attr: /*NSObject,*/ pAttr {
 
   internal var mNamespaceURI: DOMString?
   internal var mPrefix: DOMString?
   internal var mLocalName: DOMString = ""
   internal var mValue: DOMString = ""
-  internal var mOwnerElement: pElement?
+  internal weak var mOwnerElement: Element?
 
   /**
    * https://dom.spec.whatwg.org/#dom-attr-namespaceuri
@@ -73,7 +76,10 @@ public class Attr: pAttr {
     set {
       mValue = newValue
       if nil != mOwnerElement {
-        mOwnerElement!.setAttributeNS(mNamespaceURI, mLocalName, newValue)
+        do {
+          try mOwnerElement!.setAttributeNS(mNamespaceURI, mLocalName, newValue)
+        }
+        catch _ {}
       }
     }
   }
@@ -116,7 +122,7 @@ public class Attr: pAttr {
     mLocalName = givenName
   }
 
-  init(givenName: DOMString, _ namespaceURI: DOMString?, _ prefix: DOMString?, _ value: DOMString, _ownerElement: Element?) {
+  init(_ givenName: DOMString, _ namespaceURI: DOMString?, _ prefix: DOMString?, _ value: DOMString, _ ownerElement: Element?) {
     mLocalName = givenName
     mNamespaceURI = namespaceURI
     mPrefix = prefix

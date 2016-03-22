@@ -63,14 +63,16 @@ internal class Trees {
     insertBefore(node, parent, nil)
   }
 
-  static func getRootOf(var node: Node) -> Node {
+  static func getRootOf(n: Node) -> Node {
+    var node = n
     while nil != node.parentNode {
       node = node.parentNode as! Node
     }
     return node
   }
 
-  static func isDescendantOf(var node: Node, _ candidate: Node) -> Bool {
+  static func isDescendantOf(n: Node, _ candidate: Node) -> Bool {
+    var node = n
     while nil != node.parentNode {
       if node.parentNode as! Node === candidate {
         return true
@@ -118,13 +120,14 @@ internal class Trees {
     var rv: ulong = 0
     var child: pNode? = node
     while nil != child && nil != child!.previousSibling {
-      rv++
+      rv += 1
       child = child!.previousSibling
     }
     return rv
   }
 
-  static func _listElementsWithQualifiedName(root: pNode?, _ qualifiedName: DOMString, var _ elementArray: Array<Element>) -> Void {
+  static func _listElementsWithQualifiedName(root: pNode?, _ qualifiedName: DOMString, _ ea: Array<Element>) -> Void {
+    var elementArray = ea
     var child = root
     while nil != child {
       if Node.ELEMENT_NODE == child!.nodeType {
@@ -161,7 +164,8 @@ internal class Trees {
     return HTMLCollection(elementArray)
   }
 
-  static func _listElementsWithQualifiedNameAndNamespace(root: pNode?, _ namespace: DOMString?, _ localName: DOMString, var _ elementArray: Array<Element>) -> Void {
+  static func _listElementsWithQualifiedNameAndNamespace(root: pNode?, _ namespace: DOMString?, _ localName: DOMString, _ ea: Array<Element>) -> Void {
+    var elementArray = ea
     var child = root
     while nil != child {
       if Node.ELEMENT_NODE == child!.nodeType {
@@ -194,7 +198,8 @@ internal class Trees {
     }
   }
 
-  static func listElementsWithQualifiedNameAndNamespace(root: Node, var _ namespace: DOMString?, _ localName: DOMString) -> HTMLCollection {
+  static func listElementsWithQualifiedNameAndNamespace(root: Node, _ ns: DOMString?, _ localName: DOMString) -> HTMLCollection {
+    var namespace = ns
     let elementArray: Array<Element> = []
     if "" == namespace {
       namespace = nil
@@ -203,7 +208,8 @@ internal class Trees {
     return HTMLCollection(elementArray)
   }
 
-  static func _listElementsWithClassNames(root: pNode?, _ classes: Set<String>, var _ elementArray: Array<Element>) -> Void {
+  static func _listElementsWithClassNames(root: pNode?, _ classes: Set<String>, _ ea: Array<Element>) -> Void {
+    var elementArray = ea
     var child = root
     while nil != child {
       if Node.ELEMENT_NODE == child!.nodeType {

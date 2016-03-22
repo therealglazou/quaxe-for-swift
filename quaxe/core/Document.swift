@@ -150,7 +150,8 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createelement
    */
-  public func createElement(var localName: DOMString) throws -> pElement {
+  public func createElement(ln: DOMString) throws -> pElement {
+    var localName = ln
     //Step 1
     try Namespaces.validateAsXMLName(localName)
 
@@ -253,7 +254,8 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createattribute
    */
-  public func createAttribute(var localName: DOMString) throws -> pAttr {
+  public func createAttribute(ln: DOMString) throws -> pAttr {
+    var localName = ln
     try Namespaces.validateAsXMLName(localName)
 
     if self.type == "html" {

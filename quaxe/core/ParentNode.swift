@@ -93,7 +93,7 @@ public class ParentNode {
     var child = n.firstChild
     while nil != child {
       if Node.ELEMENT_NODE == child!.nodeType {
-        count++
+        count += 1
       }
       child = child!.nextSibling
     }
