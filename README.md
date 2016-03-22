@@ -1,5 +1,5 @@
-# quaxe-for-swift
-Quaxe for Swift
+# quaxe-for-swift 2.2
+Quaxe for Swift 2.2
 
 Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as build system
 
@@ -38,7 +38,9 @@ Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as bu
 
 ###Download and Build instructions
 
-(tested on OS X 10.11.3 and Xcode 7.2.1 (7C1002)
+tested on OS X 10.11.3 and Xcode 7.2.1 (7C1002)
+
+Quaxe now uses Swift 2.2 (XCode 7.3)
 
     git clone https://github.com/therealglazou/quaxe-for-swift.git
     cd quaxe-for-swift
