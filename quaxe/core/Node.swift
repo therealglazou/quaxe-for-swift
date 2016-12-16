@@ -678,7 +678,19 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-isdefaultnamespace
    */
-  public func isDefaultNamespace(ns: DOMString?) -> Bool {return false}
+  public func isDefaultNamespace(ns: DOMString?) -> Bool {
+    // Step 1
+    var namespace = ns;
+    if "" == namespace {
+      namespace = nil
+    }
+
+    // Step 2
+    let defaultNamespace = Node.locateNamespace(self, nil)
+
+    // Step 3
+    return defaultNamespace == namespace
+  }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-insertbefore
