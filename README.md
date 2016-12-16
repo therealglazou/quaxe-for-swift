@@ -24,7 +24,7 @@ Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as bu
     MutationUtils.swift:            * status: TODO 100%
     NamedNodeMap.swift:             * status: TODO 100%
     Namespaces.swift:               * status: done
-    Node.swift:                     * status: TODO 15%
+    Node.swift:                     * status: TODO 5%
     NodeIterator.swift:             * status: TODO 100%
     NodeList.swift:                 * status: done
     NonDocumentTypeChildNode.swift: * status: done
