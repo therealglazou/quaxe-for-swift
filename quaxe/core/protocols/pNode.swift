@@ -40,7 +40,7 @@ public protocol pNode: pEventTarget {
   func lookupNamespaceURI(prefix: DOMString?) -> DOMString?
   func isDefaultNamespace(ns: DOMString?) -> Bool
 
-  func insertBefore(node: pNode, _ child: pNode?) -> pNode
+  func insertBefore(node: pNode, _ child: pNode?) throws -> pNode
   func appendChild(node: pNode) -> pNode
   func replaceChild(node: pNode, _ child: pNode) -> pNode
   func removeChild(child: pNode) -> pNode

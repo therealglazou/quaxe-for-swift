@@ -13,7 +13,7 @@
 /**
  * https://dom.spec.whatwg.org/#interface-node
  * 
- * status: TODO 15%
+ * status: TODO 5%
  */
 public class Node: EventTarget, pNode {
 
@@ -695,7 +695,9 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-insertbefore
    */
-  public func insertBefore(node: pNode, _ child: pNode?) -> pNode { return Node()}
+  public func insertBefore(node: pNode, _ child: pNode?) throws -> pNode {
+    return try MutationAlgorithms.preInsert(node as! Node, self, child as? Node)
+  }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-appendchild
