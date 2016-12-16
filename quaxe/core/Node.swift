@@ -13,7 +13,7 @@
 /**
  * https://dom.spec.whatwg.org/#interface-node
  * 
- * status: TODO 5%
+ * status: done
  */
 public class Node: EventTarget, pNode {
 
@@ -716,7 +716,9 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-removechild
    */
-  public func removeChild(child: pNode) -> pNode { return Node()}
+  public func removeChild(child: pNode) throws -> pNode {
+    return try MutationAlgorithms.preRemove(child as! Node, self)
+  }
 
 
   override init() {
