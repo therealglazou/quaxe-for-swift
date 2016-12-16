@@ -15,10 +15,7 @@ public protocol pAttr: pNode {
   var prefix: DOMString? { get }
   var localName: DOMString { get }
   var name: DOMString { get }
-  var nodeName: DOMString { get }
   var value: DOMString { get set }
-  var nodeValue: DOMString { get set }
-  var textContent: DOMString { get set }
 
   var ownerElement: pElement? { get }
 

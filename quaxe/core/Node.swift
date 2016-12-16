@@ -595,9 +595,85 @@ public class Node: EventTarget, pNode {
   }
 
   /*
+   * https://dom.spec.whatwg.org/#locate-a-namespace
+   */
+  static func locateNamespace(node: Node, _ prefix: DOMString?) -> DOMString? {
+    switch node.nodeType {
+      case Node.ELEMENT_NODE:
+        let elt = node as! Element
+        // Step 1.1
+        if nil != elt.namespaceURI && prefix == elt.prefix {
+          return elt.namespaceURI
+        }
+
+        // Step 1.2
+        var value: DOMString? = ""
+        if nil != prefix &&
+           elt.hasAttributeNS(Namespaces.XMLNS_NAMESPACE, prefix!) {
+          value = elt.getAttributeNS(Namespaces.XMLNS_NAMESPACE, prefix!)
+        }
+        else if nil == prefix &&
+                elt.hasAttributeNS(Namespaces.XMLNS_NAMESPACE, "xmlns") {
+          value = elt.getAttributeNS(Namespaces.XMLNS_NAMESPACE, "xmlns")
+        }
+        if "" != value {
+          return value
+        }
+
+        // Step 1.3
+        if nil == node.parentNode {
+          return nil
+        }
+
+        // Step 1.4
+        return locateNamespace(node.parentNode as! Node, prefix)
+
+      case Node.DOCUMENT_NODE:
+        // Step 2.1
+        let elt = (node as! Document).documentElement
+        if nil == elt {
+          return nil
+        }
+        // Step 2.2
+        return locateNamespace(elt as! Node, prefix)
+
+      case Node.DOCUMENT_TYPE_NODE,
+           Node.DOCUMENT_FRAGMENT_NODE:
+        return nil
+
+      case Node.ATTRIBUTE_NODE:
+        // Step 3.1
+        let elt = (node as! Attr).ownerElement
+        if nil == elt {
+          return nil
+        }
+        // Step 3.2
+        return locateNamespace(elt as! Node, prefix)
+
+      default:
+        // Step 4.3
+        if nil == node.parentNode {
+          return nil
+        }
+
+        // Step 4.4
+        return locateNamespace(node.parentNode as! Node, prefix)
+        
+    }
+  }
+
+  /*
    * https://dom.spec.whatwg.org/#dom-node-lookupnamespaceuri
    */
-  public func lookupNamespaceURI(prefix: DOMString?) -> DOMString? {return nil}
+  public func lookupNamespaceURI(prefix: DOMString?) -> DOMString? {
+    // Step 1
+    if nil == prefix || "" == prefix {
+      return nil
+    }
+
+    // Step 2
+    return Node.locateNamespace(self, prefix)
+  }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-isdefaultnamespace

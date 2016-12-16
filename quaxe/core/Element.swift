@@ -266,7 +266,7 @@ public class Element: Node, pElement {
   public func removeAttribute(qualifiedName: DOMString) -> Void {}
   public func removeAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Void {}
   public func hasAttribute(qualifiedName: DOMString) -> Bool {return false}
-  public func hasAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Bool {return false}
+  public func hasAttributeNS(namespace: DOMString?, _ localName: DOMString) -> Bool {return false}
 
   public func getAttributeNode(qualifiedName: DOMString) -> pAttr? { return nil}
   public func getAttributeNodeNS(namespace: DOMString?, _ localName: DOMString) -> pAttr? { return nil}

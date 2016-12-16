@@ -19,7 +19,7 @@
 /*import Foundation
 
 @objc(Attr)*/
-public class Attr: /*NSObject,*/ Node {
+public class Attr: /*NSObject,*/ Node, pAttr {
 
   internal var mNamespaceURI: DOMString?
   internal var mPrefix: DOMString?
@@ -59,11 +59,6 @@ public class Attr: /*NSObject,*/ Node {
     rv += mLocalName
     return rv
   }
-
-  /**
-   * https://dom.spec.whatwg.org/#dom-attr-nodename
-   */
-  public override var nodeName: DOMString { return self.name }
 
   /**
    * https://dom.spec.whatwg.org/#dom-attr-value

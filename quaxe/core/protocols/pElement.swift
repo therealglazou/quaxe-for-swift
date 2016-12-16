@@ -30,7 +30,7 @@ public protocol pElement: pNode {
   func removeAttribute(qualifiedName: DOMString) -> Void
   func removeAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Void
   func hasAttribute(qualifiedName: DOMString) -> Bool
-  func hasAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Bool
+  func hasAttributeNS(namespace: DOMString?, _ localName: DOMString) -> Bool
 
   func getAttributeNode(qualifiedName: DOMString) -> pAttr?
   func getAttributeNodeNS(namespace: DOMString?, _ localName: DOMString) -> pAttr?
