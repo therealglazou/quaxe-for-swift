@@ -177,8 +177,8 @@ internal class MutationAlgorithms {
   /**
    * https://dom.spec.whatwg.org/#concept-node-append
    */
-  static func append(node: Node, _ parent: Node) throws -> Void {
-    try MutationAlgorithms.preInsert(node, parent, nil)
+  static func append(node: Node, _ parent: Node) throws -> Node {
+    return try MutationAlgorithms.preInsert(node, parent, nil)
   }
 
   /*

@@ -41,7 +41,7 @@ public protocol pNode: pEventTarget {
   func isDefaultNamespace(ns: DOMString?) -> Bool
 
   func insertBefore(node: pNode, _ child: pNode?) throws -> pNode
-  func appendChild(node: pNode) -> pNode
+  func appendChild(node: pNode) throws -> pNode
   func replaceChild(node: pNode, _ child: pNode) -> pNode
   func removeChild(child: pNode) -> pNode
 }

@@ -702,7 +702,9 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-appendchild
    */
-  public func appendChild(node: pNode) -> pNode { return Node()}
+  public func appendChild(node: pNode) throws -> pNode {
+    return try MutationAlgorithms.append(node as! Node, self)
+  }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-replacechild
