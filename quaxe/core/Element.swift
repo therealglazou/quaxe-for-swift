@@ -33,8 +33,8 @@ public class Element: Node, pElement {
    * https://dom.spec.whatwg.org/#concept-element-attributes-get-by-namespace
    */
   static internal func getAttributeByNamespaceAndLocalName(elt: Element,
-                                                           _ ns: DOMString?,
-                                                           _ name: DOMString) -> Attr? {
+                                                           _ name: DOMString,
+                                                           _ ns: DOMString? = nil) -> Attr? {
     let namespace: DOMString? = (ns == "") ? nil : ns;
 
     for attr in (elt.attributes as! NamedNodeMap).mAttributes {
@@ -56,7 +56,7 @@ public class Element: Node, pElement {
                                                        _ ns: DOMString? = nil,
                                                        _ prefix: DOMString? = nil) -> Void {
     //Step 3
-    let attr = Element.getAttributeByNamespaceAndLocalName(elt, ns, name)
+    let attr = Element.getAttributeByNamespaceAndLocalName(elt, name, ns)
     // Step 4
     if attr == nil {
       let newAttr = Attr(name, ns, prefix, v, elt)
@@ -130,7 +130,7 @@ public class Element: Node, pElement {
    */
   public var id: DOMString {
     get {
-      let attr = Element.getAttributeByNamespaceAndLocalName(self, nil, "id")
+      let attr = Element.getAttributeByNamespaceAndLocalName(self, "id")
       if attr == nil {
         return ""
       }
@@ -148,7 +148,7 @@ public class Element: Node, pElement {
    */
   public var className: DOMString {
     get {
-      let attr = Element.getAttributeByNamespaceAndLocalName(self, nil, "class")
+      let attr = Element.getAttributeByNamespaceAndLocalName(self, "class")
       if attr == nil {
         return ""
       }
@@ -207,7 +207,7 @@ public class Element: Node, pElement {
    * https://dom.spec.whatwg.org/#dom-element-getattributens
    */
   public func getAttributeNS(ns: DOMString?, _ localName: DOMString) -> DOMString? {
-    let attr = Element.getAttributeByNamespaceAndLocalName(self, ns, localName)
+    let attr = Element.getAttributeByNamespaceAndLocalName(self, localName, ns)
     if attr == nil {
       return nil
     }
@@ -280,10 +280,6 @@ public class Element: Node, pElement {
   public func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection { return HTMLCollection() }
   public func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection { return HTMLCollection() }
   public func getElementsByClassName(classNames: DOMString) -> pHTMLCollection { return HTMLCollection() }
-
-  public func definesSupportedTokens(attributeName: DOMString) -> Bool {
-    return true
-  }
 
   public func supportsToken(attributeName: DOMString, _ token: DOMString) -> Bool {
     return true

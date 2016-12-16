@@ -32,20 +32,32 @@ public class DOMTokenList: pDOMTokenList {
     return false
   }
 
-  internal func updatingSteps() -> Void {
-    // TODO
+  /*
+   * https://dom.spec.whatwg.org/#concept-dtl-update
+   */
+  internal func updateSteps() -> Void {
+    if  self.mOwnerElement != nil &&
+        self.mOwnerAttribute != "" {
+      let value = self.toString()
+      Element.setAttributeByLocalNameAndValue(self.mOwnerElement!,
+                                              self.mOwnerAttribute,
+                                              value)
+    }
   }
 
-  internal func validatingSteps(token: DOMString) throws -> Bool {
-    if mOwnerElement != nil {
-      if !mOwnerElement!.definesSupportedTokens(mOwnerAttribute) {
-        throw Exception.TypeError
+  /*
+   * https://dom.spec.whatwg.org/#concept-dtl-serialize
+   */
+  internal func serializeSteps() -> DOMString {
+    if  self.mOwnerElement != nil &&
+        self.mOwnerAttribute != "" {
+      let attr = Element.getAttributeByNamespaceAndLocalName(self.mOwnerElement!,
+                                                             self.mOwnerAttribute)
+      if attr != nil {
+        return attr!.value
       }
-
-      let lowercaseToken = token.lowercaseString
-      return mOwnerElement!.supportsToken(mOwnerAttribute, lowercaseToken)
     }
-    return true
+    return ""
   }
 
   /**
@@ -96,7 +108,7 @@ public class DOMTokenList: pDOMTokenList {
       }
     }
 
-    self.updatingSteps()
+    self.updateSteps()
   }
 
   /**
@@ -115,7 +127,7 @@ public class DOMTokenList: pDOMTokenList {
       }
     }
 
-    self.updatingSteps()
+    self.updateSteps()
   }
 
   internal func _toggle(token: DOMString, _ force: Bool, _ passed: Bool) throws -> Bool {
@@ -130,7 +142,7 @@ public class DOMTokenList: pDOMTokenList {
     if self.mTokens.contains(token) {
       if !passed || !force {
         self.mTokens.remove(token)
-        self.updatingSteps()
+        self.updateSteps()
         return false
       }
       return true
@@ -140,7 +152,7 @@ public class DOMTokenList: pDOMTokenList {
       return false
     }
     self.mTokens.insert(token)
-    self.updatingSteps()
+    self.updateSteps()
     return true
   }
 
@@ -171,15 +183,15 @@ public class DOMTokenList: pDOMTokenList {
     }
     self.mTokens.remove(token)
     self.mTokens.insert(newToken)
-    self.updatingSteps()
+    self.updateSteps()
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-supports
    */
   public func supports(token: DOMString) throws -> Bool  {
-    let result = try self.validatingSteps(token)
-    return result
+    // XXX
+    return true
   }
 
   /**
@@ -200,14 +212,20 @@ public class DOMTokenList: pDOMTokenList {
       for component in components {
         self.mTokens.insert(component)
       }
-      self.updatingSteps()
+
+      if  self.mOwnerElement != nil &&
+          self.mOwnerAttribute != "" {
+        Element.setAttributeByLocalNameAndValue(self.mOwnerElement!,
+                                                self.mOwnerAttribute,
+                                                newValue)
+      }
     }
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-stringifier
    */
-  public func toString() -> DOMString {return self.value}
+  public func toString() -> DOMString { return self.value }
 
   public subscript(index: ulong) -> DOMString {
     if index >= self.length {
