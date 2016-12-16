@@ -531,13 +531,97 @@ public class Node: EventTarget, pNode {
     return (nil != other && Trees.isInclusiveDescendantOf(other as! Node, self))
   }
 
-  public func lookupPrefix(namespace: DOMString?) -> DOMString? {return nil}
-  public func lookupNamespaceURI(prefix: DOMString?) -> DOMString? {return nil}
-  public func isDefaultNamespace(namespace: DOMString?) -> Bool {return false}
+  /*
+   * https://dom.spec.whatwg.org/#locate-a-namespace-prefix
+   */
+  static func locateNamespacePrefix(elt: Element, _ ns: DOMString) -> DOMString? {
+    // Step 1
+    if elt.namespaceURI == ns && elt.prefix != nil {
+      return elt.prefix!
+    }
 
+    // Step 2
+    for attr in (elt.attributes as! NamedNodeMap).mAttributes {
+      if attr.prefix == "xmlns" &&
+         attr.value == ns {
+        return attr.localName
+      }
+    }
+
+    // Step 3
+    if elt.parentNode != nil {
+      return locateNamespacePrefix(elt.parentNode as! Element, ns)
+    }
+
+    // Step 4
+    return nil
+  }
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-lookupprefix
+   */
+  public func lookupPrefix(ns: DOMString?) -> DOMString? {
+    // step 1
+    if nil == ns || "" == ns {
+      return nil
+    }
+
+    // step 2
+    switch self.nodeType {
+      case Node.ELEMENT_NODE:
+        return Node.locateNamespacePrefix(self as! Element, ns!)
+      case Node.DOCUMENT_NODE:
+        let docElt = (self as! Document).documentElement
+        if nil != docElt {
+          return Node.locateNamespacePrefix(docElt as! Element, ns!)
+        }
+        return nil
+      case Node.DOCUMENT_TYPE_NODE,
+           Node.DOCUMENT_FRAGMENT_NODE:
+        return nil
+      case Node.ATTRIBUTE_NODE:
+        let elt = (self as! Attr).mOwnerElement
+        if nil != elt {
+          return Node.locateNamespacePrefix(elt!, ns!)
+        }
+        return nil
+      default:
+        let parent = self.parentNode
+        if nil != parent {
+          return Node.locateNamespacePrefix(parent as! Element, ns!)
+        }
+        return nil
+    }
+  }
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-lookupnamespaceuri
+   */
+  public func lookupNamespaceURI(prefix: DOMString?) -> DOMString? {return nil}
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-isdefaultnamespace
+   */
+  public func isDefaultNamespace(ns: DOMString?) -> Bool {return false}
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-insertbefore
+   */
   public func insertBefore(node: pNode, _ child: pNode?) -> pNode { return Node()}
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-appendchild
+   */
   public func appendChild(node: pNode) -> pNode { return Node()}
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-replacechild
+   */
   public func replaceChild(node: pNode, _ child: pNode) -> pNode { return Node()}
+
+  /*
+   * https://dom.spec.whatwg.org/#dom-node-removechild
+   */
   public func removeChild(child: pNode) -> pNode { return Node()}
 
 

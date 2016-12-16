@@ -36,9 +36,9 @@ public protocol pNode: pEventTarget {
   func compareDocumentPosition(other: pNode) -> ushort
   func contains(other: pNode?) -> Bool
 
-  func lookupPrefix(namespace: DOMString?) -> DOMString?
+  func lookupPrefix(ns: DOMString?) -> DOMString?
   func lookupNamespaceURI(prefix: DOMString?) -> DOMString?
-  func isDefaultNamespace(namespace: DOMString?) -> Bool
+  func isDefaultNamespace(ns: DOMString?) -> Bool
 
   func insertBefore(node: pNode, _ child: pNode?) -> pNode
   func appendChild(node: pNode) -> pNode

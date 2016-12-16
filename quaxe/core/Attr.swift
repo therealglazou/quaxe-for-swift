@@ -19,7 +19,7 @@
 /*import Foundation
 
 @objc(Attr)*/
-public class Attr: /*NSObject,*/ pAttr {
+public class Attr: /*NSObject,*/ Node {
 
   internal var mNamespaceURI: DOMString?
   internal var mPrefix: DOMString?
@@ -63,7 +63,7 @@ public class Attr: /*NSObject,*/ pAttr {
   /**
    * https://dom.spec.whatwg.org/#dom-attr-nodename
    */
-  public var nodeName: DOMString { return self.name }
+  public override var nodeName: DOMString { return self.name }
 
   /**
    * https://dom.spec.whatwg.org/#dom-attr-value
@@ -84,26 +84,6 @@ public class Attr: /*NSObject,*/ pAttr {
     }
   }
 
-  public var nodeValue: DOMString {
-    get {
-      return self.value
-    }
-
-    set {
-      self.value = newValue
-    }
-  }
-
-  public var textContent: DOMString {
-    get {
-      return self.value
-    }
-
-    set {
-      self.value = newValue
-    }
-  }
-
   /**
    * https://dom.spec.whatwg.org/#dom-attr-ownerelement
    */
@@ -116,7 +96,7 @@ public class Attr: /*NSObject,*/ pAttr {
    */
   public var specified: Bool { return true }
 
-  init() {}
+  override init() {}
 
   init(_ givenName: DOMString) {
     mLocalName = givenName
