@@ -42,6 +42,6 @@ public protocol pNode: pEventTarget {
 
   func insertBefore(node: pNode, _ child: pNode?) throws -> pNode
   func appendChild(node: pNode) throws -> pNode
-  func replaceChild(node: pNode, _ child: pNode) -> pNode
+  func replaceChild(node: pNode, _ child: pNode) throws -> pNode
   func removeChild(child: pNode) -> pNode
 }

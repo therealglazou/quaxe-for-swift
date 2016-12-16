@@ -709,7 +709,9 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-replacechild
    */
-  public func replaceChild(node: pNode, _ child: pNode) -> pNode { return Node()}
+  public func replaceChild(node: pNode, _ child: pNode) throws -> pNode {
+    return try MutationAlgorithms.replace(node as! Node, child as! Node, self)
+  }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-removechild
