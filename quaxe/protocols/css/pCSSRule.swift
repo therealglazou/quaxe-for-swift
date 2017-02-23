@@ -15,5 +15,5 @@ public protocol pCSSRule {
   var cssText: DOMString { get set }
 
   var parentStyleSheet: pCSSStyleSheet { get }
-  var parentRule: pCSSRule { get }
+  var parentRule: pCSSRule? { get }
 }

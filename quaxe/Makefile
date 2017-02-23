@@ -109,6 +109,14 @@ SOURCES += \
 		style/StyleSheet.swift \
 		style/StyleSheetList.swift \
 		style/MediaList.swift \
+		style/LinkStyle.swift \
+		style/DocumentStyle.swift \
+		$(NULL)
+
+SOURCES += \
+		css/CSSStyleSheet.swift \
+		css/CSSRuleList.swift \
+		css/CSSRule.swift \
 		$(NULL)
 
 SOURCES += \

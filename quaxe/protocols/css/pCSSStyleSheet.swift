@@ -11,7 +11,7 @@
  */
 
 public protocol pCSSStyleSheet {
-  var ownerRule: pCSSRule { get }
+  var ownerRule: pCSSRule? { get }
   var cssRules: pCSSRuleList { get }
   func insertRule(rule: DOMString, _ index: ulong) throws -> ulong
   func deleteRule(index: ulong) throws -> Void

@@ -11,5 +11,5 @@
  */
 
 public protocol pLinkStyle {
-  var sheet: pStyleSheet { get }
+  var sheet: pStyleSheet? { get }
 }
