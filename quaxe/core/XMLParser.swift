@@ -122,7 +122,7 @@ public class XMLParser {
     let xml = try self.document!.createElementNS(namespace, (namespace != nil && namespace! == Namespaces.HTML_NAMESPACE)
                                                           ? self.elementName!.lowercaseString
                                                           : self.elementName!)
-    parent!.appendChild(xml)
+    try parent!.appendChild(xml)
     if !self.elementPrefix.isEmpty {
       (xml as! Element).mPrefix = self.elementPrefix
     }
@@ -188,7 +188,7 @@ public class XMLParser {
             let toStore = buf + str.substr(start,p - start)
             if parent.nodeType == Node.ELEMENT_NODE {
               let child = self.document!.createTextNode(toStore)
-              parent.appendChild(child)
+              try parent.appendChild(child)
             }
             else if nil != toStore.rangeOfString(self.NOT_WHITESPACE_ONLY_EREG, options: .RegularExpressionSearch) {
               throw Exception.HierarchyRequestError
@@ -209,7 +209,7 @@ public class XMLParser {
              str[p+1] == "]" &&
              str[p+2] == ">" {
             let child = document!.createTextNode(str.substr(start, p - start))
-            parent.appendChild(child)
+            try parent.appendChild(child)
             nsubs += 1
             p += 2
             state = S.BEGIN
@@ -363,7 +363,7 @@ public class XMLParser {
               }
               if nsubs == 0 &&
                  parent.nodeType == Node.ELEMENT_NODE {
-                parent.appendChild(document!.createTextNode(""))
+                try parent.appendChild(document!.createTextNode(""))
               }
             default:
               throw Exception.SyntaxError
@@ -401,7 +401,7 @@ public class XMLParser {
           }
         case S.COMMENT:
           if c == "-" && str[p+1] == "-" && str[p+2] == ">" {
-            parent.appendChild(document!.createComment(str.substr(start, p - start)))
+            try parent.appendChild(document!.createComment(str.substr(start, p - start)))
             p += 2
             state = S.BEGIN
           }
@@ -413,7 +413,7 @@ public class XMLParser {
             nbrackets -= 1
           }
           else if c == "<" && nbrackets == 0 {
-            parent.appendChild(try document!.implementation.createDocumentType(str.substr(start, p - start), "", ""))
+            try parent.appendChild(try document!.implementation.createDocumentType(str.substr(start, p - start), "", ""))
             state = S.BEGIN
           }
         case S.PI_TARGET:
@@ -428,7 +428,7 @@ public class XMLParser {
           if c == "?" && str[p+1] == ">" {
             p += 1
             let s = str.substr(start + 1, p - start - 2)
-            parent.appendChild(try document!.createProcessingInstruction(aname!, s))
+            try parent.appendChild(try document!.createProcessingInstruction(aname!, s))
             state = S.BEGIN
           }
         case S.ENTITY:
@@ -467,7 +467,7 @@ public class XMLParser {
 
     if state == S.PCDATA {
       if p != start || nsubs == 0 {
-        parent.appendChild(document!.createTextNode(buf + str.substr(start, p - start)))
+        try parent.appendChild(document!.createTextNode(buf + str.substr(start, p - start)))
       }
       return p
     }

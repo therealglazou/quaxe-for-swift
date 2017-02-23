@@ -1,7 +1,7 @@
 /**
  * Quaxe for Swift
  * 
- * Copyright 2016 Disruptive Innovations
+ * Copyright 2016-2017 Disruptive Innovations
  * 
  * Original author:
  *   Daniel Glazman <daniel.glazman@disruptive-innovations.com>
@@ -11,7 +11,7 @@
  */
 
 public protocol pMediaList {
-  var mediaText: DOMString { get set }
+  var mediaText: DOMString { get }
 
   var length: ulong { get }
   func item(index: ulong) -> DOMString?

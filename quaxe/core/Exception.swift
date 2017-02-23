@@ -1,7 +1,7 @@
 /**
  * Quaxe for Swift
  * 
- * Copyright 2016 Disruptive Innovations
+ * Copyright 2016-2017 Disruptive Innovations
  * 
  * Original author:
  *   Daniel Glazman <daniel.glazman@disruptive-innovations.com>
@@ -31,4 +31,6 @@ enum Exception: ErrorType {
   case NODE_NAMEDeclarationExpected
   case ATTRIBUTE_NAMEDeclarationExpected
   case SyntaxError
+
+  case NoModificationAllowed
 }

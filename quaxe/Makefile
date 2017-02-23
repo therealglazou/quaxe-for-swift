@@ -103,6 +103,12 @@ SOURCES += \
 		$(NULL)
 
 SOURCES += \
+		css/StyleSheet.swift \
+		css/StyleSheetList.swift \
+		css/MediaList.swift \
+		$(NULL)
+
+SOURCES += \
 		events/EventCreator.swift \
 		$(NULL)
 
