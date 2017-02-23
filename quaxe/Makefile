@@ -120,6 +120,7 @@ SOURCES += \
 		css/CSSStyleRule.swift \
 		css/CSSStyleDeclaration.swift \
 		css/CSSMediaRule.swift \
+		css/CSSFontFaceRule.swift \
 		$(NULL)
 
 SOURCES += \
