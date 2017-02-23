@@ -117,6 +117,9 @@ SOURCES += \
 		css/CSSStyleSheet.swift \
 		css/CSSRuleList.swift \
 		css/CSSRule.swift \
+		css/CSSStyleRule.swift \
+		css/CSSStyleDeclaration.swift \
+		css/CSSMediaRule.swift \
 		$(NULL)
 
 SOURCES += \

@@ -30,6 +30,13 @@ public class CSSRuleList: pCSSRuleList {
     return 0
   }
 
+  internal func _deleteRule(index: ulong) throws -> Void {
+    if index >= self.length {
+      throw Exception.IndexSizeError
+    }
+    mRules.removeAtIndex(Int(index))
+  }
+
   init() {
     mRules = []
   }

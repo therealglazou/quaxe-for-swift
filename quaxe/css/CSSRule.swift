@@ -43,7 +43,7 @@ public class CSSRule: pCSSRule {
   public var parentStyleSheet: pCSSStyleSheet { return mParentStyleSheet }
   public var parentRule: pCSSRule? { return mParentStyleRule }
 
-  init(parentStyleSheet: pCSSStyleSheet, _ parentRule: pCSSRule?) {
+  init(_ parentStyleSheet: pCSSStyleSheet, _ parentRule: pCSSRule?) {
     mParentStyleSheet = parentStyleSheet;
     mParentStyleRule = parentRule;
   }
