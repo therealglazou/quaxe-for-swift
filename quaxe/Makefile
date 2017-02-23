@@ -5,65 +5,68 @@ include $(TOPSRCDIR)/swiftbuild/config.mk
 MODULE_NAME = Quaxe
 
 SOURCES = \
-		core/protocols/DOMString.swift \
-		core/protocols/DOMTimeStamp.swift \
-		core/protocols/pAttr.swift \
-		core/protocols/pCharacterData.swift \
-		core/protocols/pChildNode.swift \
-		core/protocols/pComment.swift \
-		core/protocols/pCustomEvent.swift \
-		core/protocols/pDOMImplementation.swift \
-		core/protocols/pDOMRange.swift \
-		core/protocols/pDOMTokenList.swift \
-		core/protocols/pDocument.swift \
-		core/protocols/pDocumentFragment.swift \
-		core/protocols/pDocumentType.swift \
-		core/protocols/pElement.swift \
-		core/protocols/pElements.swift \
-		core/protocols/pEvent.swift \
-		core/protocols/pEventListener.swift \
-		core/protocols/pEventTarget.swift \
-		core/protocols/pHTMLCollection.swift \
-		core/protocols/pMutationObserver.swift \
-		core/protocols/pMutationRecord.swift \
-		core/protocols/pNamedNodeMap.swift \
-		core/protocols/pNode.swift \
-		core/protocols/pNodeFilter.swift \
-		core/protocols/pNodeIterator.swift \
-		core/protocols/pNodeList.swift \
-		core/protocols/pNonDocumentTypeChildNode.swift \
-		core/protocols/pNonElementParentNode.swift \
-		core/protocols/pParentNode.swift \
-		core/protocols/pProcessingInstruction.swift \
-		core/protocols/pText.swift \
-		core/protocols/pTreeWalker.swift \
-		core/protocols/webidl_types.swift \
+		protocols/core/DOMString.swift \
+		protocols/core/DOMTimeStamp.swift \
+		protocols/core/pAttr.swift \
+		protocols/core/pCharacterData.swift \
+		protocols/core/pChildNode.swift \
+		protocols/core/pComment.swift \
+		protocols/core/pCustomEvent.swift \
+		protocols/core/pDOMImplementation.swift \
+		protocols/core/pDOMRange.swift \
+		protocols/core/pDOMTokenList.swift \
+		protocols/core/pDocument.swift \
+		protocols/core/pDocumentFragment.swift \
+		protocols/core/pDocumentType.swift \
+		protocols/core/pElement.swift \
+		protocols/core/pElements.swift \
+		protocols/core/pEvent.swift \
+		protocols/core/pEventListener.swift \
+		protocols/core/pEventTarget.swift \
+		protocols/core/pHTMLCollection.swift \
+		protocols/core/pMutationObserver.swift \
+		protocols/core/pMutationRecord.swift \
+		protocols/core/pNamedNodeMap.swift \
+		protocols/core/pNode.swift \
+		protocols/core/pNodeFilter.swift \
+		protocols/core/pNodeIterator.swift \
+		protocols/core/pNodeList.swift \
+		protocols/core/pNonDocumentTypeChildNode.swift \
+		protocols/core/pNonElementParentNode.swift \
+		protocols/core/pParentNode.swift \
+		protocols/core/pProcessingInstruction.swift \
+		protocols/core/pText.swift \
+		protocols/core/pTreeWalker.swift \
+		protocols/core/webidl_types.swift \
 		$(NULL)
 
 SOURCES += \
-		css/protocols/pCSSCharsetRule.swift \
-		css/protocols/pCSSFontFaceRule.swift \
-		css/protocols/pCSSImportRule.swift \
-		css/protocols/pCSSMediaRule.swift \
-		css/protocols/pCSSPageRule.swift \
-		css/protocols/pCSSRule.swift \
-		css/protocols/pCSSUnknownRule.swift \
-		css/protocols/pCSSRuleList.swift \
-		css/protocols/pCSSStyleDeclaration.swift \
-		css/protocols/pCSSStyleRule.swift \
-		css/protocols/pCSSStyleSheet.swift \
-		css/protocols/pCSSValue.swift \
-		css/protocols/pDocumentStyle.swift \
-		css/protocols/pElementCSSInlineStyle.swift \
-		css/protocols/pLinkStyle.swift \
-		css/protocols/pMediaList.swift \
-		css/protocols/pStyleSheet.swift \
-		css/protocols/pStyleSheetList.swift \
-		css/protocols/pViewCSS.swift \
+		protocols/style/pMediaList.swift \
+		protocols/style/pStyleSheet.swift \
+		protocols/style/pStyleSheetList.swift \
 		$(NULL)
 
 SOURCES += \
-		events/protocols/pEventCreator.swift \
+		protocols/css/pCSSCharsetRule.swift \
+		protocols/css/pCSSFontFaceRule.swift \
+		protocols/css/pCSSImportRule.swift \
+		protocols/css/pCSSMediaRule.swift \
+		protocols/css/pCSSPageRule.swift \
+		protocols/css/pCSSRule.swift \
+		protocols/css/pCSSUnknownRule.swift \
+		protocols/css/pCSSRuleList.swift \
+		protocols/css/pCSSStyleDeclaration.swift \
+		protocols/css/pCSSStyleRule.swift \
+		protocols/css/pCSSStyleSheet.swift \
+		protocols/css/pCSSValue.swift \
+		protocols/css/pDocumentStyle.swift \
+		protocols/css/pElementCSSInlineStyle.swift \
+		protocols/css/pLinkStyle.swift \
+		protocols/css/pViewCSS.swift \
+		$(NULL)
+
+SOURCES += \
+		protocols/events/pEventCreator.swift \
 		$(NULL)
 
 SOURCES += \
@@ -103,9 +106,9 @@ SOURCES += \
 		$(NULL)
 
 SOURCES += \
-		css/StyleSheet.swift \
-		css/StyleSheetList.swift \
-		css/MediaList.swift \
+		style/StyleSheet.swift \
+		style/StyleSheetList.swift \
+		style/MediaList.swift \
 		$(NULL)
 
 SOURCES += \
