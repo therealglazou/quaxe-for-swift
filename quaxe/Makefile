@@ -44,6 +44,8 @@ SOURCES += \
 		protocols/style/pMediaList.swift \
 		protocols/style/pStyleSheet.swift \
 		protocols/style/pStyleSheetList.swift \
+		protocols/style/pLinkStyle.swift \
+		protocols/style/pDocumentStyle.swift \
 		$(NULL)
 
 SOURCES += \
@@ -59,9 +61,7 @@ SOURCES += \
 		protocols/css/pCSSStyleRule.swift \
 		protocols/css/pCSSStyleSheet.swift \
 		protocols/css/pCSSValue.swift \
-		protocols/css/pDocumentStyle.swift \
 		protocols/css/pElementCSSInlineStyle.swift \
-		protocols/css/pLinkStyle.swift \
 		protocols/css/pViewCSS.swift \
 		$(NULL)
 
