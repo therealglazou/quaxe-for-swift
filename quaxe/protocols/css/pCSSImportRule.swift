@@ -13,5 +13,5 @@
 public protocol pCSSImportRule {
   var href: DOMString { get }
   var media: pMediaList { get }
-  var styleSheet: pCSSStyleSheet { get }
+  var styleSheet: pCSSStyleSheet? { get }
 }

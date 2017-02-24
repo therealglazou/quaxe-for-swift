@@ -11,18 +11,29 @@
  */
 
 /*
- * https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSFontFaceRule
+ * https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSPageRule
  */
-public class CSSFontFaceRule: CSSRule, pCSSFontFaceRule {
-
+public class CSSPageRule: CSSRule, pCSSPageRule {
+  internal var mSelectorText: DOMString
   internal var mStyle: pCSSStyleDeclaration
+
+  // XXXX
+  public var selectorText: DOMString {
+    get {
+      return mSelectorText
+    }
+    set {
+      mSelectorText = newValue
+    }
+  }
 
   public var style: pCSSStyleDeclaration { return mStyle }
 
   override init(_ parentStyleSheet: pCSSStyleSheet, _ parentRule: pCSSRule?) {
+    mSelectorText = ""
     mStyle = CSSStyleDeclaration()
     super.init(parentStyleSheet, parentRule)
-    mType = CSSRule.FONT_FACE_RULE
+    mType = CSSRule.PAGE_RULE
     (mStyle as! CSSStyleDeclaration)._setParentRule(self)
   }
 }

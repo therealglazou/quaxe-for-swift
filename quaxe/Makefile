@@ -121,6 +121,8 @@ SOURCES += \
 		css/CSSStyleDeclaration.swift \
 		css/CSSMediaRule.swift \
 		css/CSSFontFaceRule.swift \
+		css/CSSPageRule.swift \
+		css/CSSImportRule.swift \
 		$(NULL)
 
 SOURCES += \
