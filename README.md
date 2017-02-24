@@ -38,7 +38,7 @@ Uses swift-makefiles from https://github.com/therealglazou/swift-makefiles as bu
 
 ###Download and Build instructions
 
-tested on OS X 10.11.4 and Xcode 7.3, Swift 2.2
+tested on OS X 10.12.3 and Xcode 8.2.1 (8C1002), Swift 3.0.2 (swiftlang-800.0.63 clang-800.0.42.1)
 
     git clone https://github.com/therealglazou/quaxe-for-swift.git
     cd quaxe-for-swift
