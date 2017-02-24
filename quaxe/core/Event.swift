@@ -36,13 +36,13 @@ public class Event: pEvent {
     get { return mFlags }
     set { mFlags = newValue }
   }
-  internal func hasFlag(flag: ushort) -> Bool {
+  internal func hasFlag(_ flag: ushort) -> Bool {
     return 0 != (flags & flag)
   }
-  internal func setFlag(flag: ushort) -> Void {
+  internal func setFlag(_ flag: ushort) -> Void {
     flags = flags | flag
   }
-  internal func unsetFlag(flag: ushort) -> Void {
+  internal func unsetFlag(_ flag: ushort) -> Void {
     if hasFlag(flag) {
       flags = flags - flag
     }
@@ -125,11 +125,11 @@ public class Event: pEvent {
   /*
    * https://dom.spec.whatwg.org/#dom-event-initevent
    */
-  public func initEvent(aType: DOMString, _ aBubbles: Bool, _ aCancelable: Bool) -> Void {
+  public func initEvent(_ type: DOMString, _ bubbles: Bool, _ cancelable: Bool) -> Void {
     if !hasFlag(Event.DISPATCH_FLAG) {
-      mType  = aType
-      mBubbles = aBubbles
-      mCancelable = aCancelable
+      mType  = type
+      mBubbles = bubbles
+      mCancelable = cancelable
     }
   }
 

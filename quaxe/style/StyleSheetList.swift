@@ -23,11 +23,11 @@ public class StyleSheetList: pStyleSheetList {
     return ulong(self.mStyleSheetList.count)
   }
 
-  public func item(index: ulong) -> pStyleSheet? {
+  public func item(_ index: ulong) -> pStyleSheet? {
     if index >= self.length {
       return nil
     }
-    return self.mStyleSheetList[self.mStyleSheetList.startIndex.advancedBy(Int(index))]
+    return self.mStyleSheetList[self.mStyleSheetList.index(self.mStyleSheetList.startIndex, offsetBy: Int(index))]
   }
 
   init() {}

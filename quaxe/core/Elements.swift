@@ -16,12 +16,12 @@
  * status: TODO 100%
  */
 public class Elements: pElements {
-  public func query(relativeSelectors: DOMString) -> pElement? {
+  public func query(_ relativeSelectors: DOMString) -> pElement? {
     // TODO
     return nil
   }
 
-  public func queryAll(relativeSelectors: DOMString) -> pElements {
+  public func queryAll(_ relativeSelectors: DOMString) -> pElements {
     // TODO
     return Elements()
   }

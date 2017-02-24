@@ -11,5 +11,5 @@
  */
 
 public protocol pViewCSS {
-  func getComputedStyle(elt: pElement, _ pseudoElt: DOMString) -> pCSSStyleDeclaration
+  func getComputedStyle(_ elt: pElement, _ pseudoElt: DOMString) -> pCSSStyleDeclaration
 }

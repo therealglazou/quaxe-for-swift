@@ -11,5 +11,5 @@
  */
 
 public protocol pEventCreator {
-  static func createEvent(interface: DOMString, _ aEventInitDict: Dictionary<String, Any>) -> pEvent
+  static func createEvent(_ interface: DOMString, _ aEventInitDict: Dictionary<String, Any>) -> pEvent
 }

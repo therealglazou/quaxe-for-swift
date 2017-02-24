@@ -43,7 +43,7 @@ public class EventTarget: pEventTarget {
 
   internal var mEventListenersArray: Array<EventListenerStruct>
 
-  private func flatten(options: [String: Bool], inout _ capture: Bool, inout _ passive: Bool) -> Void {
+  private func flatten(_ options: [String: Bool], _ capture: inout Bool, _ passive: inout Bool) -> Void {
     capture = false
     passive = false
     if let captureTemp = options["capture"] {
@@ -54,14 +54,14 @@ public class EventTarget: pEventTarget {
     } 
   }
 
-  internal func getParent(event: Event) -> EventTarget? {
+  internal func getParent(_ event: Event) -> EventTarget? {
     return nil
   }
 
   /**
    * https://dom.spec.whatwg.org/#concept-event-listener-inner-invoke
    */
-  static internal func _innerInvoke(object: EventTarget, _ event: Event) -> Bool {
+  @discardableResult static internal func _innerInvoke(_ object: EventTarget, _ event: Event) -> Bool {
     // Step 1
     var found = false
 
@@ -113,7 +113,7 @@ public class EventTarget: pEventTarget {
   /**
    * https://dom.spec.whatwg.org/#concept-event-listener-invoke
    */
-  static internal func _invoke(object: EventTarget, _ event: Event) -> Void {
+  static internal func _invoke(_ object: EventTarget, _ event: Event) -> Void {
     //Step 1
     var listeners: Array<EventListenerStruct> = []
 
@@ -154,7 +154,7 @@ public class EventTarget: pEventTarget {
     }
   }
 
-  static internal func _dispatchEvent(event: Event, _ target: EventTarget, _ targetOverride: EventTarget? = nil) throws -> Bool {
+  static internal func _dispatchEvent(_ event: Event, _ target: EventTarget, _ targetOverride: EventTarget? = nil) throws -> Bool {
     // Step 1
     event.setFlag(Event.DISPATCH_FLAG)
 
@@ -178,7 +178,7 @@ public class EventTarget: pEventTarget {
     event.mEventPhase = Event.CAPTURING_PHASE
 
     // Step 6
-    for index in (0...eventPath.count-1).reverse() {
+    for index in (0...eventPath.count-1).reversed() {
       if !event.hasFlag(Event.STOP_PROPAGATION_FLAG) &&
          eventPath[index] !== target {
         EventTarget._invoke(eventPath[index], event)
@@ -222,12 +222,12 @@ public class EventTarget: pEventTarget {
   /**
    * https://dom.spec.whatwg.org/#interface-eventtarget
    */
-  public func addEventListener(type: DOMString, _ callback: AnyObject?, _ options: Bool) -> Void {
+  public func addEventListener(_ type: DOMString, _ callback: AnyObject?, _ options: Bool) -> Void {
     let toStore = EventListenerStruct(type, callback, options, false)
     mEventListenersArray.append(toStore)
   }
 
-  public func addEventListener(type: DOMString, _ callback: AnyObject?, _ options: [String: Bool]) -> Void {
+  public func addEventListener(_ type: DOMString, _ callback: AnyObject?, _ options: [String: Bool]) -> Void {
     var capture: Bool = false
     var passive: Bool = false
     flatten(options, &capture, &passive)
@@ -238,27 +238,27 @@ public class EventTarget: pEventTarget {
   /*
    * https://dom.spec.whatwg.org/#dom-eventtarget-removeeventlistener
    */
-  public func removeEventListener(type: DOMString, _ callback: AnyObject?, _ options: Bool) -> Void {
+  public func removeEventListener(_ type: DOMString, _ callback: AnyObject?, _ options: Bool) -> Void {
     let toStore = EventListenerStruct(type, callback, options, false)
-    if let index = mEventListenersArray.indexOf(toStore) {
-      mEventListenersArray.removeAtIndex(index)
+    if let index = mEventListenersArray.index(of: toStore) {
+      mEventListenersArray.remove(at: index)
     }
   }
 
-  public func removeEventListener(type: DOMString, _ callback: AnyObject?, _ options: [String: Bool]) -> Void {
+  public func removeEventListener(_ type: DOMString, _ callback: AnyObject?, _ options: [String: Bool]) -> Void {
     var capture: Bool = false
     var passive: Bool = false
     flatten(options, &capture, &passive)
     let toStore = EventListenerStruct(type, callback, capture, passive)
-    if let index = mEventListenersArray.indexOf(toStore) {
-      mEventListenersArray.removeAtIndex(index)
+    if let index = mEventListenersArray.index(of: toStore) {
+      mEventListenersArray.remove(at: index)
     }
   }
 
   /*
    * https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent
    */
-  public func dispatchEvent(event: pEvent) throws -> Bool {
+  public func dispatchEvent(_ event: pEvent) throws -> Bool {
     if (event as! Event).hasFlag(Event.DISPATCH_FLAG) ||
        !(event as! Event).hasFlag(Event.INITIALIZED_FLAG) {
       throw Exception.InvalidStateError

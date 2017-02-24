@@ -32,7 +32,7 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#concept-element-attributes-get-by-namespace
    */
-  static internal func getAttributeByNamespaceAndLocalName(elt: Element,
+  static internal func getAttributeByNamespaceAndLocalName(_ elt: Element,
                                                            _ name: DOMString,
                                                            _ ns: DOMString? = nil) -> Attr? {
     let namespace: DOMString? = (ns == "") ? nil : ns;
@@ -50,7 +50,7 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#concept-element-attributes-set-value
    */
-  static internal func setAttributeByLocalNameAndValue(elt: Element,
+  static internal func setAttributeByLocalNameAndValue(_ elt: Element,
                                                        _ name: DOMString,
                                                        _ v: DOMString,
                                                        _ ns: DOMString? = nil,
@@ -70,12 +70,12 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name
    */
-  static internal func getAttributeByName(elt: Element,
+  static internal func getAttributeByName(_ elt: Element,
                                           _ qname: DOMString) -> Attr? {
     let qualifiedName: DOMString = (elt.namespaceURI == Namespaces.HTML_NAMESPACE &&
                          elt.ownerDocument != nil &&
                          elt.ownerDocument!.type == "html")
-                          ? qname.lowercaseString
+                          ? qname.lowercased()
                           : qname;
 
     for attr in (elt.attributes as! NamedNodeMap).mAttributes {
@@ -114,7 +114,7 @@ public class Element: Node, pElement {
       if Namespaces.HTML_NAMESPACE == ns {
         if let d = ownerDocument {
           if d.type == "html" {
-            qname = qname.uppercaseString
+            qname = qname.uppercased()
           }
         }
       }
@@ -195,7 +195,7 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#dom-element-getattribute
    */
-  public func getAttribute(qualifiedName: DOMString) -> DOMString? {
+  public func getAttribute(_ qualifiedName: DOMString) -> DOMString? {
     let attr = Element.getAttributeByName(self, qualifiedName)
     if attr == nil {
       return nil
@@ -206,7 +206,7 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#dom-element-getattributens
    */
-  public func getAttributeNS(ns: DOMString?, _ localName: DOMString) -> DOMString? {
+  public func getAttributeNS(_ ns: DOMString?, _ localName: DOMString) -> DOMString? {
     let attr = Element.getAttributeByNamespaceAndLocalName(self, localName, ns)
     if attr == nil {
       return nil
@@ -217,7 +217,7 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#dom-element-setattribute
    */
-  public func setAttribute(qname: DOMString, _ v: DOMString) throws -> Void {
+  public func setAttribute(_ qname: DOMString, _ v: DOMString) throws -> Void {
     //Step 1
     try Namespaces.validateAsXMLName(qname)
 
@@ -225,7 +225,7 @@ public class Element: Node, pElement {
     let qualifiedName = (self.namespaceURI == Namespaces.HTML_NAMESPACE &&
                          self.ownerDocument != nil &&
                          self.ownerDocument!.type == "html")
-                          ? qname.lowercaseString
+                          ? qname.lowercased()
                           : qname;
 
     // Step 3
@@ -251,7 +251,7 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#dom-element-setattributens
    */
-  public func setAttributeNS(ns: DOMString?, _ qname: DOMString, _ v: DOMString) throws -> Void {
+  public func setAttributeNS(_ ns: DOMString?, _ qname: DOMString, _ v: DOMString) throws -> Void {
     let d = try Namespaces.validateAndExtract(ns, qname)
     Element.setAttributeByLocalNameAndValue(self,
                                             d["localName"]!!,
@@ -263,25 +263,25 @@ public class Element: Node, pElement {
   /**
    * https://dom.spec.whatwg.org/#dom-element-removeattribute
    */
-  public func removeAttribute(qualifiedName: DOMString) -> Void {}
-  public func removeAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Void {}
-  public func hasAttribute(qualifiedName: DOMString) -> Bool {return false}
-  public func hasAttributeNS(namespace: DOMString?, _ localName: DOMString) -> Bool {return false}
+  public func removeAttribute(_ qualifiedName: DOMString) -> Void {}
+  public func removeAttributeNS(_ namespace: DOMString?, _ qualifiedName: DOMString) -> Void {}
+  public func hasAttribute(_ qualifiedName: DOMString) -> Bool {return false}
+  public func hasAttributeNS(_ namespace: DOMString?, _ localName: DOMString) -> Bool {return false}
 
-  public func getAttributeNode(qualifiedName: DOMString) -> pAttr? { return nil}
-  public func getAttributeNodeNS(namespace: DOMString?, _ localName: DOMString) -> pAttr? { return nil}
-  public func setAttributeNode(attr: pAttr) -> pAttr? { return nil}
-  public func setAttributeNodeNS(attr: pAttr) -> pAttr? { return nil}
-  public func removeAttributeNode(attr: pAttr) -> pAttr { return Attr()}
+  public func getAttributeNode(_ qualifiedName: DOMString) -> pAttr? { return nil}
+  public func getAttributeNodeNS(_ namespace: DOMString?, _ localName: DOMString) -> pAttr? { return nil}
+  public func setAttributeNode(_ attr: pAttr) -> pAttr? { return nil}
+  public func setAttributeNodeNS(_ attr: pAttr) -> pAttr? { return nil}
+  public func removeAttributeNode(_ attr: pAttr) -> pAttr { return Attr()}
 
-  public func closest(selectors: DOMString) -> pElement? { return nil}
-  public func matches(selectors: DOMString) -> Bool {return false}
+  public func closest(_ selectors: DOMString) -> pElement? { return nil}
+  public func matches(_ selectors: DOMString) -> Bool {return false}
 
-  public func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection { return HTMLCollection() }
-  public func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection { return HTMLCollection() }
-  public func getElementsByClassName(classNames: DOMString) -> pHTMLCollection { return HTMLCollection() }
+  public func getElementsByTagName(_ qualifiedName: DOMString) -> pHTMLCollection { return HTMLCollection() }
+  public func getElementsByTagNameNS(_ namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection { return HTMLCollection() }
+  public func getElementsByClassName(_ classNames: DOMString) -> pHTMLCollection { return HTMLCollection() }
 
-  public func supportsToken(attributeName: DOMString, _ token: DOMString) -> Bool {
+  public func supportsToken(_ attributeName: DOMString, _ token: DOMString) -> Bool {
     return true
   }
 

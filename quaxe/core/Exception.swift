@@ -13,7 +13,7 @@
 /**
  * status: TODO
  */
-enum Exception: ErrorType {
+enum Exception: Error {
   case IndexSizeError
   case HierarchyRequestError
   case NotFoundError

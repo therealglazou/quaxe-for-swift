@@ -11,5 +11,5 @@
  */
 
 public protocol pNodeFilter {
-  func acceptNode(node: pNode) -> ushort
+  func acceptNode(_ node: pNode) -> ushort
 }

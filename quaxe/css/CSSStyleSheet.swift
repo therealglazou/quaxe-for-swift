@@ -20,9 +20,9 @@ public class CSSStyleSheet: pCSSStyleSheet {
   public var cssRules: pCSSRuleList { return mCSSRuleList }
 
   // XXXX
-  public func insertRule(rule: DOMString, _ index: ulong) throws -> ulong {return 0}
+  public func insertRule(_ rule: DOMString, _ index: ulong) throws -> ulong {return 0}
   // XXXX
-  public func deleteRule(index: ulong) throws -> Void {}
+  public func deleteRule(_ index: ulong) throws -> Void {}
 
   init() {
     mOwnerRule = nil

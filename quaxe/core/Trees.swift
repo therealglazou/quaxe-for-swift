@@ -17,7 +17,7 @@
  */
 internal class Trees {
 
-  static func remove(node: Node, _ parent: Node) -> Void {
+  static func remove(_ node: Node, _ parent: Node) -> Void {
     if (node.previousSibling != nil) {
       (node.previousSibling as! Node).mNextSibling = node.nextSibling;
     }
@@ -34,7 +34,7 @@ internal class Trees {
     }
   }
 
-  static func insertBefore(node: Node, _ parent: Node, _ child: Node?) -> Void {
+  static func insertBefore(_ node: Node, _ parent: Node, _ child: Node?) -> Void {
     if nil == child {
       // append
       node.mPreviousSibling = parent.mLastChild
@@ -59,11 +59,11 @@ internal class Trees {
     }
   }
 
-  static func append(node: Node, _ parent: Node) -> Void {
+  static func append(_ node: Node, _ parent: Node) -> Void {
     insertBefore(node, parent, nil)
   }
 
-  static func getRootOf(n: Node) -> Node {
+  static func getRootOf(_ n: Node) -> Node {
     var node = n
     while nil != node.parentNode {
       node = node.parentNode as! Node
@@ -71,7 +71,7 @@ internal class Trees {
     return node
   }
 
-  static func isDescendantOf(n: Node, _ candidate: Node) -> Bool {
+  static func isDescendantOf(_ n: Node, _ candidate: Node) -> Bool {
     var node = n
     while nil != node.parentNode {
       if node.parentNode as! Node === candidate {
@@ -82,41 +82,41 @@ internal class Trees {
     return false
   }
 
-  static func isInclusiveDescendantOf(node: Node, _ candidate: Node) -> Bool {
+  static func isInclusiveDescendantOf(_ node: Node, _ candidate: Node) -> Bool {
     return node === candidate ||
            Trees.isDescendantOf(node, candidate)
   }
 
-  static func isAncestorOf(node: Node, _ candidate: Node) -> Bool {
+  static func isAncestorOf(_ node: Node, _ candidate: Node) -> Bool {
     return Trees.isDescendantOf(candidate, node)
   }
 
-  static func isInclusiveAncestorOf(node: Node, _ candidate: Node) -> Bool {
+  static func isInclusiveAncestorOf(_ node: Node, _ candidate: Node) -> Bool {
     return Trees.isInclusiveDescendantOf(candidate, node)
   }
 
-  static func isSiblingOf(node: Node, _ candidate: Node) -> Bool {
+  static func isSiblingOf(_ node: Node, _ candidate: Node) -> Bool {
     return nil != node.parentNode &&
            nil != candidate.parentNode &&
            node.parentNode as! Node === candidate.parentNode as! Node
   }
 
-  static func isInclusiveSiblingOf(node: Node, _ candidate: Node) -> Bool {
+  static func isInclusiveSiblingOf(_ node: Node, _ candidate: Node) -> Bool {
     return node === candidate ||
            Trees.isSiblingOf(node, candidate)
   }
 
-  static func isPreceding(node: Node, _ candidate: Node) -> Bool {
+  static func isPreceding(_ node: Node, _ candidate: Node) -> Bool {
     return Trees.getRootOf(node) === Trees.getRootOf(candidate) &&
            node.compareDocumentPosition(candidate) == Node.DOCUMENT_POSITION_PRECEDING
   }
 
-  static func isFollowing(node: Node, _ candidate: Node) -> Bool {
+  static func isFollowing(_ node: Node, _ candidate: Node) -> Bool {
     return Trees.getRootOf(node) === Trees.getRootOf(candidate) &&
            node.compareDocumentPosition(candidate) == Node.DOCUMENT_POSITION_FOLLOWING
   }
 
-  static func indexOf(node: Node) -> ulong {
+  static func indexOf(_ node: Node) -> ulong {
     var rv: ulong = 0
     var child: pNode? = node
     while nil != child && nil != child!.previousSibling {
@@ -126,7 +126,7 @@ internal class Trees {
     return rv
   }
 
-  static func _listElementsWithQualifiedName(root: pNode?, _ qualifiedName: DOMString, _ ea: Array<Element>) -> Void {
+  static func _listElementsWithQualifiedName(_ root: pNode?, _ qualifiedName: DOMString, _ ea: Array<Element>) -> Void {
     var elementArray = ea
     var child = root
     while nil != child {
@@ -137,7 +137,7 @@ internal class Trees {
         else if nil != child!.ownerDocument &&
                 "html" == child!.ownerDocument!.type {
           if (child as! Element).namespaceURI == Namespaces.HTML_NAMESPACE &&
-             (child as! Element).qualifiedName.lowercaseString == qualifiedName.lowercaseString {
+             (child as! Element).qualifiedName.lowercased() == qualifiedName.lowercased() {
             elementArray.append(child as! Element)
           }
           if (child as! Element).namespaceURI != Namespaces.HTML_NAMESPACE &&
@@ -158,13 +158,13 @@ internal class Trees {
     }
   }
 
-  static func listElementsWithQualifiedName(root: Node, _ qualifiedName: DOMString) -> HTMLCollection {
+  static func listElementsWithQualifiedName(_ root: Node, _ qualifiedName: DOMString) -> HTMLCollection {
     let elementArray: Array<Element> = []
     Trees._listElementsWithQualifiedName(root.firstChild, qualifiedName, elementArray)
     return HTMLCollection(elementArray)
   }
 
-  static func _listElementsWithQualifiedNameAndNamespace(root: pNode?, _ namespace: DOMString?, _ localName: DOMString, _ ea: Array<Element>) -> Void {
+  static func _listElementsWithQualifiedNameAndNamespace(_ root: pNode?, _ namespace: DOMString?, _ localName: DOMString, _ ea: Array<Element>) -> Void {
     var elementArray = ea
     var child = root
     while nil != child {
@@ -198,7 +198,7 @@ internal class Trees {
     }
   }
 
-  static func listElementsWithQualifiedNameAndNamespace(root: Node, _ ns: DOMString?, _ localName: DOMString) -> HTMLCollection {
+  static func listElementsWithQualifiedNameAndNamespace(_ root: Node, _ ns: DOMString?, _ localName: DOMString) -> HTMLCollection {
     var namespace = ns
     let elementArray: Array<Element> = []
     if "" == namespace {
@@ -208,13 +208,13 @@ internal class Trees {
     return HTMLCollection(elementArray)
   }
 
-  static func _listElementsWithClassNames(root: pNode?, _ classes: Set<String>, _ ea: Array<Element>) -> Void {
+  static func _listElementsWithClassNames(_ root: pNode?, _ classes: Set<String>, _ ea: Array<Element>) -> Void {
     var elementArray = ea
     var child = root
     while nil != child {
       if Node.ELEMENT_NODE == child!.nodeType {
         let elementClasses = OrderedSets.parse((child as! Element).className)
-        if elementClasses.isSubsetOf(classes) {
+        if elementClasses.isSubset(of: classes) {
           elementArray.append(child as! Element)
         }
       }
@@ -227,7 +227,7 @@ internal class Trees {
     }
   }
 
-  static func listElementsWithClassNames(root: Node, _ classNames: DOMString) -> HTMLCollection {
+  static func listElementsWithClassNames(_ root: Node, _ classNames: DOMString) -> HTMLCollection {
     let classes = OrderedSets.parse(classNames)
     if classes.isEmpty {
       return HTMLCollection()
@@ -238,7 +238,7 @@ internal class Trees {
     return HTMLCollection(elementArray)
   }
 
-  static func length(node: Node) -> ulong {
+  static func length(_ node: Node) -> ulong {
     switch node.nodeType {
       case Node.DOCUMENT_TYPE_NODE: return 0
       case Node.TEXT_NODE,
@@ -248,7 +248,7 @@ internal class Trees {
     }
   }
 
-  static func nextInTraverseOrder(node: Node) -> pNode? {
+  static func nextInTraverseOrder(_ node: Node) -> pNode? {
     if nil != node.firstChild {
       return node.firstChild
     }

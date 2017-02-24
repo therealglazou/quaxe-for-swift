@@ -20,7 +20,7 @@ public class NonDocumentTypeChildNode {
   /**
    * https://dom.spec.whatwg.org/#dom-nondocumenttypechildnode-previouselementsibling
    */
-  static func previousElementSibling(n: Node) -> pElement? {
+  static func previousElementSibling(_ n: Node) -> pElement? {
     var child = n.previousSibling
     while nil != child {
       if child!.nodeType == Node.ELEMENT_NODE {
@@ -34,7 +34,7 @@ public class NonDocumentTypeChildNode {
   /**
    * https://dom.spec.whatwg.org/#dom-nondocumenttypechildnode-nextelementsibling
    */
-  static func nextElementSibling(n: Node) -> pElement? {
+  static func nextElementSibling(_ n: Node) -> pElement? {
     var child = n.nextSibling
     while nil != child {
       if child!.nodeType == Node.ELEMENT_NODE {

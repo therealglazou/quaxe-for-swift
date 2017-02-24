@@ -11,5 +11,5 @@
  */
 
 public protocol pNonElementParentNode {
-  func getElementById(elementId: DOMString) -> pElement?
+  func getElementById(_ elementId: DOMString) -> pElement?
 }

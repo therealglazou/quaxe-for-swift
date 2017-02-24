@@ -31,20 +31,20 @@ internal class Namespaces {
   /*
    * https://dom.spec.whatwg.org/#validate
    */
-  static func validateAsXMLName(name: DOMString) throws -> Void
+  static func validateAsXMLName(_ name: DOMString) throws -> Void
   {
-    if nil == name.rangeOfString(Namespaces.NAME_EREG, options: .RegularExpressionSearch) {
+    if nil == name.range(of: Namespaces.NAME_EREG, options: .regularExpression) {
       throw Exception.InvalidCharacterError
     }
   }
 
-  static func validateAsXMLQName(name: DOMString) throws -> Void {
-    if nil == name.rangeOfString(Namespaces.PREFIXED_NAME_EREG, options: .RegularExpressionSearch) {
+  static func validateAsXMLQName(_ name: DOMString) throws -> Void {
+    if nil == name.range(of: Namespaces.PREFIXED_NAME_EREG, options: .regularExpression) {
       throw Exception.NamespaceError
     }
   }
 
-  static func validateQualifiedName(name: DOMString) throws -> Void {
+  static func validateQualifiedName(_ name: DOMString) throws -> Void {
     try Namespaces.validateAsXMLName(name);
     try Namespaces.validateAsXMLQName(name);
   }
@@ -52,7 +52,7 @@ internal class Namespaces {
   /*
    * https://dom.spec.whatwg.org/#validate-and-extract
    */
-  static func validateAndExtract(ns: DOMString?, _ qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
+  static func validateAndExtract(_ ns: DOMString?, _ qualifiedName: DOMString) throws -> Dictionary<DOMString, DOMString?> {
     var namespaceURI = ns
     if nil != namespaceURI && "" == namespaceURI {
       namespaceURI = nil
@@ -63,9 +63,9 @@ internal class Namespaces {
     var prefix: DOMString? = nil
     var localName = qualifiedName
 
-    if let colonPosition = qualifiedName.rangeOfString(":") {
-      prefix = qualifiedName.substringToIndex(colonPosition.startIndex)
-      localName = qualifiedName.substringFromIndex(colonPosition.endIndex)
+    if let colonPosition = qualifiedName.range(of: ":") {
+      prefix = qualifiedName.substring(to: colonPosition.lowerBound)
+      localName = qualifiedName.substring(to: colonPosition.upperBound)
     }
 
     if nil != prefix && nil == namespaceURI {

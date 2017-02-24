@@ -12,5 +12,5 @@
 
 public protocol pStyleSheetList {
   var length: ulong { get }
-  func item(index: ulong) -> pStyleSheet?
+  func item(_ index: ulong) -> pStyleSheet?
 }

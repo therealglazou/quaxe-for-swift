@@ -27,10 +27,10 @@ public class CustomEvent: Event, pCustomEvent {
   /*
    * https://dom.spec.whatwg.org/#dom-customevent-initcustomevent
    */
-  public func initCustomEvent(aType: DOMString, _ aBubbles: Bool, _ aCancelable: Bool, _ aDetail: Any) -> Void {
+  public func initCustomEvent(_ type: DOMString, _ bubbles: Bool, _ cancelable: Bool, _ detail: Any) -> Void {
     if !hasFlag(Event.DISPATCH_FLAG) {
-      super.initEvent(aType, aBubbles, aCancelable)
-      mDetail = aDetail
+      super.initEvent(type, bubbles, cancelable)
+      mDetail = detail
     }
   }
 

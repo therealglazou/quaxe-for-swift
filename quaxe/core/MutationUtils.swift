@@ -14,7 +14,7 @@
  * status: TODO 100%
  */
 public class MutationUtils {
-  static func queueMutationRecord(target: Node,
+  static func queueMutationRecord(_ target: Node,
                                   _ type: DOMString,
                                   _ name: DOMString?,
                                   _ namespace: DOMString?,

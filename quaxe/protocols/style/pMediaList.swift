@@ -14,7 +14,7 @@ public protocol pMediaList {
   var mediaText: DOMString { get }
 
   var length: ulong { get }
-  func item(index: ulong) -> DOMString?
-  func deleteMedium(oldMedium: DOMString) throws -> Void
-  func appendMedium(newMedium: DOMString) throws -> Void
+  func item(_ index: ulong) -> DOMString?
+  func deleteMedium(_ oldMedium: DOMString) throws -> Void
+  func appendMedium(_ newMedium: DOMString) throws -> Void
 }

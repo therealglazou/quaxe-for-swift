@@ -21,12 +21,12 @@ public class CSSMediaRule: CSSRule, pCSSMediaRule {
 
   public var cssRules: pCSSRuleList { return mCssRules }
 
-  public func insertRule(rule: DOMString, _ index: ulong) throws -> ulong {
+  public func insertRule(_ rule: DOMString, _ index: ulong) throws -> ulong {
     // XXXX parse and insert the rule
     return 0
   }
 
-  public func deleteRule(index: ulong) throws -> Void {
+  public func deleteRule(_ index: ulong) throws -> Void {
     try (mCssRules as! CSSRuleList)._deleteRule(index)
   }
 

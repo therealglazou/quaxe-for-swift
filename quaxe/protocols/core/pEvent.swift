@@ -28,7 +28,7 @@ public protocol pEvent {
   var isTrusted:        Bool         { get }
   var timeStamp:        DOMTimeStamp { get }
 
-  func initEvent(type: DOMString, _ bubbles: Bool, _ cancelable: Bool) -> Void
+  func initEvent(_ type: DOMString, _ bubbles: Bool, _ cancelable: Bool) -> Void
 
   init(_ aType: DOMString, _ aEventInitDict: Dictionary<String, Any>,
        _ aIsTrusted: Bool)

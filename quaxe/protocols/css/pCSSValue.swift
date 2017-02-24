@@ -15,9 +15,9 @@ public protocol pCSSValue {
   var commaSeparated: Bool { get set }
   var length: ulong { get }
 
-  func item(index: ulong) throws -> pCSSValue?
-  func setFloatValue(floatValue: Float) throws -> Void
+  func item(_ index: ulong) throws -> pCSSValue?
+  func setFloatValue(_ floatValue: Float) throws -> Void
   func getFloatValue() throws -> Float
-  func setStringValue(stringValue: DOMString) throws -> Void
+  func setStringValue(_ stringValue: DOMString) throws -> Void
   func getStringValue() throws -> DOMString
 }

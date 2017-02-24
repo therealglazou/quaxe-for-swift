@@ -11,6 +11,6 @@
  */
 
 public protocol pElements {
-  func query(relativeSelectors: DOMString) -> pElement?
-  func queryAll(relativeSelectors: DOMString) -> pElements
+  func query(_ relativeSelectors: DOMString) -> pElement?
+  func queryAll(_ relativeSelectors: DOMString) -> pElements
 }

@@ -30,22 +30,22 @@ public class NamedNodeMap: pNamedNodeMap {
   /**
    * https://dom.spec.whatwg.org/#dom-namednodemap-item
    */
-  public func item(index: ulong) -> pAttr? {
+  public func item(_ index: ulong) -> pAttr? {
     if index >= self.length {
       return nil
     }
-    return self.mAttributes[self.mAttributes.startIndex.advancedBy(Int(index))]
+    return self.mAttributes[self.mAttributes.index(self.mAttributes.startIndex, offsetBy:Int(index))]
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-namednodemap-getnameditem
    */
-  public func getNamedItem(qualifiedName: DOMString) -> pAttr? {return nil}
-  public func getNamedItemNS(namespace: DOMString?, _ localName: DOMString) -> pAttr? {return nil}
-  public func setNamedItem(attr: pAttr) -> pAttr? {return nil}
-  public func setNamedItemNS(attr: pAttr) -> pAttr? {return nil}
-  public func removeNamedItem(qualifiedName: DOMString) -> pAttr {return Attr()}
-  public func removeNamedItem(namespace: DOMString?, _ localName: DOMString) -> pAttr {return Attr()}
+  public func getNamedItem(_ qualifiedName: DOMString) -> pAttr? {return nil}
+  public func getNamedItemNS(_ namespace: DOMString?, _ localName: DOMString) -> pAttr? {return nil}
+  public func setNamedItem(_ attr: pAttr) -> pAttr? {return nil}
+  public func setNamedItemNS(_ attr: pAttr) -> pAttr? {return nil}
+  public func removeNamedItem(_ qualifiedName: DOMString) -> pAttr {return Attr()}
+  public func removeNamedItem(_ namespace: DOMString?, _ localName: DOMString) -> pAttr {return Attr()}
 
   public init(_ elt: Element) {
     self.mOwnerElement = elt

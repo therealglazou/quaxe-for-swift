@@ -20,7 +20,7 @@ public class DOMImplementation: pDOMImplementation {
   /**
    * https://dom.spec.whatwg.org/#dom-domimplementation-createdocumenttype
    */
-  public func createDocumentType(qualifiedName: DOMString, _ publicId: DOMString, _ systemId: DOMString) throws -> pDocumentType {
+  public func createDocumentType(_ qualifiedName: DOMString, _ publicId: DOMString, _ systemId: DOMString) throws -> pDocumentType {
     //Step 1
     try Namespaces.validateQualifiedName(qualifiedName)
 
@@ -31,7 +31,7 @@ public class DOMImplementation: pDOMImplementation {
   /**
    * https://dom.spec.whatwg.org/#dom-domimplementation-createdocument
    */
-  public func createDocument(namespace: DOMString?, _ qualifiedName: DOMString?, _ doctype: pDocumentType? = nil) throws -> pXMLDocument {
+  public func createDocument(_ namespace: DOMString?, _ qualifiedName: DOMString?, _ doctype: pDocumentType? = nil) throws -> pXMLDocument {
     // Step 1
     let doc = Document()
 
@@ -63,7 +63,7 @@ public class DOMImplementation: pDOMImplementation {
   /**
    * https://dom.spec.whatwg.org/#dom-domimplementation-createhtmldocument
    */
-  public func createHTMLDocument(title: DOMString? = nil) throws -> pDocument {
+  public func createHTMLDocument(_ title: DOMString? = nil) throws -> pDocument {
     // Step 1
     let doc = Document()
     doc.type = "html"

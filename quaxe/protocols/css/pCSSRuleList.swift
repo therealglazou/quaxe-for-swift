@@ -12,5 +12,5 @@
 
 public protocol pCSSRuleList {
   var length: ulong { get }
-  func item(index: ulong) -> pCSSRule?
+  func item(_ index: ulong) -> pCSSRule?
 }

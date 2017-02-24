@@ -32,7 +32,7 @@ public class NodeList: pNodeList {
   /**
    * https://dom.spec.whatwg.org/#dom-nodelist-item
    */
-  public func item(index: ulong) -> pNode? {
+  public func item(_ index: ulong) -> pNode? {
     if index >= length {
       return nil
     }
@@ -42,7 +42,7 @@ public class NodeList: pNodeList {
   /**
    * iterable<Node>
    */
-  subscript(index: Int) -> pNode {
+  subscript(_ index: Int) -> pNode {
     get {
       return mNodeArray[index]
     }

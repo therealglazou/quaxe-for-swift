@@ -12,15 +12,15 @@
 
 extension String
 {
-    public subscript(integerIndex: Int) -> UnicodeScalar 
+    public subscript(_ integerIndex: Int) -> UnicodeScalar 
     {
-        return self.unicodeScalars[self.unicodeScalars.startIndex.advancedBy(integerIndex)]
+        return self.unicodeScalars[self.unicodeScalars.index(self.unicodeScalars.startIndex, offsetBy: integerIndex)]
     }
 
-    public subscript(integerRange: Range<Int>) -> UnicodeScalarView
+    public subscript(_ integerRange: Range<Int>) -> UnicodeScalarView
     {
-        let start = self.unicodeScalars.startIndex.advancedBy(integerRange.startIndex)
-        let end = self.unicodeScalars.startIndex.advancedBy(integerRange.endIndex)
+        let start = self.unicodeScalars.index(self.unicodeScalars.startIndex, offsetBy: integerRange.lowerBound)
+        let end = self.unicodeScalars.index(self.unicodeScalars.startIndex, offsetBy: integerRange.upperBound)
         return self.unicodeScalars[start..<end]
     }
 
@@ -28,9 +28,9 @@ extension String
       return self.unicodeScalars.count
     }
 
-    public func substr(from: Int, _ to: Int) -> String {
-        let start = self.startIndex.advancedBy(from)
-        let end = self.startIndex.advancedBy(from + to)
+    public func substr(_ from: Int, _ to: Int) -> String {
+        let start = self.index(self.startIndex, offsetBy: from)
+        let end = self.index(self.startIndex, offsetBy: from + to)
         return self[start..<end]
     }
 }

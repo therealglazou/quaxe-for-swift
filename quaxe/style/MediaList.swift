@@ -23,16 +23,16 @@ public class MediaList: pMediaList {
     return ulong(self.mMediaList.count)
   }
 
-  public func item(index: ulong) -> DOMString? {
+  public func item(_ index: ulong) -> DOMString? {
     if index >= self.length {
       return nil
     }
-    return self.mMediaList[self.mMediaList.startIndex.advancedBy(Int(index))]
+    return self.mMediaList[self.mMediaList.index(self.mMediaList.startIndex, offsetBy: Int(index))]
   }
 
   public var mediaText: DOMString { return OrderedSets.serialize(mMediaList) }
 
-  public func deleteMedium(oldMedium: DOMString) throws -> Void {
+  public func deleteMedium(_ oldMedium: DOMString) throws -> Void {
     var found: Bool = false
     for token in mMediaList {
       if token.isEmpty {
@@ -49,7 +49,7 @@ public class MediaList: pMediaList {
     }
   }
 
-  public func appendMedium(newMedium: DOMString) throws -> Void {
+  public func appendMedium(_ newMedium: DOMString) throws -> Void {
     try deleteMedium(newMedium)
 
     mMediaList.insert(newMedium)

@@ -123,6 +123,7 @@ SOURCES += \
 		css/CSSFontFaceRule.swift \
 		css/CSSPageRule.swift \
 		css/CSSImportRule.swift \
+		css/CSSCharsetRule.swift \
 		$(NULL)
 
 SOURCES += \

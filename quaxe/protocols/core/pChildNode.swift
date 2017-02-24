@@ -13,11 +13,11 @@
 import QuaxeUtils
 
 public protocol pChildNode {
-  func before(nodes: Array<Either<pNode, DOMString>>) throws -> Void
+  func before(_ nodes: Array<Either<pNode, DOMString>>) throws -> Void
 
-  func after(nodes: Array<Either<pNode, DOMString>>) throws -> Void
+  func after(_ nodes: Array<Either<pNode, DOMString>>) throws -> Void
 
-  func replaceWith(nodes: Array<Either<pNode, DOMString>>) throws -> Void
+  func replaceWith(_ nodes: Array<Either<pNode, DOMString>>) throws -> Void
 
   func remove() -> Void
 }

@@ -11,7 +11,7 @@
  */
 
 public class EventCreator: pEventCreator {
-  public static func createEvent(interface: DOMString, _ aEventInitDict: Dictionary<String, Any>) -> pEvent {
+  public static func createEvent(_ interface: DOMString, _ aEventInitDict: Dictionary<String, Any>) -> pEvent {
     // TODO
     return Event(interface, [:])
   }

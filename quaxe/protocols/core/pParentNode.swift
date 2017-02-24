@@ -18,11 +18,11 @@ public protocol pParentNode {
   var lastElementChild:       pElement?       { get }
   var childElementCount:      ulong          { get }
 
-  func prepend(nodes: Array<Either<pNode, DOMString>>) throws -> Void
-  func append(nodes: Array<Either<pNode, DOMString>>) throws -> Void
+  func prepend(_ nodes: Array<Either<pNode, DOMString>>) throws -> Void
+  func append(_ nodes: Array<Either<pNode, DOMString>>) throws -> Void
 
-  func query(relativeSelectors: DOMString) -> pElement?
-  func queryAll(relativeSelectors: DOMString) -> pElements
-  func querySelector(selectors: DOMString) -> pElement
-  func querySelectorAll(selectors: DOMString) -> pNodeList
+  func query(_ relativeSelectors: DOMString) -> pElement?
+  func queryAll(_ relativeSelectors: DOMString) -> pElements
+  func querySelector(_ selectors: DOMString) -> pElement
+  func querySelectorAll(_ selectors: DOMString) -> pNodeList
 }

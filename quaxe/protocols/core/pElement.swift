@@ -23,25 +23,25 @@ public protocol pElement: pNode {
   func hasAttributes() -> Bool
   var attributes: pNamedNodeMap { get }
   func getAttributeNames() -> Array<DOMString>
-  func getAttribute(qualifiedName: DOMString) -> DOMString?
-  func getAttributeNS(namespace: DOMString?, _ localName: DOMString) -> DOMString?
-  func setAttribute(qualifiedName: DOMString, _ value: DOMString) throws -> Void
-  func setAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString, _ value: DOMString) throws -> Void
-  func removeAttribute(qualifiedName: DOMString) -> Void
-  func removeAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) -> Void
-  func hasAttribute(qualifiedName: DOMString) -> Bool
-  func hasAttributeNS(namespace: DOMString?, _ localName: DOMString) -> Bool
+  func getAttribute(_ qualifiedName: DOMString) -> DOMString?
+  func getAttributeNS(_ namespace: DOMString?, _ localName: DOMString) -> DOMString?
+  func setAttribute(_ qualifiedName: DOMString, _ value: DOMString) throws -> Void
+  func setAttributeNS(_ namespace: DOMString?, _ qualifiedName: DOMString, _ value: DOMString) throws -> Void
+  func removeAttribute(_ qualifiedName: DOMString) -> Void
+  func removeAttributeNS(_ namespace: DOMString?, _ qualifiedName: DOMString) -> Void
+  func hasAttribute(_ qualifiedName: DOMString) -> Bool
+  func hasAttributeNS(_ namespace: DOMString?, _ localName: DOMString) -> Bool
 
-  func getAttributeNode(qualifiedName: DOMString) -> pAttr?
-  func getAttributeNodeNS(namespace: DOMString?, _ localName: DOMString) -> pAttr?
-  func setAttributeNode(attr: pAttr) -> pAttr?
-  func setAttributeNodeNS(attr: pAttr) -> pAttr?
-  func removeAttributeNode(attr: pAttr) -> pAttr
+  func getAttributeNode(_ qualifiedName: DOMString) -> pAttr?
+  func getAttributeNodeNS(_ namespace: DOMString?, _ localName: DOMString) -> pAttr?
+  func setAttributeNode(_ attr: pAttr) -> pAttr?
+  func setAttributeNodeNS(_ attr: pAttr) -> pAttr?
+  func removeAttributeNode(_ attr: pAttr) -> pAttr
 
-  func closest(selectors: DOMString) -> pElement?
-  func matches(selectors: DOMString) -> Bool
+  func closest(_ selectors: DOMString) -> pElement?
+  func matches(_ selectors: DOMString) -> Bool
 
-  func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection
-  func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection
-  func getElementsByClassName(classNames: DOMString) -> pHTMLCollection
+  func getElementsByTagName(_ qualifiedName: DOMString) -> pHTMLCollection
+  func getElementsByTagNameNS(_ namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection
+  func getElementsByClassName(_ classNames: DOMString) -> pHTMLCollection
 }

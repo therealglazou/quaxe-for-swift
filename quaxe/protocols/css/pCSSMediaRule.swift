@@ -13,6 +13,6 @@
 public protocol pCSSMediaRule {
   var media: pMediaList { get }
   var cssRules: pCSSRuleList { get }
-  func insertRule(rule: DOMString, _ index: ulong) throws -> ulong
-  func deleteRule(index: ulong) throws -> Void
+  func insertRule(_ rule: DOMString, _ index: ulong) throws -> ulong
+  func deleteRule(_ index: ulong) throws -> Void
 }

@@ -30,18 +30,18 @@ public protocol pNode: pEventTarget {
   var textContent: DOMString? { get set }
   func normalize() throws -> Void
 
-  func cloneNode(deep: Bool) -> pNode
-  func isEqualNode(otherNode: pNode?) -> Bool
+  func cloneNode(_ deep: Bool) -> pNode
+  func isEqualNode(_ otherNode: pNode?) -> Bool
 
-  func compareDocumentPosition(other: pNode) -> ushort
-  func contains(other: pNode?) -> Bool
+  func compareDocumentPosition(_ other: pNode) -> ushort
+  func contains(_ other: pNode?) -> Bool
 
-  func lookupPrefix(ns: DOMString?) -> DOMString?
-  func lookupNamespaceURI(prefix: DOMString?) -> DOMString?
-  func isDefaultNamespace(ns: DOMString?) -> Bool
+  func lookupPrefix(_ ns: DOMString?) -> DOMString?
+  func lookupNamespaceURI(_ prefix: DOMString?) -> DOMString?
+  func isDefaultNamespace(_ ns: DOMString?) -> Bool
 
-  func insertBefore(node: pNode, _ child: pNode?) throws -> pNode
-  func appendChild(node: pNode) throws -> pNode
-  func replaceChild(node: pNode, _ child: pNode) throws -> pNode
-  func removeChild(child: pNode) throws -> pNode
+  func insertBefore(_ node: pNode, _ child: pNode?) throws -> pNode
+  func appendChild(_ node: pNode) throws -> pNode
+  func replaceChild(_ node: pNode, _ child: pNode) throws -> pNode
+  func removeChild(_ child: pNode) throws -> pNode
 }

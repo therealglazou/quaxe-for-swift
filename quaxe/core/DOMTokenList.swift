@@ -23,9 +23,9 @@ public class DOMTokenList: pDOMTokenList {
   internal weak var mOwnerElement: Element?
   internal var mOwnerAttribute: DOMString = ""
 
-  static func containsASCIIWhitespace(str: DOMString) -> Bool {
-    let whitespace = NSCharacterSet.whitespaceCharacterSet()
-    let range = str.rangeOfCharacterFromSet(whitespace)
+  static func containsASCIIWhitespace(_ str: DOMString) -> Bool {
+    let whitespace = NSCharacterSet.whitespaces
+    let range = str.rangeOfCharacter(from: whitespace)
     if let _ = range {
       return true
     }
@@ -70,17 +70,17 @@ public class DOMTokenList: pDOMTokenList {
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-item
    */
-  public func item(index: ulong) -> DOMString? {
+  public func item(_ index: ulong) -> DOMString? {
     if index >= self.length {
       return nil
     }
-    return self.mTokens[self.mTokens.startIndex.advancedBy(Int(index))]
+    return self.mTokens[self.mTokens.index(self.mTokens.startIndex, offsetBy: Int(index))]
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-contains
    */
-  public func contains(token: DOMString) throws -> Bool {
+  public func contains(_ token: DOMString) throws -> Bool {
     if token.isEmpty {
       throw Exception.SyntaxError
     }
@@ -95,7 +95,7 @@ public class DOMTokenList: pDOMTokenList {
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-add
    */
-  public func add(tokens: DOMString...) throws -> Void {
+  public func add(_ tokens: DOMString...) throws -> Void {
     for token in tokens {
       if token.isEmpty {
         throw Exception.SyntaxError
@@ -114,7 +114,7 @@ public class DOMTokenList: pDOMTokenList {
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-remove
    */
-  public func remove(tokens: DOMString...) throws -> Void {
+  public func remove(_ tokens: DOMString...) throws -> Void {
     for token in tokens {
       if token.isEmpty {
         throw Exception.SyntaxError
@@ -130,7 +130,7 @@ public class DOMTokenList: pDOMTokenList {
     self.updateSteps()
   }
 
-  internal func _toggle(token: DOMString, _ force: Bool, _ passed: Bool) throws -> Bool {
+  internal func _toggle(_ token: DOMString, _ force: Bool, _ passed: Bool) throws -> Bool {
     if token.isEmpty {
       throw Exception.SyntaxError
     }
@@ -159,17 +159,17 @@ public class DOMTokenList: pDOMTokenList {
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-toggle
    */
-  public func toggle(token: DOMString) throws -> Bool {
+  public func toggle(_ token: DOMString) throws -> Bool {
     return try self._toggle(token, false, false)
   }
-  public func toggle(token: DOMString, _ force: Bool) throws -> Bool {
+  public func toggle(_ token: DOMString, _ force: Bool) throws -> Bool {
     return try self._toggle(token, force, true)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-replace
    */
-  public func replace(token: DOMString, _ newToken: DOMString) throws -> Void {
+  public func replace(_ token: DOMString, _ newToken: DOMString) throws -> Void {
     if token.isEmpty || newToken.isEmpty {
       throw Exception.SyntaxError
     }
@@ -189,7 +189,7 @@ public class DOMTokenList: pDOMTokenList {
   /**
    * https://dom.spec.whatwg.org/#dom-domtokenlist-supports
    */
-  public func supports(token: DOMString) throws -> Bool  {
+  public func supports(_ token: DOMString) throws -> Bool  {
     // XXX
     return true
   }
@@ -208,7 +208,7 @@ public class DOMTokenList: pDOMTokenList {
 
     set(newValue) {
       self.mTokens = []
-      let components = newValue.componentsSeparatedByString(" ")
+      let components = newValue.components(separatedBy: " ")
       for component in components {
         self.mTokens.insert(component)
       }
@@ -227,11 +227,11 @@ public class DOMTokenList: pDOMTokenList {
    */
   public func toString() -> DOMString { return self.value }
 
-  public subscript(index: ulong) -> DOMString {
+  public subscript(_ index: ulong) -> DOMString {
     if index >= self.length {
       return ""
     }
-    return self.mTokens[self.mTokens.startIndex.advancedBy(Int(index))]
+    return self.mTokens[self.mTokens.index(self.mTokens.startIndex, offsetBy: Int(index))]
   }
 
   internal init(_ elt: Element, _ attributeName: DOMString) {

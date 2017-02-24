@@ -16,7 +16,7 @@
  * status: TODO 100%
  */
 public class Text: CharacterData, pText {
-  public func splitText(offset: ulong) -> pText { return Text()}
+  public func splitText(_ offset: ulong) -> pText { return Text()}
   public var wholeText: DOMString = ""
 
   override init() {}

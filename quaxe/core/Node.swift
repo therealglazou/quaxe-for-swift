@@ -38,7 +38,7 @@ public class Node: EventTarget, pNode {
   internal var mPreviousSibling: pNode?
   internal var mNextSibling: pNode?
 
-  internal func _getTextContent(n: pNode?) -> DOMString {
+  internal func _getTextContent(_ n: pNode?) -> DOMString {
     var node = n
     var rv = ""
     while nil != node {
@@ -57,7 +57,7 @@ public class Node: EventTarget, pNode {
     return rv
   }
 
-  internal func getCounts(inout elementCount: UInt, inout _ textCount: UInt) -> Void {
+  internal func getCounts(_ elementCount: inout UInt, _ textCount: inout UInt) -> Void {
     var child = firstChild
     elementCount = 0
     textCount = 0
@@ -117,7 +117,7 @@ public class Node: EventTarget, pNode {
     return false
   }
 
-  override internal func getParent(event: Event) -> EventTarget? {
+  override internal func getParent(_ event: Event) -> EventTarget? {
     return self.parentNode as? EventTarget
   }
 
@@ -365,7 +365,7 @@ public class Node: EventTarget, pNode {
   /**
    * https://dom.spec.whatwg.org/#concept-node-clone
    */
-  internal func _clone(d: pDocument? = nil, _ cloneChildrenFlag: Bool = false) -> Node {
+  internal func _clone(_ d: pDocument? = nil, _ cloneChildrenFlag: Bool = false) -> Node {
     var document = d
     // Step 1
     if nil == document {
@@ -441,7 +441,7 @@ public class Node: EventTarget, pNode {
   /**
    * https://dom.spec.whatwg.org/#dom-node-clonenode
    */
-  public func cloneNode(deep: Bool = false) -> pNode {
+  public func cloneNode(_ deep: Bool = false) -> pNode {
     // Step 1
     // IGNORED, we don't implement Shadow DOM
 
@@ -452,7 +452,7 @@ public class Node: EventTarget, pNode {
   /**
    * https://dom.spec.whatwg.org/#dom-node-isequalnode
    */
-  public func isEqualNode(otherNode: pNode?) -> Bool {
+  public func isEqualNode(_ otherNode: pNode?) -> Bool {
     if nil != otherNode &&
        self === otherNode as! Node {
       return true
@@ -470,7 +470,7 @@ public class Node: EventTarget, pNode {
   /**
    * https://dom.spec.whatwg.org/#dom-node-comparedocumentposition
    */
-  public func compareDocumentPosition(other: pNode) -> ushort {
+  public func compareDocumentPosition(_ other: pNode) -> ushort {
     // Step 1
     let reference = self
 
@@ -527,14 +527,14 @@ public class Node: EventTarget, pNode {
   /**
    * https://dom.spec.whatwg.org/#dom-node-contains
    */
-  public func contains(other: pNode?) -> Bool {
+  public func contains(_ other: pNode?) -> Bool {
     return (nil != other && Trees.isInclusiveDescendantOf(other as! Node, self))
   }
 
   /*
    * https://dom.spec.whatwg.org/#locate-a-namespace-prefix
    */
-  static func locateNamespacePrefix(elt: Element, _ ns: DOMString) -> DOMString? {
+  static func locateNamespacePrefix(_ elt: Element, _ ns: DOMString) -> DOMString? {
     // Step 1
     if elt.namespaceURI == ns && elt.prefix != nil {
       return elt.prefix!
@@ -560,7 +560,7 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-lookupprefix
    */
-  public func lookupPrefix(ns: DOMString?) -> DOMString? {
+  public func lookupPrefix(_ ns: DOMString?) -> DOMString? {
     // step 1
     if nil == ns || "" == ns {
       return nil
@@ -597,7 +597,7 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#locate-a-namespace
    */
-  static func locateNamespace(node: Node, _ prefix: DOMString?) -> DOMString? {
+  static func locateNamespace(_ node: Node, _ prefix: DOMString?) -> DOMString? {
     switch node.nodeType {
       case Node.ELEMENT_NODE:
         let elt = node as! Element
@@ -665,7 +665,7 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-lookupnamespaceuri
    */
-  public func lookupNamespaceURI(prefix: DOMString?) -> DOMString? {
+  public func lookupNamespaceURI(_ prefix: DOMString?) -> DOMString? {
     // Step 1
     if nil == prefix || "" == prefix {
       return nil
@@ -678,7 +678,7 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-isdefaultnamespace
    */
-  public func isDefaultNamespace(ns: DOMString?) -> Bool {
+  public func isDefaultNamespace(_ ns: DOMString?) -> Bool {
     // Step 1
     var namespace = ns;
     if "" == namespace {
@@ -695,28 +695,28 @@ public class Node: EventTarget, pNode {
   /*
    * https://dom.spec.whatwg.org/#dom-node-insertbefore
    */
-  public func insertBefore(node: pNode, _ child: pNode?) throws -> pNode {
+  public func insertBefore(_ node: pNode, _ child: pNode?) throws -> pNode {
     return try MutationAlgorithms.preInsert(node as! Node, self, child as? Node)
   }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-appendchild
    */
-  public func appendChild(node: pNode) throws -> pNode {
+  @discardableResult public func appendChild(_ node: pNode) throws -> pNode {
     return try MutationAlgorithms.append(node as! Node, self)
   }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-replacechild
    */
-  public func replaceChild(node: pNode, _ child: pNode) throws -> pNode {
+  public func replaceChild(_ node: pNode, _ child: pNode) throws -> pNode {
     return try MutationAlgorithms.replace(node as! Node, child as! Node, self)
   }
 
   /*
    * https://dom.spec.whatwg.org/#dom-node-removechild
    */
-  public func removeChild(child: pNode) throws -> pNode {
+  public func removeChild(_ child: pNode) throws -> pNode {
     return try MutationAlgorithms.preRemove(child as! Node, self)
   }
 

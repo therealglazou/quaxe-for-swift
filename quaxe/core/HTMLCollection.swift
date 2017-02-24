@@ -17,7 +17,7 @@
  */
 public class HTMLCollection: pHTMLCollection {
 
-  internal func append(element: pElement) -> Void {
+  internal func append(_ element: pElement) -> Void {
     mArray.append(element)
   }
 
@@ -37,7 +37,7 @@ public class HTMLCollection: pHTMLCollection {
   /**
    * https://dom.spec.whatwg.org/#dom-htmlcollection-item
    */
-  public func item(index: ulong) -> pElement? {
+  public func item(_ index: ulong) -> pElement? {
     if index >= self.length {
       return nil
     }
@@ -47,7 +47,7 @@ public class HTMLCollection: pHTMLCollection {
   /**
    * https://dom.spec.whatwg.org/#dom-htmlcollection-nameditem
    */
-  public func namedItem(name: DOMString) -> pElement? {
+  public func namedItem(_ name: DOMString) -> pElement? {
     // Step 1
     if name.isEmpty {
       return nil

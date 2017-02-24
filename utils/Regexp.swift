@@ -7,21 +7,21 @@ public class Regex {
   public init(_ pattern: String) throws  {
     self.pattern = pattern
     self.internalExpression = nil
-    self.internalExpression = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive)
+    self.internalExpression = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
   }
 
-  public func match(input: String) -> Array<String?>? {
+  public func match(_ input: String) -> Array<String?>? {
     if nil != self.internalExpression {
-      let matches = self.internalExpression!.matchesInString(input, options: [], range:NSMakeRange(0, input.characters.count))
+      let matches = self.internalExpression!.matches(in: input, options: [], range:NSMakeRange(0, input.characters.count))
       var rv: Array<String?> = []
       for index in 0..<matches.count {
         let m = matches[index]
         for rangeIndex in 0..<m.numberOfRanges {
-          if m.rangeAtIndex(rangeIndex).location == NSNotFound {
+          if m.rangeAt(rangeIndex).location == NSNotFound {
             rv.append(nil)
           }
           else {
-            rv.append(input.substr(m.rangeAtIndex(rangeIndex).location, m.rangeAtIndex(rangeIndex).length))
+            rv.append(input.substr(m.rangeAt(rangeIndex).location, m.rangeAt(rangeIndex).length))
           }
         }
       }

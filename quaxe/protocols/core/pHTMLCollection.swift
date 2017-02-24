@@ -12,6 +12,6 @@
 
 public protocol pHTMLCollection {
   var length: ulong { get }
-  func item(index: ulong) -> pElement?
-  func namedItem(name: DOMString) -> pElement?
+  func item(_ index: ulong) -> pElement?
+  func namedItem(_ name: DOMString) -> pElement?
 }

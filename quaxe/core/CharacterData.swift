@@ -35,7 +35,7 @@ public class CharacterData: Node, pCharacterData {
   /**
    * https://dom.spec.whatwg.org/#concept-cd-substring
    */
-  static internal func _substringData(node: pCharacterData, _ offset: ulong, _ count: ulong) throws -> DOMString {
+  static internal func _substringData(_ node: pCharacterData, _ offset: ulong, _ count: ulong) throws -> DOMString {
     // Step 1
     let length = node.length
 
@@ -44,8 +44,8 @@ public class CharacterData: Node, pCharacterData {
       throw Exception.IndexSizeError
     }
 
-    let index1 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset))
-    let index2 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset + count))
+    let index1 = node.data.unicodeScalars.index(node.data.unicodeScalars.startIndex, offsetBy: Int(offset))
+    let index2 = node.data.unicodeScalars.index(node.data.unicodeScalars.startIndex, offsetBy: Int(offset + count))
     // Step 3
     if offset + count > length {
       return  String(node.data.unicodeScalars[index1..<node.data.unicodeScalars.endIndex])
@@ -58,7 +58,7 @@ public class CharacterData: Node, pCharacterData {
   /**
    * https://dom.spec.whatwg.org/#concept-cd-replace
    */
-  static internal func _replaceData(node: pCharacterData, _ offset: ulong, _ c: ulong, _ str: DOMString) throws -> Void {
+  static internal func _replaceData(_ node: pCharacterData, _ offset: ulong, _ c: ulong, _ str: DOMString) throws -> Void {
     var count = c
     // Step 1
     let length = node.length
@@ -77,8 +77,8 @@ public class CharacterData: Node, pCharacterData {
     MutationUtils.queueMutationRecord(node as! Node, "characterData", nil, nil, node.data, nil, nil, nil, nil)
 
     // Step 5, 6 and 7
-    let index1 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset))
-    let index2 = node.data.unicodeScalars.startIndex.advancedBy(Int(offset + count))
+    let index1 = node.data.unicodeScalars.index(node.data.unicodeScalars.startIndex, offsetBy: Int(offset))
+    let index2 = node.data.unicodeScalars.index(node.data.unicodeScalars.startIndex, offsetBy: Int(offset + count))
     let preData = String(node.data.unicodeScalars[node.data.unicodeScalars.startIndex..<index1])
     let postData = String(node.data.unicodeScalars[index2..<node.data.unicodeScalars.endIndex])
     (node as! CharacterData).data = preData + str + postData
@@ -126,35 +126,35 @@ public class CharacterData: Node, pCharacterData {
   /**
    * https://dom.spec.whatwg.org/#dom-characterdata-substringdata
    */
-  public func substringData(offset: ulong, _ count: ulong) throws -> DOMString {
+  public func substringData(_ offset: ulong, _ count: ulong) throws -> DOMString {
     return try CharacterData._substringData(self, offset, count)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-characterdata-appenddata
    */
-  public func appendData(str: DOMString) throws -> Void {
-    try CharacterData._replaceData(self, self.length, 0, str)
+  public func appendData(_ data: DOMString) throws -> Void {
+    try CharacterData._replaceData(self, self.length, 0, data)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-characterdata-insertdata
    */
-  public func insertData(offset: ulong, _ str: DOMString) throws -> Void {
-    try CharacterData._replaceData(self, offset, 0, str)
+  public func insertData(_ offset: ulong, _ data: DOMString) throws -> Void {
+    try CharacterData._replaceData(self, offset, 0, data)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-characterdata-deletedata
    */
-  public func deleteData(offset: ulong, _ count: ulong) throws -> Void {
+  public func deleteData(_ offset: ulong, _ count: ulong) throws -> Void {
     try CharacterData._replaceData(self, offset, count, "")
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-characterdata-replacedata
    */
-  public func replaceData(offset: ulong, _ count: ulong, _ str: DOMString) throws -> Void {
+  public func replaceData(_ offset: ulong, _ count: ulong, _ str: DOMString) throws -> Void {
     try CharacterData._replaceData(self, offset, count, str)
   }
 

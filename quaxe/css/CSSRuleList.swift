@@ -18,23 +18,23 @@ public class CSSRuleList: pCSSRuleList {
 
   public var length: ulong { return ulong(self.mRules.count) }
 
-  public func item(index: ulong) -> pCSSRule? {
+  public func item(_ index: ulong) -> pCSSRule? {
     if index >= self.length {
       return nil
     }
-    return self.mRules[self.mRules.startIndex.advancedBy(Int(index))]
+    return self.mRules[self.mRules.index(self.mRules.startIndex, offsetBy: Int(index))]
   }
 
   // XXXX
-  internal func _insertRule(rule: DOMString, _ index: ulong) throws -> ulong {
+  internal func _insertRule(_ rule: DOMString, _ index: ulong) throws -> ulong {
     return 0
   }
 
-  internal func _deleteRule(index: ulong) throws -> Void {
+  internal func _deleteRule(_ index: ulong) throws -> Void {
     if index >= self.length {
       throw Exception.IndexSizeError
     }
-    mRules.removeAtIndex(Int(index))
+    mRules.remove(at: Int(index))
   }
 
   init() {

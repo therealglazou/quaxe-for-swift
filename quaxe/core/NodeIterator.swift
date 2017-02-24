@@ -23,7 +23,7 @@ public class NodeIterator: pNodeIterator {
   internal var mPointerBeforeReferenceNode: Bool = true
   internal var mFilter: pNodeFilter?
 
-  internal func preRemovingSteps(node: Node) {}
+  internal func preRemovingSteps(_ node: Node) {}
 
   public var root: pNode { return mRoot }
   public var referenceNode: pNode { return mReferenceNode }

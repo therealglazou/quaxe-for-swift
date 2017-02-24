@@ -17,7 +17,7 @@
  */
 internal class OrderedSets {
 
-  static func parse(str: String) -> Set<String> {
+  static func parse(_ str: String) -> Set<String> {
     var index = str.startIndex
     var token = ""
     var set: Set<String> = []
@@ -38,13 +38,13 @@ internal class OrderedSets {
           }
         default: token.append(c)
       }
-      index = index.successor()
+      index = str.index(after: index)
     }
 
     return set
   }
 
-  static func serialize(set: Set<String>) -> String {
+  static func serialize(_ set: Set<String>) -> String {
     var rv = ""
     for token in set {
       if !rv.isEmpty {

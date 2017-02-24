@@ -25,29 +25,29 @@ public protocol pDocument: pNode {
 
   var doctype: pDocumentType? { get }
   var documentElement: pElement? { get }
-  func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection
-  func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection
-  func getElementsByClassName(classNames: DOMString) -> pHTMLCollection
+  func getElementsByTagName(_ qualifiedName: DOMString) -> pHTMLCollection
+  func getElementsByTagNameNS(_ namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection
+  func getElementsByClassName(_ classNames: DOMString) -> pHTMLCollection
 
-  func createElement(localName: DOMString) throws -> pElement
-  func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pElement
+  func createElement(_ localName: DOMString) throws -> pElement
+  func createElementNS(_ namespace: DOMString?, _ qualifiedName: DOMString) throws -> pElement
   func createDocumentFragment() -> pDocumentFragment
-  func createTextNode(data: DOMString) -> pText
-  func createComment(data: DOMString) -> pComment
-  func createProcessingInstruction(target: DOMString, _ data: DOMString) throws -> pProcessingInstruction
+  func createTextNode(_ data: DOMString) -> pText
+  func createComment(_ data: DOMString) -> pComment
+  func createProcessingInstruction(_ target: DOMString, _ data: DOMString) throws -> pProcessingInstruction
 
-  func importNode(node: pNode, _ deep: Bool) throws -> pNode
-  func adoptNode(node: pNode) throws -> pNode
+  func importNode(_ node: pNode, _ deep: Bool) throws -> pNode
+  func adoptNode(_ node: pNode) throws -> pNode
 
-  func createAttribute(localName: DOMString) throws -> pAttr
-  func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr
+  func createAttribute(_ localName: DOMString) throws -> pAttr
+  func createAttributeNS(_ namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr
 
-  func createEvent(interface: DOMString) throws -> pEvent
+  func createEvent(_ interface: DOMString) throws -> pEvent
 
   func createRange() -> pDOMRange
 
-  func createNodeIterator(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator
-  func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker
+  func createNodeIterator(_ root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator
+  func createTreeWalker(_ root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker
 }
 
 public typealias pXMLDocument = pDocument

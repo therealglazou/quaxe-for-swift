@@ -11,5 +11,5 @@
  */
 
 public protocol pEventListener {
-  func handleEvent(event: pEvent) -> Void
+  func handleEvent(_ event: pEvent) -> Void
 }

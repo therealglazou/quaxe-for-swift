@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Maxwell Swadling. All rights reserved.
 //
 
+
 /// The `Either` type represents values with two possibilities: `.Left(L)` or `.Right(R)`.
 ///
 /// The `Either` type is right-biased by convention.  That is, the `.Left` constructor is used to
@@ -20,14 +21,14 @@ public enum Either<L, R> {
 	/// Much like the ?? operator for `Optional` types, takes a value and a function, and if the
 	/// receiver is `.Left`, returns the value, otherwise maps the function over the value in
 	/// `.Right` and returns that value.
-	public func fold<B>(value : B, f : R -> B) -> B {
+	public func fold<B>(_ value : B, f : (R) -> B) -> B {
 		return either(onLeft: const(value), onRight: f);
 	}
 
 	/// Named function for `>>-`. If the `Either` is `Left`, simply returns
 	/// a new `Left` with the value of the receiver. If `Right`, applies the function `f`
 	/// and returns the result.
-	public func flatMap<S>(f : R -> Either<L, S>) -> Either<L, S> {
+	public func flatMap<S>(_ f : (R) -> Either<L, S>) -> Either<L, S> {
 		return self >>- f
 	}
 
@@ -35,7 +36,7 @@ public enum Either<L, R> {
 	///
 	/// If the value is `.Left(a)`, apply the first function to `a`. If it is `.Right(b)`, apply the
 	/// second function to `b`.
-	public func either<A>(onLeft onLeft : L -> A, onRight : R -> A) -> A {
+	public func either<A>(onLeft : (L) -> A, onRight : (R) -> A) -> A {
 		switch self {
 		case let .Left(e):
 			return onLeft(e)
@@ -61,7 +62,7 @@ public enum Either<L, R> {
 		default: return nil
 		}
 	}
-
+	
 	/// Returns the value of `Left` if it exists otherwise nil.
 	public var left : L? {
 		switch self {
@@ -74,8 +75,7 @@ public enum Either<L, R> {
 /// Fmap | Applies a function to any non-error value contained in the given `Either`.
 ///
 /// If the `Either` is `.Left`, the given function is ignored and result of this function is `.Left`.
-infix operator <^> {}
-public func <^> <L, RA, RB>(f : RA -> RB, e : Either<L, RA>) -> Either<L, RB> {
+public func <^> <L, RA, RB>(f : (RA) -> RB, e : Either<L, RA>) -> Either<L, RB> {
 	switch e {
 	case let .Left(l):
 		return .Left(l)
@@ -91,8 +91,7 @@ public func <^> <L, RA, RB>(f : RA -> RB, e : Either<L, RA>) -> Either<L, RB> {
 /// the result of this function is the result of `fmap`ing the function over the given `Either`.
 ///
 /// Promotes function application to sums of values and functions applied to sums of values.
-infix operator <*> {}
-public func <*> <L, RA, RB>(f : Either<L, RA -> RB>, e : Either<L, RA>) -> Either<L, RB> {
+public func <*> <L, RA, RB>(f : Either<L, (RA) -> RB>, e : Either<L, RA>) -> Either<L, RB> {
 	switch (f, e) {
 	case let (.Left(l), _):
 		return .Left(l)
@@ -106,8 +105,7 @@ public func <*> <L, RA, RB>(f : Either<L, RA -> RB>, e : Either<L, RA>) -> Eithe
 /// If the `Either` is `.Left`, the given function is ignored and the result of this function is
 /// `.Left`.  Else the result of this function is the application of the function to the value
 /// contained in the `Either`.
-infix operator >>- {}
-public func >>- <L, RA, RB>(a : Either<L, RA>, f : RA -> Either<L, RB>) -> Either<L, RB> {
+public func >>- <L, RA, RB>(a : Either<L, RA>, f : (RA) -> Either<L, RB>) -> Either<L, RB> {
 	switch a {
 	case let .Left(l):
 		return .Left(l)

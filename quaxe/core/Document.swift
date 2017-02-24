@@ -23,27 +23,27 @@ public class Document: Node, pDocument {
   internal var rangeCollection: Array<Weak<DOMRange>> = []
   internal var nodeIteratorCollection: Array<Weak<NodeIterator>> = []
 
-  internal func addNodeIteratorToNodeIteratorCollection(iterator: NodeIterator) -> Void {
+  internal func addNodeIteratorToNodeIteratorCollection(_ iterator: NodeIterator) -> Void {
     nodeIteratorCollection.append(Weak<NodeIterator>(iterator))
   }
 
-  internal func removeNodeIteratorFromNodeIteratorCollection(iterator: NodeIterator) -> Void {
-    if let index = nodeIteratorCollection.indexOf({ $0.value === iterator}) {
-      nodeIteratorCollection.removeAtIndex(index)
+  internal func removeNodeIteratorFromNodeIteratorCollection(_ iterator: NodeIterator) -> Void {
+    if let index = nodeIteratorCollection.index(where: { $0.value === iterator}) {
+      nodeIteratorCollection.remove(at: index)
     }
   }
 
-  internal func addRangeToRangeCollection(range: DOMRange) -> Void {
+  internal func addRangeToRangeCollection(_ range: DOMRange) -> Void {
     rangeCollection.append(Weak<DOMRange>(range))
   }
 
-  internal func removeRangeFromRangeCollection(range: DOMRange) -> Void {
-    if let index = rangeCollection.indexOf({ $0.value === range}) {
-      rangeCollection.removeAtIndex(index)
+  internal func removeRangeFromRangeCollection(_ range: DOMRange) -> Void {
+    if let index = rangeCollection.index(where: { $0.value === range}) {
+      rangeCollection.remove(at: index)
     }
   }
 
-  override internal func getParent(event: Event) -> EventTarget? {
+  override internal func getParent(_ event: Event) -> EventTarget? {
     // A document's get the parent algorithm, given an event, returns
     // null if event's type attribute value is "load" or document does
     // not have a browsing context, and the document's associated
@@ -129,35 +129,35 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-getelementsbytagname
    */
-  public func getElementsByTagName(qualifiedName: DOMString) -> pHTMLCollection {
+  public func getElementsByTagName(_ qualifiedName: DOMString) -> pHTMLCollection {
     return Trees.listElementsWithQualifiedName(self, qualifiedName)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-document-getelementsbytagnamens
    */
-  public func getElementsByTagNameNS(namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection {
+  public func getElementsByTagNameNS(_ namespace: DOMString?, _ localName: DOMString) -> pHTMLCollection {
     return Trees.listElementsWithQualifiedNameAndNamespace(self, namespace, localName)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-document-getelementsbyclassname
    */
-  public func getElementsByClassName(classNames: DOMString) -> pHTMLCollection {
+  public func getElementsByClassName(_ classNames: DOMString) -> pHTMLCollection {
     return Trees.listElementsWithClassNames(self, classNames)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-document-createelement
    */
-  public func createElement(ln: DOMString) throws -> pElement {
+  public func createElement(_ ln: DOMString) throws -> pElement {
     var localName = ln
     //Step 1
     try Namespaces.validateAsXMLName(localName)
 
     // Step 2
     if self.type == "html" {
-        localName = localName.lowercaseString 
+        localName = localName.lowercased() 
     }
 
     let rv = Element()
@@ -171,7 +171,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createelementns
    */
-  public func createElementNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pElement {
+  public func createElementNS(_ namespace: DOMString?, _ qualifiedName: DOMString) throws -> pElement {
     let dict: Dictionary<DOMString, DOMString?> = try Namespaces.validateAndExtract(namespace, qualifiedName)
 
     let rv = Element()
@@ -199,7 +199,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createtextnode
    */
-  public func createTextNode(data: DOMString) -> pText {
+  public func createTextNode(_ data: DOMString) -> pText {
     let rv = Text(data)
     rv.mOwnerDocument = self
     return rv
@@ -208,7 +208,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createcomment
    */
-  public func createComment(data: DOMString) -> pComment {
+  public func createComment(_ data: DOMString) -> pComment {
     let rv = Comment(data)
     rv.mOwnerDocument = self
     return rv
@@ -217,10 +217,10 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createprocessinginstruction
    */
-  public func createProcessingInstruction(target: DOMString, _ data: DOMString) throws -> pProcessingInstruction {
+  public func createProcessingInstruction(_ target: DOMString, _ data: DOMString) throws -> pProcessingInstruction {
     try Namespaces.validateAsXMLName(target)
 
-    if data.rangeOfString("?>") != nil {
+    if data.range(of: "?>") != nil {
       throw Exception.InvalidCharacterError
     }
 
@@ -232,7 +232,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-importnode
    */
-  public func importNode(node: pNode, _ deep: Bool) throws -> pNode {
+  public func importNode(_ node: pNode, _ deep: Bool) throws -> pNode {
     if node.nodeType == Node.DOCUMENT_NODE {
       throw Exception.NotSupportedError
     }
@@ -242,7 +242,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-adoptnode
    */
-  public func adoptNode(node: pNode) throws -> pNode {
+  public func adoptNode(_ node: pNode) throws -> pNode {
     if node.nodeType == Node.DOCUMENT_NODE {
       throw Exception.NotSupportedError
     }
@@ -254,12 +254,12 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createattribute
    */
-  public func createAttribute(ln: DOMString) throws -> pAttr {
+  public func createAttribute(_ ln: DOMString) throws -> pAttr {
     var localName = ln
     try Namespaces.validateAsXMLName(localName)
 
     if self.type == "html" {
-      localName = localName.lowercaseString 
+      localName = localName.lowercased() 
     }
 
     return Attr(localName)
@@ -268,7 +268,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createattributens
    */
-  public func createAttributeNS(namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr {
+  public func createAttributeNS(_ namespace: DOMString?, _ qualifiedName: DOMString) throws -> pAttr {
     let dict: Dictionary<DOMString, DOMString?> = try Namespaces.validateAndExtract(namespace, qualifiedName)
 
     let rv = Attr(dict["localName"]!!)
@@ -284,7 +284,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createevent
    */
-  public func createEvent(interface: DOMString) throws -> pEvent {
+  public func createEvent(_ interface: DOMString) throws -> pEvent {
     var rv: pEvent
     switch interface {
       case "customevent": rv = CustomEvent("", [:])
@@ -322,7 +322,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createnodeiterator
    */
-  public func createNodeIterator(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator {
+  public func createNodeIterator(_ root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pNodeIterator {
     let ni = NodeIterator(root)
     ni.mPointerBeforeReferenceNode = true
     ni.mWhatToShow = whatToShow
@@ -334,7 +334,7 @@ public class Document: Node, pDocument {
   /**
    * https://dom.spec.whatwg.org/#dom-document-createtreewalker
    */
-  public func createTreeWalker(root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {
+  public func createTreeWalker(_ root: pNode, _ whatToShow: ulong, _ filter: pNodeFilter?) -> pTreeWalker {
     let tw = TreeWalker(root)
     tw.mWhatToShow = whatToShow
     tw.mFilter = filter

@@ -11,6 +11,6 @@
  */
 
 public protocol pNodeList {
-  func item(index: ulong) -> pNode?
+  func item(_ index: ulong) -> pNode?
   var length:      ulong { get }
 }

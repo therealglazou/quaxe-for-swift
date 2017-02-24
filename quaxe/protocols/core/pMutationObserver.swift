@@ -11,7 +11,7 @@
  */
 
 public protocol pMutationObserver {
-  func observer(target: pNode, _ options: Dictionary<String, Bool>) -> Void
+  func observer(_ target: pNode, _ options: Dictionary<String, Bool>) -> Void
   func disconnect() -> Void
   func takeRecords() -> Array<pMutationRecord>
 }

@@ -25,7 +25,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#concept-range-select
    */
-  internal func _selectNode(node: Node) throws -> Void {
+  internal func _selectNode(_ node: Node) throws -> Void {
     let parent = node.parentNode
     if parent == nil {
       throw Exception.InvalidNodeTypeError
@@ -80,7 +80,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-setstart
    */
-  public func setStart(node: pNode, _ offset: ulong)  {
+  public func setStart(_ node: pNode, _ offset: ulong)  {
     self.mStartContainer = node
     self.mStartOffset = offset
   }
@@ -88,7 +88,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-setend
    */
-  public func setEnd(node: pNode, _ offset: ulong)  {
+  public func setEnd(_ node: pNode, _ offset: ulong)  {
     self.mEndContainer = node
     self.mEndOffset = offset
   }
@@ -96,7 +96,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-setstartbefore
    */
-  public func setStartBefore(node: pNode) throws -> Void {
+  public func setStartBefore(_ node: pNode) throws -> Void {
     if let parent = node.parentNode {
       self.setStart(parent, Trees.indexOf(node as! Node))
       return
@@ -108,7 +108,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-setstartafter
    */
-  public func setStartAfter(node: pNode) throws -> Void {
+  public func setStartAfter(_ node: pNode) throws -> Void {
     if let parent = node.parentNode {
       self.setStart(parent, Trees.indexOf(node as! Node) + 1)
       return
@@ -120,7 +120,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-setendbefore
    */
-  public func setEndBefore(node: pNode) throws -> Void {
+  public func setEndBefore(_ node: pNode) throws -> Void {
     if let parent = node.parentNode {
       self.setEnd(parent, Trees.indexOf(node as! Node))
       return
@@ -132,7 +132,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-setendafter
    */
-  public func setEndAfter(node: pNode) throws -> Void {
+  public func setEndAfter(_ node: pNode) throws -> Void {
     if let parent = node.parentNode {
       self.setEnd(parent, Trees.indexOf(node as! Node) + 1)
       return
@@ -144,7 +144,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-collapse
    */
-  public func collapse(toStart: Bool = false) -> Void {
+  public func collapse(_ toStart: Bool = false) -> Void {
     if toStart {
       mEndContainer = mStartContainer
       mEndOffset = mStartOffset
@@ -158,14 +158,14 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-selectnode
    */
-  public func selectNode(node: pNode) throws -> Void {
+  public func selectNode(_ node: pNode) throws -> Void {
     try self._selectNode(node as! Node)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-range-selectnodecontents
    */
-  public func selectNodeContents(node: pNode) throws -> Void {
+  public func selectNodeContents(_ node: pNode) throws -> Void {
     if node.nodeType == Node.DOCUMENT_TYPE_NODE {
       throw Exception.InvalidNodeTypeError
     }
@@ -189,7 +189,7 @@ public class DOMRange: pDOMRange {
   /*
    * https://dom.spec.whatwg.org/#concept-range-bp-position
    */
-  internal func _relativePosition(nodeA: Node, _ offsetA: ulong, _ nodeB: Node, _ offsetB: ulong) -> short {
+  internal func _relativePosition(_ nodeA: Node, _ offsetA: ulong, _ nodeB: Node, _ offsetB: ulong) -> short {
     if nodeA === nodeB {
       if offsetA == offsetB {
         return 0
@@ -226,7 +226,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-compareboundarypoints
    */
-  public func compareBoundaryPoints(how: ushort, _ sourceRange: pDOMRange) throws -> short {
+  public func compareBoundaryPoints(_ how: ushort, _ sourceRange: pDOMRange) throws -> short {
     if how != DOMRange.START_TO_START &&
        how != DOMRange.START_TO_END &&
        how != DOMRange.END_TO_END &&
@@ -308,7 +308,7 @@ public class DOMRange: pDOMRange {
                                 self.startContainer as! Node, self.startOffset) == DOMRange.POSITION_AFTER &&
          self._relativePosition(node as! Node, Trees.length(node as! Node),
                                 self.endContainer as! Node, self.endOffset) == DOMRange.POSITION_BEFORE {
-        let index = nodesToRemove.indexOf({ $0 as! Node === node!.parentNode as! Node})
+        let index = nodesToRemove.index(where: { $0 as! Node === node!.parentNode as! Node})
         if index == nil {
           nodesToRemove.append(node!)
         }
@@ -372,7 +372,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#concept-range-extract
    */
-  internal func _extract(forCloning: Bool = false) throws -> pDocumentFragment {
+  internal func _extract(_ forCloning: Bool = false) throws -> pDocumentFragment {
     // Step 1
     let fragment = self.mStartContainer!.ownerDocument!.createDocumentFragment()
 
@@ -606,7 +606,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#concept-range-insert
    */
-  internal func _insertNode(node: pNode) throws -> Void {
+  internal func _insertNode(_ node: pNode) throws -> Void {
     // Step 1
     if self.startContainer.nodeType == Node.PROCESSING_INSTRUCTION_NODE ||
        self.startContainer.nodeType == Node.COMMENT_NODE ||
@@ -673,14 +673,14 @@ public class DOMRange: pDOMRange {
   /*
    * https://dom.spec.whatwg.org/#dom-range-insertnode
    */
-  public func insertNode(node: pNode) throws -> Void {
+  public func insertNode(_ node: pNode) throws -> Void {
     try self._insertNode(node)
   }
 
   /**
    * https://dom.spec.whatwg.org/#dom-range-surroundcontents
    */
-  public func surroundContents(newParent: pNode) throws -> Void {
+  public func surroundContents(_ newParent: pNode) throws -> Void {
     // Step 1
     if self.startContainer.nodeType == Node.PROCESSING_INSTRUCTION_NODE ||
        self.startContainer.nodeType == Node.COMMENT_NODE ||
@@ -734,7 +734,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-ispointinrange
    */
-  public func isPointInRange(node: pNode, offset: ulong) throws -> Bool {
+  public func isPointInRange(_ node: pNode, offset: ulong) throws -> Bool {
     // Step 1
     if Trees.getRootOf(node as! Node) !== Trees.getRootOf(self.startContainer as! Node) {
       return false
@@ -763,7 +763,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-comparepoint
    */
-  public func comparePoint(node: pNode, offset: ulong) throws -> short {
+  public func comparePoint(_ node: pNode, offset: ulong) throws -> short {
     // Step 1
     if Trees.getRootOf(node as! Node) !== Trees.getRootOf(self.startContainer as! Node) {
       throw Exception.WrongDocumentError
@@ -795,7 +795,7 @@ public class DOMRange: pDOMRange {
   /**
    * https://dom.spec.whatwg.org/#dom-range-intersectsnode
    */
-  public func intersectsNode(node: pNode) -> Bool {
+  public func intersectsNode(_ node: pNode) -> Bool {
     // Step 1
     if Trees.getRootOf(node as! Node) !== Trees.getRootOf(self.startContainer as! Node) {
       return false

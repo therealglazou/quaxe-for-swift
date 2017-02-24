@@ -20,7 +20,7 @@ public class NonElementParentNode {
   /**
    * https://dom.spec.whatwg.org/#dom-nonelementparentnode-getelementbyid
    */
-  static func _getElementById(child: Node?, _ elementId: DOMString) -> pElement? {
+  static func _getElementById(_ child: Node?, _ elementId: DOMString) -> pElement? {
     var n = child
     while nil != n {
       if Node.ELEMENT_NODE == n!.nodeType &&
@@ -36,7 +36,7 @@ public class NonElementParentNode {
     return nil
   }
 
-  static func getElementById(n: Node, _ elementId: DOMString) -> pElement? {
+  static func getElementById(_ n: Node, _ elementId: DOMString) -> pElement? {
     if Node.ELEMENT_NODE == n.nodeType &&
        elementId == (n as! Element).getAttribute("id") {
       return n as! Element
@@ -49,13 +49,13 @@ public class NonElementParentNode {
  * extending Document, DocumentFragment
  */
 extension Document: pNonElementParentNode {
-  public func getElementById(elementId: DOMString) -> pElement? {
+  public func getElementById(_ elementId: DOMString) -> pElement? {
     return NonElementParentNode.getElementById(self, elementId)
   }
 }
 
 extension DocumentFragment: pNonElementParentNode {
-  public func getElementById(elementId: DOMString) -> pElement? {
+  public func getElementById(_ elementId: DOMString) -> pElement? {
     return NonElementParentNode.getElementById(self, elementId)
   }
 }

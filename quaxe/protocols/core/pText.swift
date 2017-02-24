@@ -11,6 +11,6 @@
  */
 
 public protocol pText: pCharacterData {
-  func splitText(offset: ulong) -> pText
+  func splitText(_ offset: ulong) -> pText
   var wholeText: DOMString { get }
 }

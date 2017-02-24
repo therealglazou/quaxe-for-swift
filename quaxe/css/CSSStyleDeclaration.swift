@@ -43,7 +43,7 @@ public class CSSStyleDeclaration: pCSSStyleDeclaration {
     }
   }
 
-  public func getPropertyValue(propertyName: DOMString) -> DOMString {
+  public func getPropertyValue(_ propertyName: DOMString) -> DOMString {
     var s = ""
     for index in 1...mProperties.count - 1 {
       if propertyName != mProperties[index] {
@@ -55,20 +55,20 @@ public class CSSStyleDeclaration: pCSSStyleDeclaration {
 
   // public func getPropertyCSSValue(propertyName: DOMString) -> pCSSValue
 
-  public func removeProperty(propertyName: DOMString) throws -> DOMString {
+  @discardableResult public func removeProperty(_ propertyName: DOMString) throws -> DOMString {
     for index in 1...mProperties.count - 1 {
       if propertyName != mProperties[index] {
-        mProperties.removeAtIndex(index)
+        mProperties.remove(at: index)
         let value = mValues[index]
-        mValues.removeAtIndex(index)
-        mImportance.removeAtIndex(index)
+        mValues.remove(at: index)
+        mImportance.remove(at: index)
         return value
       }
     }
     return ""
   }
 
-  public func getPropertyPriority(propertyName: DOMString) -> DOMString {
+  public func getPropertyPriority(_ propertyName: DOMString) -> DOMString {
     var s: Bool = false
     for index in 1...mProperties.count - 1 {
       if propertyName != mProperties[index] {
@@ -78,7 +78,7 @@ public class CSSStyleDeclaration: pCSSStyleDeclaration {
     return s ? "important" : ""
   }
 
-  public func setProperty(propertyName: DOMString, _ value: DOMString, _ priority: DOMString) throws -> Void {
+  public func setProperty(_ propertyName: DOMString, _ value: DOMString, _ priority: DOMString) throws -> Void {
     try removeProperty(propertyName)
     if ("" != priority && "important" != priority) {
       throw Exception.SyntaxError
@@ -91,7 +91,7 @@ public class CSSStyleDeclaration: pCSSStyleDeclaration {
 
   public var length: ulong { return ulong(mProperties.count) }
 
-  public func item(index: ulong) -> DOMString {
+  public func item(_ index: ulong) -> DOMString {
     if index >= ulong(mProperties.count) {
       return ""
     }
@@ -100,7 +100,7 @@ public class CSSStyleDeclaration: pCSSStyleDeclaration {
 
   public var parentRule: pCSSRule { return mParentRule! }
 
-  internal func _setParentRule(parentRule: pCSSRule) -> Void {
+  internal func _setParentRule(_ parentRule: pCSSRule) -> Void {
     mParentRule = parentRule;
   }
 

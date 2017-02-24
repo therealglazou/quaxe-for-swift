@@ -73,13 +73,13 @@ public class XMLParser {
     "nbsp": "\u{a0}"
   ]
 
-  public func parse(str: String) throws -> Document {
+  public func parse(_ str: String) throws -> Document {
     self.document = Document()
     try doParse(str, 0, self.document!)
     return self.document!
   }
 
-  public func doCreateElement(parent: Node?) throws -> Node? {
+  public func doCreateElement(_ parent: Node?) throws -> Node? {
     if nil == parent ||
        self.elementName == nil ||
        self.elementName == "" {
@@ -120,7 +120,7 @@ public class XMLParser {
 
     // TODO, switch on attributesArray
     let xml = try self.document!.createElementNS(namespace, (namespace != nil && namespace! == Namespaces.HTML_NAMESPACE)
-                                                          ? self.elementName!.lowercaseString
+                                                          ? self.elementName!.lowercased()
                                                           : self.elementName!)
     try parent!.appendChild(xml)
     if !self.elementPrefix.isEmpty {
@@ -151,7 +151,7 @@ public class XMLParser {
     return xml as? Node
   }
 
-  internal func doParse(str: DOMString, _ q: Int = 0, _ parent: Node) throws -> Int {
+  @discardableResult internal func doParse(_ str: DOMString, _ q: Int = 0, _ parent: Node) throws -> Int {
     var p = q
 
     var xml: Node? = nil
@@ -190,7 +190,7 @@ public class XMLParser {
               let child = self.document!.createTextNode(toStore)
               try parent.appendChild(child)
             }
-            else if nil != toStore.rangeOfString(self.NOT_WHITESPACE_ONLY_EREG, options: .RegularExpressionSearch) {
+            else if nil != toStore.range(of: self.NOT_WHITESPACE_ONLY_EREG, options: .regularExpression) {
               throw Exception.HierarchyRequestError
             }
             buf = ""
@@ -219,7 +219,7 @@ public class XMLParser {
             case "!":
               if str[p+1] == "[" {
                 p += 2
-                if str.substr(p, 6).uppercaseString != "CDATA[" {
+                if str.substr(p, 6).uppercased() != "CDATA[" {
                   throw Exception.CDATADeclarationExpected
                 }
                 p += 5
@@ -228,7 +228,7 @@ public class XMLParser {
               }
               else if str[p+1] == "D" ||
                       str[p+1] == "d" {
-                if str.substr(p+2, 6).uppercaseString != "OCTYPE" {
+                if str.substr(p+2, 6).uppercased() != "OCTYPE" {
                   throw Exception.DOCTYPEDeclarationExpected
                 }
                 p += 8
@@ -446,7 +446,7 @@ public class XMLParser {
                 }
                 i = tmp!
               }
-              buf.append(UnicodeScalar(Int(i)))
+              buf += String(UnicodeScalar(Int(i))!.value)
             }
             else if self.escapes[s] == nil {
               throw Exception.SyntaxError
@@ -475,7 +475,7 @@ public class XMLParser {
     throw Exception.SyntaxError
   }
 
-  internal func isValidChar(scalar: UnicodeScalar) -> Bool {
+  internal func isValidChar(_ scalar: UnicodeScalar) -> Bool {
     let value = scalar.value
     if (value >= 65 && value <= 90) || (value >= 97 && value <= 122) {return true}
     if (value >= 48 && value <= 57) {return true}

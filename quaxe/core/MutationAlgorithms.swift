@@ -20,7 +20,7 @@ internal class MutationAlgorithms {
   /**
    * https://dom.spec.whatwg.org/#concept-node-ensure-pre-insertion-validity
    */
-  static func ensurePreInsertionValidity(node: Node, _ parent: Node, _ child: Node?) throws -> Void {
+  static func ensurePreInsertionValidity(_ node: Node, _ parent: Node, _ child: Node?) throws -> Void {
     // step 1
     if Node.DOCUMENT_NODE != parent.nodeType &&
        Node.DOCUMENT_FRAGMENT_NODE != parent.nodeType &&
@@ -102,7 +102,7 @@ internal class MutationAlgorithms {
   /**
    * https://dom.spec.whatwg.org/#concept-node-pre-insert
    */
-  static func preInsert(node: Node, _ parent: Node, _ child: Node?) throws -> Node {
+  @discardableResult static func preInsert(_ node: Node, _ parent: Node, _ child: Node?) throws -> Node {
     try MutationAlgorithms.ensurePreInsertionValidity(node, parent, child)
     var referenceChild = child
     if referenceChild != nil && referenceChild! === node {
@@ -116,7 +116,7 @@ internal class MutationAlgorithms {
  /**
   * https://dom.spec.whatwg.org/#concept-node-insert
   */
-  static func insert(node: Node, _ parent: Node, _ child: Node?, _ supressObserverFlag: Bool = false) throws -> Void {
+  static func insert(_ node: Node, _ parent: Node, _ child: Node?, _ supressObserverFlag: Bool = false) throws -> Void {
     // Step 1
     let count = node.nodeType == Node.DOCUMENT_FRAGMENT_NODE
                 ? node.getChildCount()
@@ -177,14 +177,14 @@ internal class MutationAlgorithms {
   /**
    * https://dom.spec.whatwg.org/#concept-node-append
    */
-  static func append(node: Node, _ parent: Node) throws -> Node {
+  @discardableResult static func append(_ node: Node, _ parent: Node) throws -> Node {
     return try MutationAlgorithms.preInsert(node, parent, nil)
   }
 
   /*
    * https://dom.spec.whatwg.org/#concept-node-replace
    */
-  static func replace(child: Node, _ node: Node, _ parent: Node) throws -> Node {
+  @discardableResult static func replace(_ child: Node, _ node: Node, _ parent: Node) throws -> Node {
     // Step 1
     if Node.DOCUMENT_NODE != parent.nodeType &&
        Node.DOCUMENT_FRAGMENT_NODE != parent.nodeType &&
@@ -328,7 +328,7 @@ internal class MutationAlgorithms {
     return child
   }
 
-  static func replaceAll(node: Node?, _ parent: Node) throws -> Void {
+  static func replaceAll(_ node: Node?, _ parent: Node) throws -> Void {
     // Step 1
     if nil != node {
       MutationAlgorithms.adopt(node!, parent.ownerDocument as? Document)
@@ -368,7 +368,7 @@ internal class MutationAlgorithms {
   /*
    * https://dom.spec.whatwg.org/#concept-node-pre-remove
    */
-  static func preRemove(child: Node, _ parent: Node) throws -> Node {
+  static func preRemove(_ child: Node, _ parent: Node) throws -> Node {
     // Step 1
     if child.parentNode != nil &&
        child.parentNode as! Node !== parent {
@@ -385,7 +385,7 @@ internal class MutationAlgorithms {
   /*
    * https://dom.spec.whatwg.org/#concept-node-remove
    */
-  static func remove(node: Node, _ parent: Node, _ suppressObserversFlag: Bool = false) -> Void {
+  static func remove(_ node: Node, _ parent: Node, _ suppressObserversFlag: Bool = false) -> Void {
     // Step 1
     let index = Trees.indexOf(node)
 
@@ -455,7 +455,7 @@ internal class MutationAlgorithms {
   /*
    * https://dom.spec.whatwg.org/#concept-node-adopt
    */
-  static func adopt(node: Node, _ document: Document?) -> Void {
+  static func adopt(_ node: Node, _ document: Document?) -> Void {
     // Step 1
     let oldDocument = node.ownerDocument
 
@@ -465,7 +465,7 @@ internal class MutationAlgorithms {
     }
 
     //Step 3.1
-    func setOwnerNode(n: Node?) {
+    func setOwnerNode(_ n: Node?) {
       if nil == n {
         return
       }

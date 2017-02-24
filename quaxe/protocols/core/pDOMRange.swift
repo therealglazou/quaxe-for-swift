@@ -18,31 +18,31 @@ public protocol pDOMRange {
   var collapsed: Bool { get }
   var commonAncestorContainer: pNode { get }
 
-  func setStart(node: pNode, _ offset: ulong);
-  func setEnd(node: pNode, _ offset: ulong);
-  func setStartBefore(node: pNode) throws -> Void
-  func setStartAfter(node: pNode) throws -> Void
-  func setEndBefore(node: pNode) throws -> Void
-  func setEndAfter(node: pNode) throws -> Void
-  func collapse(toStart: Bool) -> Void
-  func selectNode(node: pNode) throws -> Void
-  func selectNodeContents(node: pNode) throws -> Void
+  func setStart(_ node: pNode, _ offset: ulong);
+  func setEnd(_ node: pNode, _ offset: ulong);
+  func setStartBefore(_ node: pNode) throws -> Void
+  func setStartAfter(_ node: pNode) throws -> Void
+  func setEndBefore(_ node: pNode) throws -> Void
+  func setEndAfter(_ node: pNode) throws -> Void
+  func collapse(_ toStart: Bool) -> Void
+  func selectNode(_ node: pNode) throws -> Void
+  func selectNodeContents(_ node: pNode) throws -> Void
 
-  func compareBoundaryPoints(how: ushort, _ sourceRange: pDOMRange) throws -> short
+  func compareBoundaryPoints(_ how: ushort, _ sourceRange: pDOMRange) throws -> short
 
   func deleteContents() throws -> Void
   func extractContents() throws -> pDocumentFragment
   func cloneContents() throws -> pDocumentFragment
-  func insertNode(node: pNode) throws -> Void
-  func surroundContents(newParent: pNode) throws -> Void
+  func insertNode(_ node: pNode) throws -> Void
+  func surroundContents(_ newParent: pNode) throws -> Void
 
   func cloneRange() -> pDOMRange
   func detach() -> Void
 
-  func isPointInRange(node: pNode, offset: ulong) throws -> Bool
-  func comparePoint(node: pNode, offset: ulong) throws -> short
+  func isPointInRange(_ node: pNode, offset: ulong) throws -> Bool
+  func comparePoint(_ node: pNode, offset: ulong) throws -> short
 
-  func intersectsNode(node: pNode) -> Bool
+  func intersectsNode(_ node: pNode) -> Bool
 
   func toString() -> DOMString
 }
