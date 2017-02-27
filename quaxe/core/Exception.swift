@@ -33,4 +33,5 @@ enum Exception: Error {
   case SyntaxError
 
   case NoModificationAllowed
+  case InvalidAccessError
 }

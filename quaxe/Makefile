@@ -124,6 +124,8 @@ SOURCES += \
 		css/CSSPageRule.swift \
 		css/CSSImportRule.swift \
 		css/CSSCharsetRule.swift \
+		css/CSSUnknownRule.swift \
+		css/CSSValue.swift \
 		$(NULL)
 
 SOURCES += \

@@ -1,8 +1,13 @@
 
 TOPSRCDIR = .
-DIRS = utils core
+APP_NAME = main
+DIRS = utils quaxe parser
+
+APP_BUNDLE_NAME = Main
 
 include $(TOPSRCDIR)/swiftbuild/config.mk
+
+LIBS = -lQuaxeParser -lQuaxe -lQuaxeUtils
 
 include $(TOPSRCDIR)/swiftbuild/rules.mk
 
